@@ -27,11 +27,6 @@ export class CreateTransactionController {
       value,
     });
 
-    const outputJson = result.statusCode === 201 
-     ? {success: result.message} 
-     : {error: result.message};
-
-    return res.status(result.statusCode)
-    .json(outputJson);
+    return res.status(result.statusCode).json(result);
   };
 };

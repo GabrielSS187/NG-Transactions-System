@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 import { IUsersModel } from "../../models/Users-models/IUsersModel";
 
 import { 
@@ -12,10 +14,11 @@ import { TUsersData } from "./types";
 import { 
   ErrorExistUserName,
   ErrorUserNameInvalid,
-  ErrorPasswordRegexInvalid
+  ErrorPasswordRegexInvalid,
+  ErrorNotArrobaUserName,
+  ErrorStringMustOnlyOneArroba,
  } from "../../errors/UsersErrors";
 
-import * as yup from "yup";
 
 import { IBCryptAdapter } from "../../adapters/IBcrypt-adapter";
 
@@ -46,12 +49,29 @@ export class CreateUsersCase {
       return {
         message: validationErrors,
         statusCode: 400,
-      }
+      };
     };    
+
+    const removeSpacesInString = user_name.replaceAll(regexRemoveSpaces, "");
+
+    const checkFirstCharacterHasArroba =
+     removeSpacesInString[0].includes("@");
+
+     const stringMustOnlyOneArroba =
+     removeSpacesInString.substring(1)
+     .includes("@");
+
+    if (!checkFirstCharacterHasArroba) {
+      throw new ErrorNotArrobaUserName();
+     };
+
+     if (stringMustOnlyOneArroba) {
+      throw new ErrorStringMustOnlyOneArroba();
+     };
 
     //* O match ? Si tiver caracteres especiais ele retorna um array
     //* com essas caracteres si não retorna nulo.
-    if (user_name.match(regexSpecialCharacters) !== null ) {
+    if (removeSpacesInString.match(regexSpecialCharacters) !== null ) {
       throw new ErrorUserNameInvalid();
     };
 
@@ -59,8 +79,8 @@ export class CreateUsersCase {
       throw new ErrorPasswordRegexInvalid();
     };
     
-    const findUser = await this.usersModel.findUser(`@${user_name}`);
-    if ( !!findUser ) throw new ErrorExistUserName(user_name);
+    const findUser = await this.usersModel.findUser(removeSpacesInString);
+    if ( !!findUser ) throw new ErrorExistUserName(removeSpacesInString);
 
     //* generateId() ? gera uma string grande com vários 
     //* números, letras e caracteres especias.
@@ -82,13 +102,13 @@ export class CreateUsersCase {
      .hashEncrypt({password});
   
     await this.usersModel.create({
-      user_name: `@${user_name}`,
+      user_name: removeSpacesInString,
       password_hash: hashPassword,
       account_id: accountNumber,
     });
 
     return { 
-      message: `Usuário: ${user_name} registrado com sucesso.`,
+      message: `Usuário: ${removeSpacesInString} registrado com sucesso.`,
       statusCode: 201,
     };
   };

@@ -30,9 +30,6 @@ import { LoginUserCase }
       password,
     });
 
-    return res.status(result.statusCode).json({
-      user_name,
-      token: result.token,
-    })
+    return res.status(result.statusCode).json(result.user);
   };
  };

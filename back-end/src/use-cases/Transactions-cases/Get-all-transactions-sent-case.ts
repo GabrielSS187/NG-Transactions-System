@@ -56,7 +56,7 @@ export class GetAllTransactionsSentCase {
     };
 
     return {
-      transactionsSent: transactionsSent,
+      transactionsSent,
       statusCode: 200,
     };
   };

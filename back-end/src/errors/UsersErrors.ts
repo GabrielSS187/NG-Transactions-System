@@ -1,10 +1,9 @@
 import { CustomError } from "./CustomError";
-import * as b from "node:http"
 
 export class ErrorExistUserName extends CustomError {
   constructor(userName: string){
     super(
-      `Já existe um usuário com esse nome: ${userName}. Por favor tente outro diferente!.`, 
+      `Já existe um usuário com esse nome: ${userName}.`, 
       409
     );
   };
@@ -13,7 +12,7 @@ export class ErrorExistUserName extends CustomError {
 export class ErrorUserNameInvalid extends CustomError {
   constructor(){
     super(
-      `Nome do usuário não pode conter espaços em branco. E os únicos caracteres especiais permitidos são: traços e underline!.`,
+      `Nome do usuário, caracteres especiais permitidos são: @, traços e underline!.`,
       406
     );
   };
@@ -50,6 +49,15 @@ export class ErrorNotArrobaUserName extends CustomError {
   constructor(){
     super(
       `Por favor verifique si não esta faltando o "@" antes do seu user_name!.`,
+      406
+    );
+  };
+};
+
+export class ErrorStringMustOnlyOneArroba extends CustomError {
+  constructor(){
+    super(
+      `O nome deve ter apenas um @ que é no inicio.`,
       406
     );
   };

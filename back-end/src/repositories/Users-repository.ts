@@ -25,10 +25,28 @@ implements IUsersModel {
     .insert(data);
   };
 
-  async findUser (userName: string) {
-    const [ foundUser ] = await Database.connection(this.#tableNames.user)
-    .select("id_user", "user_name", "account_id", "password_hash")
-    .where("user_name", userName);
+  async findUser (userName: string, userId?: number) {      
+    if ( userId ) {
+      const [ foundUser ] = await Database
+      .connection(`${this.#tableNames.user} as U`)
+      .select("U.id_user", "U.user_name", "U.account_id", "U.password_hash", "A.balance")
+      .innerJoin("Accounts as A", "U.account_id" ,"A.id_account")
+      .where("U.id_user", userId);
+
+      const objFormatted = {
+        id_user: foundUser.id_user,
+        user_name: foundUser.user_name,
+        account_id: foundUser.account_id,
+        balance: foundUser.balance,
+      };
+
+      return objFormatted;
+    };
+
+    const [ foundUser ] = await Database
+    .connection(`${this.#tableNames.user} as U`)
+    .select("U.id_user", "U.user_name", "U.account_id", "U.password_hash")
+    .where("U.user_name", userName);
 
     return foundUser;
   };

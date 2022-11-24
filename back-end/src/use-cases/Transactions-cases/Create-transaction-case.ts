@@ -33,10 +33,6 @@ export class CreateTransactionCase {
       throw new ErrorValueInvalid()
     };
 
-    if ( typeof value !== "number" ) {
-      throw new ErrorValueAndString();
-    };
-
     try {
       validatedData = 
       await bodyValidation.validate(request, { abortEarly: false });
@@ -53,6 +49,10 @@ export class CreateTransactionCase {
         message: validationErrors,
         statusCode: 400,
       }
+    };
+
+    if ( typeof value !== "number" ) {
+      throw new ErrorValueAndString();
     };
 
     const checkFirstCharacterHasArroba = user_name_receiver

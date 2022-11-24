@@ -7,7 +7,7 @@ yup.object().shape({
  password: yup.string().required().min(8).trim(),
 });
 
-export const regexSpecialCharacters = /[*.\=@\¨!\<>\.^\~()\&$\¬{}\;:\°ª\?/\[£\]%\¢|\+ ]/gi
+export const regexSpecialCharacters = /[*.\=#\¨!\<>\.^\~()\&$\¬{}\;:\°ª\?/\[£\]%\¢|\+]/gi
 //* Pelo menos uma letra maiúscula, Pelo menos uma letra minúscula, Pelo menos um dígito
 //* Pelo menos um caractere especial, Comprimento mínimo de oito.
 export const regexValidatePassword = /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/g

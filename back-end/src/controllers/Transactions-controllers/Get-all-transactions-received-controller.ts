@@ -25,6 +25,6 @@ import { GetAllTransactionsReceivedCase }
     .get({ idUserLogged, user_name_filter, date_filter });
 
     return res.status(transactionsSent.statusCode)
-    .json(transactionsSent.transactionsSent);
+    .json(transactionsSent);
   };
  };
