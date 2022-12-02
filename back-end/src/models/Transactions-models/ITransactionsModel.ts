@@ -4,6 +4,7 @@ import {
   TUpdateBalanceData, 
   TTransactionsReceived,
   TTransactionsSentData,
+  TTransactionsReceivedAndSent,
   TUpdateLooked,
 } from "./types";
 import { TUsersData } from "../Users-models/types";
@@ -16,5 +17,6 @@ export interface ITransactionsModel {
   updateBalance: (data: TUpdateBalanceData) => Promise<void>;
   getAllTransactionsSent: (idUser: number) => Promise<TTransactionsSentData[]>;
   getAllTransactionsReceived: (idUser: number) => Promise<TTransactionsReceived[]>;
+  getAllTransactionsReceivedAndSent: (idUser: number) => Promise<TTransactionsReceivedAndSent[]>;
   updateLooked: (data: TUpdateLooked) => Promise<void>;
 };

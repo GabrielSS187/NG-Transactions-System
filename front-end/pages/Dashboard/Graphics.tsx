@@ -1,30 +1,28 @@
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { queryClientObj } from "../../services/queryClient";
 import { parseCookies } from "nookies";
+import { queryClientObj } from "../../services/queryClient";
 
 import {
-  fetchAllTransactionsReceivedApi,
-  fetchAllTransactionsSentApi
-} from "../../services/endpoints/transactions";
+   fetchAllTransactionsSentApi,
+   fetchAllTransactionsReceivedApi,
+ } from "../../services/endpoints/transactions";
 
-import Layout  from "../../components/Layout";
+import Layout from "../../components/Layout";
 import { Load } from "../../components/Load";
 
 const { useQuery, dehydrate, queryClient } = queryClientObj;
 
-const CardsDashboard = dynamic(() => import("../../components/CardsDashboard"), {
+const GraphicComponent = dynamic(() => import("../../components/GraphicComponent"), {
   loading: () => <Load />
 });
 
-const GraphicDashboard = dynamic(() => import("../../components/GraphicDashboard"), {
-  loading: () => <Load />
-});
+export default function Graphics () {
+  const { query } = useRouter();
 
-
-export default function Dashboard() {
-  const sevenSeconds = 1000 * 7
-
+  const sevenSeconds = 1000 * 7;
+  
   const transactionsSent = useQuery("transactions-sent",
   async () => await fetchAllTransactionsSentApi(), 
   {staleTime: sevenSeconds }); // * 7 seconds
@@ -32,26 +30,20 @@ export default function Dashboard() {
   async () => await fetchAllTransactionsReceivedApi(), 
   { staleTime: sevenSeconds });
 
-  const totalValueSet = transactionsSent.data?.reduce((prevValue, currentValue) => {
-    return prevValue + Number(currentValue.value_sent);
-  }, 0);
-
-  const totalValueReceived = transactionsReceived.data?.reduce((prevValue, currentValue) => {
-    return prevValue + Number(currentValue.value_received);
-  }, 0);
-
   return (
     <Layout>
-        <main className="flex flex-col items-center h-full mb-2 lg:h-screen">
-          < CardsDashboard 
-            valueReceivedTotal={totalValueReceived?.toFixed(2)!}
-            valueSentTotal={totalValueSet?.toFixed(2)!}
-          />
-          <GraphicDashboard 
-            receivedMoney={totalValueReceived!}
-            sentMoney={Math.floor(totalValueSet!)}
-          />
-        </main>
+      <main className="w-full flex flex-col items-center">
+        <h1 className="font-serif text-xl max-sm:text-base">
+          <strong>Gráficos</strong>
+        </h1>
+        <GraphicComponent 
+          openMenu={String(query.open)}
+          listReceived={transactionsReceived.data}
+          listSent={transactionsSent.data}
+          loadReceived={transactionsReceived.isLoading}
+          loadSent={transactionsSent.isLoading}
+         />
+      </main>
     </Layout>
   );
 };
@@ -59,7 +51,7 @@ export default function Dashboard() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const { ["ng.token"]: token } = parseCookies(ctx);
-  
+    
     if (!token) {
       return {
         redirect: {
@@ -67,13 +59,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         },
       };
-    };    
+    };
 
     await queryClient.fetchQuery("transactions-sent", 
     async () => await fetchAllTransactionsSentApi(ctx));
     await queryClient.fetchQuery("transactions-received",
     async () => await fetchAllTransactionsReceivedApi(ctx));
-
+    
     return {
       props: {
         dehydratedState: dehydrate(queryClient),

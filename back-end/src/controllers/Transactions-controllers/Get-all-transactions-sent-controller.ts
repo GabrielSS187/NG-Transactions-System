@@ -21,10 +21,10 @@ import { GetAllTransactionsSentCase }
       transactionsRepository
     );
 
-    const transactionsSent = await getAllTransactionsSentCase
+    const result = await getAllTransactionsSentCase
     .get({ idUserLogged, user_name_filter, date_filter });
 
-    return res.status(transactionsSent.statusCode)
-    .json(transactionsSent);
+    return res.status(result.statusCode)
+    .json(result.transactionsSent);
   };
  };

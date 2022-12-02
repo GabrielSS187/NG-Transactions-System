@@ -13,6 +13,7 @@ export type User = {
   id_user: number,
   user_name: string,
   account_id: string,
+  balance: number,
 }
 
 export type TAuthContextType = {

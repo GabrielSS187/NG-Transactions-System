@@ -2,9 +2,9 @@ import { useState } from "react";
 import Router from "next/router";
 import { FieldValues } from "react-hook-form";
 
-import { FormLoginAndRegister } from "../../src/components/FormLoginAndRegister";
+import { FormLoginAndRegister } from "../../components/FormLoginAndRegister";
 
-import { registerUsersApi } from "../../src/services/endpoints/users";
+import { registerUsersApi } from "../../services/endpoints/users";
 
 export default function Register () {
   const [ errorApi, setErrorApi ] = useState<string>("");
@@ -27,7 +27,7 @@ export default function Register () {
       console.log(error);
       setErrorApi(error?.response?.data) 
       setIsLoad(false)
-    }
+    };
   };
 
   return (

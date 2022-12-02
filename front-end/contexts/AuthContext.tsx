@@ -19,8 +19,7 @@ import {
 export const AuthContext = createContext({} as TAuthContextType);
 
 export function AuthProvider ({ children }: TChildrenProvider) {
-  const [ user, setUser ] = 
-  useState<User | null>(null);
+  const [ user, setUser ] = useState<User | null>(null);
 
   const router = useRouter();
 
@@ -46,7 +45,7 @@ export function AuthProvider ({ children }: TChildrenProvider) {
 
       //* Criando token e tempo de validade.
       setCookie(undefined, "ng.token", data.token, {
-        maxAge: 60 * 60 * 1 //* 1 hour.
+        maxAge: 24 * 60 * 60 //* 24 hours / 1 day.
       });
 
       apiBase.defaults.headers["Authorization"] = `Bearer ${data.token}`;

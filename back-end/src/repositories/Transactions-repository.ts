@@ -84,7 +84,7 @@ implements ITransactionsModel {
       const [ transaction ] = await Database.connection("Users")
       .select("user_name")
       .where("account_id", transactionsSent[i].credited_account_id);
-
+      
       const formattedTransactionObj = {
           id_transaction: transactionsSent[i].id_transaction,
           user_name_credited: transaction.user_name,
@@ -118,7 +118,7 @@ implements ITransactionsModel {
       const objFormatted = {
         id_transaction: transactionsReceived[i].id_transaction,
         user_name_debited: transaction.user_name,
-        value_sent: transactionsReceived[i].value.toFixed(2),
+        value_received: transactionsReceived[i].value.toFixed(2),
         looked: transactionsReceived[i].looked,
         created_at: formatDate(transactionsReceived[i].created_at, "short"),
         hour: formatHours(transactionsReceived[i].created_at),
@@ -128,6 +128,15 @@ implements ITransactionsModel {
     };
        
     return listTransactionsReceived;
+  };
+
+  async getAllTransactionsReceivedAndSent (idUser: number) {
+    const sent = await this.getAllTransactionsSent(idUser);
+    const received = await this.getAllTransactionsReceived(idUser);
+
+    const merge = [...sent, ...received];
+
+    return merge;
   };
 
   async updateLooked ({ id_transaction, looked }: TUpdateLooked) {

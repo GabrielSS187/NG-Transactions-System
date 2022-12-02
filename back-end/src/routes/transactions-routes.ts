@@ -7,7 +7,9 @@ from "../controllers/Transactions-controllers/Get-all-transactions-sent-controll
 import { GetAllTransactionsReceivedController }
 from "../controllers/Transactions-controllers/Get-all-transactions-received-controller";
 import { UpdateLookedController }
- from "../controllers/Transactions-controllers/Update-transaction-controller";
+from "../controllers/Transactions-controllers/Update-transaction-controller";
+import { GetAllTransactionsReceivedAndSentController }
+from "../controllers/Transactions-controllers/Get-all-transactions-received-and-sent-controller";
 
 export const transactionsRoutes = Router();
 
@@ -19,7 +21,11 @@ const getAllTransactionsReceivedController =
 new GetAllTransactionsReceivedController();
 const updateLookedController =
 new UpdateLookedController();
+const getAllTransactionsReceivedAndSentController =
+new GetAllTransactionsReceivedAndSentController();
 
+transactionsRoutes
+.get("/all", getAllTransactionsReceivedAndSentController.get);
 transactionsRoutes
 .get("/transactions_sent", getAllTransactionsSentController.get);
 transactionsRoutes
