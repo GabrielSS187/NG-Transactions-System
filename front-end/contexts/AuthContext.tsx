@@ -13,13 +13,13 @@ import {
    TAuthContextType,
     TChildrenProvider,
     TLoginAndRegisterUser,
-    User
+    TUser
   } from "./types";
 
 export const AuthContext = createContext({} as TAuthContextType);
 
 export function AuthProvider ({ children }: TChildrenProvider) {
-  const [ user, setUser ] = useState<User | null>(null);
+  const [ user, setUser ] = useState<TUser | null>(null);
 
   const router = useRouter();
 
@@ -61,6 +61,7 @@ export function AuthProvider ({ children }: TChildrenProvider) {
     isAuthenticated,
     user,
     signIn,
+    setUser,
   };
   
   return (

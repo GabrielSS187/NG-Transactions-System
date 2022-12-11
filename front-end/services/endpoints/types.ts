@@ -30,15 +30,10 @@ export type TTransactionsReceived = {
   looked: boolean;
   created_at: string;
   hour: string;
+  viewLocal?: boolean;
 };
 
-export type TTransactionsReceivedAndSent = {
-  id_transaction: string,
-  user_name_debited?: string;
-  user_name_credited?: string,
-  value_sent?: string;
-  value_received?: string;
-  looked?: boolean,
-  created_at: string,
-  hour: string;
+export type TCreateTransaction = {
+  user_name_receiver: string; 
+  value: number;
 };

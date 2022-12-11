@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
@@ -20,7 +21,8 @@ export function NavBar () {
 
   function logout () {
     destroyCookie(undefined, "ng.token");
-    router.replace("/");
+    // router.replace("/Dashboard");
+    router.push("/")
   };
 
   return (
@@ -57,7 +59,7 @@ export function NavBar () {
           </div>
           <nav className="pt-6">
             <ul>
-              <ItemsComponent isOpen={open} />
+              <ItemsComponent />
             </ul>
             <div onClick={logout} className={`flex origin-left duration-200 rounded-md p-2 mt-7 cursor-pointer hover:bg-red-500 text-gray-300 text-base hover:text-white items-center gap-x-4`}>
               <button>
@@ -102,7 +104,7 @@ export function NavBar () {
 
           <div className={`md:hidden ${open === true && "hidden"} absolute w-full z-10 bg-gray-900`} id="mobile-menu">
             <ul className="space-y-1 px-2 pt-2 pb-3 list-none">
-              <ItemsComponent isOpen={open} />
+              <ItemsComponent />
             <div onClick={logout} className={`flex text origin-left duration-200 rounded-md p-3 mt-5 cursor-pointer hover:bg-red-500 text-gray-300 text-base hover:text-white items-center gap-x-4`}>
               <button>
                 <SignOut size={25} color="#f1f0ef" />

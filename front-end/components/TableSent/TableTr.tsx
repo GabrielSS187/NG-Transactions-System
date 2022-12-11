@@ -15,7 +15,7 @@ export function TableTr (listSent: TSent[]) {
                 src={logoUser}
                 width="40"
                 height="40"
-                alt="Alex Shatov"
+                alt={sent.user_name_credited}
               />
             </div>
             <div className="font-medium text-gray-800">
@@ -24,7 +24,7 @@ export function TableTr (listSent: TSent[]) {
           </div>
         </td>
         <td className="p-2 whitespace-nowrap">
-          <div className="text-left font-medium text-green-500">
+          <div className="text-center font-medium text-green-500">
             R$ {sent.value_sent}
           </div>
         </td>

@@ -7,7 +7,7 @@ import { formatDate } from "../../utils/formatData";
 import { 
    TTransactionsReceived,
    TTransactionsSentData,
-   TTransactionsReceivedAndSent
+   TCreateTransaction
   } from "./types";
 
 export async function fetchAllTransactionsReceivedApi(
@@ -62,13 +62,12 @@ export async function fetchAllTransactionsSentFilterApi (
   return data;
 };
 
-//* Teste
-export async function fetchAllTransactionsSentAndReceivedApi(
-  ctx?: GetServerSidePropsContext
-) {
-  const { data } = await apiBase.get<TTransactionsReceivedAndSent[]>(
-    "/transactions/all"
-  );
+export async function createdTransactionApi (input: TCreateTransaction) {
+  const { data } = await apiBase.post("/transactions/create", input);
+  return data;
+};
 
+export async function updateTransactionLookedApi (idTransaction: string, looked: boolean) {
+  const { data } = await apiBase.put(`/transactions/update_looked/${idTransaction}`, {looked});
   return data;
 };

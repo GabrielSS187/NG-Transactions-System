@@ -5,7 +5,6 @@ import { CircleNotch } from "phosphor-react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
 import LoginAndRegisterSvg from "../../assets/svgs/LoginAndRegisterSvg";
-
 import transactionsLogo3 from "../../assets/imgs/transactions-logo-3.png";
 
 type TFormType = "register" | "login";
@@ -15,7 +14,7 @@ interface IProps {
   onSubmitData: SubmitHandler<FieldValues>;
   errorApi?: string;
   isLoad?: boolean;
-}
+};
 
 type FormData = {
   user_name: string;
@@ -289,4 +288,4 @@ export function FormLoginAndRegister({
       </div>
     </main>
   );
-}
+};

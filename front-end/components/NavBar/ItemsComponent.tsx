@@ -1,12 +1,16 @@
 import { ReactNode } from "react";
 import { useRouter } from "next/router";
+import { queryClientObj } from "../../services/queryClient";
 import Link from "next/link";
 
+import { fetchAllTransactionsReceivedApi } from "../../services/endpoints/transactions";
 import {
   ArrowFatLineRight,
   ArrowFatLineLeft,
   ChartBar,
   House,
+  Money,
+  Bell,
 } from "phosphor-react";
 
 type TListItems = {
@@ -14,14 +18,21 @@ type TListItems = {
   pathURL: string;
   icon: ReactNode;
   gap?: boolean;
+  looked?: boolean;
 };
 
-interface IProps {
-  isOpen: boolean;
-}
+const { useQuery } = queryClientObj;
 
-export function ItemsComponent({ isOpen }: IProps) {
+export function ItemsComponent() {
   const { asPath } = useRouter();
+
+  const { data, isLoading } = useQuery(
+    "transactions-received",
+    async () => await fetchAllTransactionsReceivedApi(),
+    {refetchInterval: 10000} //* 10 seconds
+  );
+
+  const unviewed = data?.filter((item) => !item.looked);
 
   const menus: TListItems[] = [
     {
@@ -30,9 +41,14 @@ export function ItemsComponent({ isOpen }: IProps) {
       pathURL: `/Dashboard`,
     },
     {
+      title: "Enviar dinheiro",
+      icon: <Money size={25} color="#f1f0ef" />,
+      gap: true,
+      pathURL: `/Dashboard/SentMoney`,
+    },
+    {
       title: "Gráficos",
       icon: <ChartBar size={25} color="#f1f0ef" />,
-      gap: true,
       pathURL: `/Dashboard/Graphics`,
     },
     {
@@ -44,6 +60,7 @@ export function ItemsComponent({ isOpen }: IProps) {
       title: "Recebidos",
       icon: <ArrowFatLineLeft size={25} color="#f1f0ef" />,
       pathURL: `/Dashboard/Received`,
+      looked: true,
     },
   ];
 
@@ -60,8 +77,20 @@ export function ItemsComponent({ isOpen }: IProps) {
               ${menu.gap ? "mt-7" : "mt-2"}`}
           >
             {menu.icon}
-            <span className={`text-base origin-left duration-200`}>
+            <span className={`flex text-base origin-left duration-200`}>
               {menu.title}
+              {menu.looked && (
+                <div className="ml-16 flex flex-row-reverse items-center gap-1 text-green-500">
+                  {!isLoading && unviewed!.length >= 1 && <Bell size={25} />}
+                    {!isLoading && unviewed!.length >=1 &&
+                      (
+                        <span>
+                        {unviewed!.length}
+                       </span>
+                      )
+                    }
+                </div>
+              )}
             </span>
           </Link>
         );

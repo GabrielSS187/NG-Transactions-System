@@ -1,14 +1,26 @@
-import { useState } from "react";
-import Router from "next/router";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
+import Router, { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 
 import { FormLoginAndRegister } from "../../components/FormLoginAndRegister";
 
 import { registerUsersApi } from "../../services/endpoints/users";
+import { queryClientObj } from "../../services/queryClient";
+
+const { useMutation } = queryClientObj;
 
 export default function Register () {
+  const { isAuthenticated }
+   = useContext(AuthContext); 
   const [ errorApi, setErrorApi ] = useState<string>("");
-  const [ isLoad, setIsLoad ] = useState<boolean>(false);
+
+  const router = useRouter();
+
+  useEffect(() => {
+      if ( isAuthenticated ) router.push("/Dashboard");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   if ( errorApi ) {
     setTimeout(() => {
@@ -16,18 +28,16 @@ export default function Register () {
     }, 7000);
   };
 
+  const { mutate, isLoading } = useMutation(registerUsersApi, {
+    onSuccess: async (data) => Router.push("/Login"),
+    onError: (err: any) => {
+      setErrorApi(err.response?.data);
+    },
+  });
+
   async function registerSubmit (data: FieldValues | any) {
-    try {
-      setIsLoad(true);
       const { user_name, password } = data;
-      await registerUsersApi({user_name, password});
-      setIsLoad(false);
-      Router.push("/Login");
-    } catch (error: any) {
-      console.log(error);
-      setErrorApi(error?.response?.data) 
-      setIsLoad(false)
-    };
+      mutate({user_name, password});
   };
 
   return (
@@ -35,7 +45,7 @@ export default function Register () {
       type="register"
       onSubmitData={registerSubmit}
       errorApi={errorApi}
-      isLoad={isLoad}
+      isLoad={isLoading}
     />
   );
 };

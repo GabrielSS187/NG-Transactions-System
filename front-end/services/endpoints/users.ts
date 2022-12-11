@@ -21,18 +21,25 @@ export async function signInApi (data: TLoginAndRegisterUser) {
   return result;
 };
 
-export async function findUserApi (token: string) {
-  const AuthStr = "Bearer ".concat(token); 
+export async function findUserApi (token?: string) { 
   const result = await apiBase
   .get<TFindUserResponse>("users/find_user", 
-  { headers: { Authorization: AuthStr } });
+  { headers: { Authorization: token } });
 
   return result;
 };
 
-export async function fetchAllUsersApi (ctx: GetServerSidePropsContext) {
+export async function findUserAuthApi (ctx?: GetServerSidePropsContext) { 
   const { data } = await apiAuthClient(ctx)
-  .get<TFindUserResponse[]>("users/@");
+  .get<TFindUserResponse>("users/find_user");
+
+  return data;
+};
+
+
+export async function fetchAllUsersApi (ctx?: GetServerSidePropsContext | any, userFilterName?: string) {
+  const { data } = await apiAuthClient(ctx)
+  .get<TFindUserResponse[]>(`users/@${userFilterName?.trim()}`);
 
   return data;
 };

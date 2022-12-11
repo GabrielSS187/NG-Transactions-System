@@ -8,3 +8,13 @@ export const formatDate = (
   
   return date;
 };
+
+export const formatHours = (date: Date) => {
+  const time = date.toLocaleTimeString("pt-BR", {
+    timeStyle: "short",       
+    hour12: false,            
+    numberingSystem: "latn",
+  });
+
+  return time;
+};

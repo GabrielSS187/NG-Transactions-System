@@ -9,16 +9,17 @@ export type TLoginAndRegisterUser = {
   password: string,
 };
 
-export type User = {
+export type TUser = {
   id_user: number,
   user_name: string,
   account_id: string,
   balance: number,
-}
+};
 
 export type TAuthContextType = {
   isAuthenticated: boolean;
-  user: User | null;
+  user: TUser | null;
   signIn: (dataBody: TLoginAndRegisterUser) 
   => Promise<void>;
+  setUser: (user: TUser | any) => void;
 };

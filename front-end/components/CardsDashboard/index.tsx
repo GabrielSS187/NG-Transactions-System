@@ -5,20 +5,38 @@ import { SwiperSlide } from "swiper/react";
 
 import { SliderComponent } from "../SliderComponent";
 
-interface IProps {
-  valueReceivedTotal: string;
-  valueSentTotal: string;
+export type TUser = {
+  id_user: number;
+  user_name: string;
+  account_id: string;
+  balance: number;
 };
 
-export default function CardsDashboard({ valueSentTotal, valueReceivedTotal }: IProps) {
-  const { user } = useContext(AuthContext);
+interface IProps {
+  userLogged: TUser;
+  isLoading: boolean;
+  valueReceivedTotal: string;
+  valueSentTotal: string;
+}
+
+export default function CardsDashboard({
+  userLogged,
+  isLoading,
+  valueSentTotal,
+  valueReceivedTotal,
+}: IProps) {
+
+  if ( isLoading ) {
+    return <h1>looo</h1>
+  };
+
   return (
     <>
       <div className="flex justify-center flex-wrap gap-5 w-full mb-5 max-md:hidden">
         <div className="h-36 w-64 font-semibold flex flex-col justify-between shadow-lg border-2 rounded-lg">
           <h3 className="p-1 text-sm">Valor em conta</h3>
           <div className="text-center text-xl text-green-400">
-            <h3>R$ {user?.balance}</h3>
+            <h3>R$ {userLogged?.balance}</h3>
           </div>
           <div className="self-end px-1">
             <Wallet size={36} className="text-green-400" />
@@ -51,7 +69,7 @@ export default function CardsDashboard({ valueSentTotal, valueReceivedTotal }: I
           <div className="h-36 w-64  font-semibold flex flex-col justify-between shadow-lg border-2 rounded-lg">
             <h3 className="p-1 text-sm max-desk850:text-xs">Valor em conta</h3>
             <div className="text-center text-xl text-green-400">
-              <h3>R$ {user?.balance}</h3>
+              <h3>R$ {userLogged?.balance}</h3>
             </div>
             <div className="self-end px-1">
               <Wallet size={36} className="text-green-400" />

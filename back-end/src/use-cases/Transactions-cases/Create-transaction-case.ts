@@ -30,7 +30,7 @@ export class CreateTransactionCase {
     let validatedData: TTransactionsData | undefined = undefined;
 
     if ( typeof user_name_receiver !== "string" ) {
-      throw new ErrorValueInvalid()
+      throw new ErrorValueInvalid();
     };
 
     try {

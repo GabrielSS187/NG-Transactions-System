@@ -32,7 +32,7 @@ export default function TableSent({
     <section className="antialiased text-gray-600 h-screen px-4">
       <div className="flex flex-col h-full">
         {/* <!-- Table --> */}
-        <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+        <div className="w-11/12 mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
           <header className="px-5 py-4 border-b border-gray-100">
             <form
               onSubmit={(e) => e.preventDefault()}
@@ -63,7 +63,7 @@ export default function TableSent({
             </form>
           </header>
           <div className="p-3">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto h-96 antialiased">
               <table className="table-auto w-full">
                 {listSent.length ? (
                   <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">

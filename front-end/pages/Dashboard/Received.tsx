@@ -22,7 +22,9 @@ export default function Received () {
   const [ date, setDate ] = useState<string>("");  
 
   const transactionsReceived = useQuery("transactions-received-filter",
-  async () => await fetchAllTransactionsReceivedFilterApi("", search, date));
+  async () => await fetchAllTransactionsReceivedFilterApi("", search, date),
+    {refetchInterval: 10000,}
+  );
 
   useEffect(() => {
     transactionsReceived.refetch();

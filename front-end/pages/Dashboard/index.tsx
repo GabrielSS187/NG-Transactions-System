@@ -5,61 +5,96 @@ import { parseCookies } from "nookies";
 
 import {
   fetchAllTransactionsReceivedApi,
-  fetchAllTransactionsSentApi
+  fetchAllTransactionsSentApi,
 } from "../../services/endpoints/transactions";
+import { findUserAuthApi } from "../../services/endpoints/users";
 
-import Layout  from "../../components/Layout";
+import Layout from "../../components/Layout";
 import { Load } from "../../components/Load";
 
 const { useQuery, dehydrate, queryClient } = queryClientObj;
 
-const CardsDashboard = dynamic(() => import("../../components/CardsDashboard"), {
-  loading: () => <Load />
-});
+const CardsDashboard = dynamic(
+  () => import("../../components/CardsDashboard"),
+  {
+    loading: () => <Load />,
+  }
+);
 
-const GraphicDashboard = dynamic(() => import("../../components/GraphicDashboard"), {
-  loading: () => <Load />
-});
+const GraphicDashboard = dynamic(
+  () => import("../../components/GraphicDashboard"),
+  {
+    loading: () => <Load />,
+  }
+);
 
+const Modal = dynamic(
+  () => import("../../components/Modal"),
+  {
+    ssr: false
+  }
+);
 
 export default function Dashboard() {
-  const sevenSeconds = 1000 * 7
+ const sevenSeconds = 1000 * 7;
 
-  const transactionsSent = useQuery("transactions-sent",
-  async () => await fetchAllTransactionsSentApi(), 
-  {staleTime: sevenSeconds }); // * 7 seconds
-  const transactionsReceived = useQuery("transactions-received",
-  async () => await fetchAllTransactionsReceivedApi(), 
-  { staleTime: sevenSeconds });
+  const userLogged = useQuery(
+    "find-user-logged",
+    async () => await findUserAuthApi()
+  );
 
-  const totalValueSet = transactionsSent.data?.reduce((prevValue, currentValue) => {
-    return prevValue + Number(currentValue.value_sent);
-  }, 0);
+  const transactionsSent = useQuery(
+    "transactions-sent",
+    async () => await fetchAllTransactionsSentApi(),
+    { staleTime: sevenSeconds }
+  ); // * 7 seconds
+  const transactionsReceived = useQuery(
+    "transactions-received",
+    async () => await fetchAllTransactionsReceivedApi(),
+    { 
+      staleTime: sevenSeconds, 
+    },
+  );
 
-  const totalValueReceived = transactionsReceived.data?.reduce((prevValue, currentValue) => {
-    return prevValue + Number(currentValue.value_received);
-  }, 0);
+  const totalValueSet = transactionsSent?.data?.reduce(
+    (prevValue, currentValue) => {
+      return prevValue + Number(currentValue.value_sent);
+    },
+    0
+  );
+
+  const totalValueReceived = transactionsReceived?.data?.reduce(
+    (prevValue, currentValue) => {
+      return prevValue + Number(currentValue.value_received);
+    },
+    0
+  );
 
   return (
-    <Layout>
-        <main className="flex flex-col items-center h-full mb-2 lg:h-screen">
-          < CardsDashboard 
-            valueReceivedTotal={totalValueReceived?.toFixed(2)!}
-            valueSentTotal={totalValueSet?.toFixed(2)!}
-          />
-          <GraphicDashboard 
-            receivedMoney={totalValueReceived!}
-            sentMoney={Math.floor(totalValueSet!)}
-          />
-        </main>
+    <>
+      <Modal />
+      <Layout> 
+      <main className="flex flex-col items-center h-full mb-2 lg:h-screen">
+        <CardsDashboard
+          userLogged={userLogged.data!}
+          isLoading={userLogged.isLoading}
+          valueReceivedTotal={totalValueReceived?.toFixed(2)!}
+          valueSentTotal={totalValueSet?.toFixed(2)!}
+        />
+        <GraphicDashboard
+          receivedMoney={totalValueReceived!}
+          sentMoney={Math.floor(totalValueSet!)}
+        />
+      </main>
     </Layout>
+    </>
   );
-};
+}
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
     const { ["ng.token"]: token } = parseCookies(ctx);
-  
+
     if (!token) {
       return {
         redirect: {
@@ -67,12 +102,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         },
       };
-    };    
+    }
 
-    await queryClient.fetchQuery("transactions-sent", 
-    async () => await fetchAllTransactionsSentApi(ctx));
-    await queryClient.fetchQuery("transactions-received",
-    async () => await fetchAllTransactionsReceivedApi(ctx));
+    await queryClient.fetchQuery(
+      "find-user-logged",
+      async () => await findUserAuthApi(ctx)
+    );
+
+    await queryClient.fetchQuery(
+      "transactions-sent",
+      async () => await fetchAllTransactionsSentApi(ctx)
+    );
+
+    await queryClient.fetchQuery(
+      "transactions-received",
+      async () => await fetchAllTransactionsReceivedApi(ctx)
+    );
 
     return {
       props: {
@@ -83,5 +128,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       notFound: true,
     };
-  };
+  }
 };

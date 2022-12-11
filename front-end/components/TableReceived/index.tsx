@@ -1,10 +1,7 @@
-import { useState, useRef, ChangeEvent } from "react";
-import Image from "next/image";
 import { MagnifyingGlass } from "phosphor-react";
-import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 
+import { updateTransactionLookedApi } from "../../services/endpoints/transactions";
 import { TableTr } from "./TableTr";
-import logoUser from "../../assets/imgs/person-icon.png";
 import { Load } from "../Load";
 
 export type TReceived = {
@@ -33,11 +30,20 @@ export default function TableReceived({
   setDate,
   isLoading
 }: IProps) {
+
+  const unviewed = listReceived.filter((item) => !item.looked);
+
+  if ( unviewed.length >= 1 ) {
+      unviewed.forEach( async (item) => {
+        await updateTransactionLookedApi(item.id_transaction, true);
+      })
+  };
+  
   return (
     <section className="antialiased text-gray-600 h-screen px-4">
       <div className="flex flex-col h-full">
         {/* <!-- Table --> */}
-        <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+        <div className="w-11/12 mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
           <header className="px-5 py-4 border-b border-gray-100">
             <form
               onSubmit={(e) => e.preventDefault()}
@@ -68,7 +74,7 @@ export default function TableReceived({
             </form>
           </header>
           <div className="p-3">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto h-96">
               <table className="table-auto w-full">
                 {listReceived.length ? (
                   <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
