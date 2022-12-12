@@ -1,5 +1,4 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
+import { useState } from "react";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { parseCookies } from "nookies";
@@ -25,7 +24,6 @@ const SearchUserSentMoney = dynamic(
 );
 
 export default function SentMoney() {
-  const {user} = useContext(AuthContext);
   const [isOpenSearchUser, setIsOpenSearchUser] = useState<boolean>(false);
   const [errorApi, setErrorApi] = useState<string>("");
 
@@ -167,11 +165,12 @@ export default function SentMoney() {
               <input
                 {...register("value", {
                   required: true,
-                  min: 1,
+                  min: 1
                 })}
                 className={`w-full px-3 py-2 mb-1 border-2 ${errorValueClass} rounded-md focus:outline-none transition-colors`}
                 placeholder="R$ 5.00"
                 type="number"
+                step="0.01" lang="en"
               />
             </div>
 

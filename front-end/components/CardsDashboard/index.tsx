@@ -36,7 +36,7 @@ export default function CardsDashboard({
         <div className="h-36 w-64 font-semibold flex flex-col justify-between shadow-lg border-2 rounded-lg">
           <h3 className="p-1 text-sm">Valor em conta</h3>
           <div className="text-center text-xl text-green-400">
-            <h3>R$ {userLogged?.balance}</h3>
+            <h3>R$ {userLogged?.balance.toFixed(2)}</h3>
           </div>
           <div className="self-end px-1">
             <Wallet size={36} className="text-green-400" />
@@ -69,7 +69,7 @@ export default function CardsDashboard({
           <div className="h-36 w-64  font-semibold flex flex-col justify-between shadow-lg border-2 rounded-lg">
             <h3 className="p-1 text-sm max-desk850:text-xs">Valor em conta</h3>
             <div className="text-center text-xl text-green-400">
-              <h3>R$ {userLogged?.balance}</h3>
+              <h3>R$ {userLogged?.balance.toFixed(2)}</h3>
             </div>
             <div className="self-end px-1">
               <Wallet size={36} className="text-green-400" />
@@ -107,4 +107,4 @@ export default function CardsDashboard({
       </SliderComponent>
     </>
   );
-}
+};

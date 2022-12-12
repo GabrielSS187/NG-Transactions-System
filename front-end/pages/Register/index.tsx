@@ -29,7 +29,10 @@ export default function Register () {
   };
 
   const { mutate, isLoading } = useMutation(registerUsersApi, {
-    onSuccess: async (data) => Router.push("/Login"),
+    onSuccess: async (data) => {
+      Router.push("/Login");
+      localStorage.setItem("newUser", "true");
+    },
     onError: (err: any) => {
       setErrorApi(err.response?.data);
     },

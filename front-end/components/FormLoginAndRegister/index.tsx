@@ -1,8 +1,9 @@
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { CircleNotch } from "phosphor-react";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
+import { CircleNotch, Eye, EyeSlash } from "phosphor-react";
+
 
 import LoginAndRegisterSvg from "../../assets/svgs/LoginAndRegisterSvg";
 import transactionsLogo3 from "../../assets/imgs/transactions-logo-3.png";
@@ -28,6 +29,9 @@ export function FormLoginAndRegister({
   errorApi,
   isLoad,
 }: IProps) {
+  const [ viewPassword, setViewPassword ] = useState<boolean>(false);
+  const [ viewConfirmPassword, setViewConfirmPassword ] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
@@ -92,6 +96,7 @@ export function FormLoginAndRegister({
                 </div>
               </div>
 
+              {/* Inputs */}
               <div className="pt-2">
                 <div className="flex -mx-3">
                   <div className="w-full px-3 mb-5">
@@ -157,20 +162,31 @@ export function FormLoginAndRegister({
                         <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                       </div>
                       <div className="w-full -ml-10">
-                        <input
-                          {...register("password", {
-                            required: true,
-                            minLength: type === "register" ? 8 : undefined,
-                            pattern:
-                              type === "register"
-                                ? regexValidatePassword
-                                : undefined,
-                          })}
-                          type="password"
-                          id="password"
-                          className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorPasswordInvalid} outline-none`}
-                          placeholder="************"
-                        />
+                        <div className="flex gap-1">
+                          <input
+                            {...register("password", {
+                              required: true,
+                              minLength: type === "register" ? 8 : undefined,
+                              pattern:
+                                type === "register"
+                                  ? regexValidatePassword
+                                  : undefined,
+                            })}
+                            type={viewPassword ? "text" : "password"}
+                            id="password"
+                            className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorPasswordInvalid} outline-none`}
+                            placeholder="************"
+                          />
+                          <button
+                             onClick={() => setViewPassword(!viewPassword)}
+                             type="button"
+                             className="border-2 border-indigo-500 p-1 rounded-md"
+                          >
+                            { 
+                              !viewPassword ? <Eye width={20} height={20} /> : <EyeSlash  width={20} height={20}/>
+                            }
+                          </button>
+                        </div>
                         <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                           <p>
                             {errors?.password?.type === "required" &&
@@ -208,18 +224,29 @@ export function FormLoginAndRegister({
                           <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
                         </div>
                         <div className="w-full -ml-10">
-                          <input
-                            {...register("confirme_password", {
-                              required: true,
-                              validate: (value) => {
-                                return value === watchPassword;
-                              },
-                            })}
-                            type="password"
-                            id="confirme_password"
-                            className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorConfirmPassword} outline-none`}
-                            placeholder="************"
-                          />
+                          <div className="flex gap-1">
+                            <input
+                              {...register("confirme_password", {
+                                required: true,
+                                validate: (value) => {
+                                  return value === watchPassword;
+                                },
+                              })}
+                              type={viewConfirmPassword ? "text" : "password"}
+                              id="confirme_password"
+                              className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorConfirmPassword} outline-none`}
+                              placeholder="************"
+                            />
+                            <button
+                              onClick={() => setViewConfirmPassword(!viewConfirmPassword)}
+                              className="border-2 border-indigo-500 p-1 rounded-md"
+                              type="button"
+                            >
+                              { 
+                                !viewConfirmPassword ? <Eye width={20} height={20} /> : <EyeSlash  width={20} height={20}/>
+                              }
+                            </button>
+                          </div>
                           <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                             <p>
                               {errors?.confirme_password?.type === "required" &&

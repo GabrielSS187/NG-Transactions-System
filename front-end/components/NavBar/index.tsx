@@ -14,6 +14,7 @@ import logoUser from "../../assets/imgs/person-icon.png";
 import { SignOut } from "phosphor-react";
 
 export function NavBar () {
+  const { setUser } = useContext(AuthContext);
   const [open, setOpen] = useState(true);
   const [ isOpenMiniNav, setIsOpenMiniNav ] = useState<boolean>(false);
 
@@ -21,7 +22,7 @@ export function NavBar () {
 
   function logout () {
     destroyCookie(undefined, "ng.token");
-    // router.replace("/Dashboard");
+    setUser(null);
     router.push("/")
   };
 

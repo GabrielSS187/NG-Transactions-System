@@ -30,6 +30,6 @@ import { ITransactionsModel }
     return {
       message: "Visto da transação atualizado.",
       statusCode: 200,
-    }
+    };
   };
  };

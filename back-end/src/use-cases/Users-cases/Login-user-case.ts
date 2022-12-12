@@ -6,8 +6,6 @@ import { TUsersData } from "./types";
 import { IJwtAdapter } from "../../adapters/IJwt-adapter";
 import { IBCryptAdapter } from "../../adapters/IBcrypt-adapter";
 
-import { bodyValidation } from "./Validations";
-
 import { 
   ErrorUserNotFound,
   ErrorPasswordInvalid,

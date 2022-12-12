@@ -62,8 +62,6 @@ export class CreateTransactionCase {
       throw new ErrorNotArrobaUserName();
      };
 
-    value = Number(value.toFixed(2));
-
     const userSend = await this.transactionsModel
     .findUser(user_id_send!);
 
@@ -86,6 +84,8 @@ export class CreateTransactionCase {
     if ( accountSend.balance < value ) {
       throw new ErrorInsufficientFunds();
     };
+
+    value = Number(value.toFixed(2));
     
     await this.transactionsModel.create({
       debited_account_id: userSend.account_id,

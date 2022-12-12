@@ -11,6 +11,7 @@ import {
   House,
   Money,
   Bell,
+  Info
 } from "phosphor-react";
 
 type TListItems = {
@@ -61,6 +62,11 @@ export function ItemsComponent() {
       icon: <ArrowFatLineLeft size={25} color="#f1f0ef" />,
       pathURL: `/Dashboard/Received`,
       looked: true,
+    },
+    {
+      title: "Sobre",
+      icon: <Info size={25} color="#f1f0ef" />,
+      pathURL: `/Dashboard/Info`,
     },
   ];
 

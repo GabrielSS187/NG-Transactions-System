@@ -61,6 +61,7 @@ implements ITransactionsModel {
     .where("id_account", data.id_account);
   };
 
+  //* Criar uma nova transação. 
   async create (data: TTransactionsData) {
     await Database.connection(this.#tableNames.Transactions)
     .insert({ 
@@ -96,7 +97,7 @@ implements ITransactionsModel {
         transactionsListFormatted.push(formattedTransactionObj);
     };
 
-    return transactionsListFormatted
+    return transactionsListFormatted;
   };
 
   async getAllTransactionsReceived (idUser: number) {
@@ -129,7 +130,14 @@ implements ITransactionsModel {
        
     return listTransactionsReceived;
   };
+  
+  //* Atualizar visto.
+  async updateLooked ({ id_transaction, looked }: TUpdateLooked) {
+    await Database.connection(this.#tableNames.Transactions)
+    .update("looked", looked).where("id_transaction", id_transaction);
+  };
 
+  //* Teste
   async getAllTransactionsReceivedAndSent (idUser: number) {
     const sent = await this.getAllTransactionsSent(idUser);
     const received = await this.getAllTransactionsReceived(idUser);
@@ -138,9 +146,5 @@ implements ITransactionsModel {
 
     return merge;
   };
-
-  async updateLooked ({ id_transaction, looked }: TUpdateLooked) {
-    await Database.connection(this.#tableNames.Transactions)
-    .update("looked", looked).where("id_transaction", id_transaction);
-  };
+  //* =============================================================
 };

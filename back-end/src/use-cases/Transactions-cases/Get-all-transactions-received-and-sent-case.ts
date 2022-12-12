@@ -6,8 +6,7 @@ export class GetAllTransactionsReceivedAndSentCase {
     private transactionsModel: ITransactionsModel
   ){};
 
-  async get (idUserLogged: number) {
-      
+  async get (idUserLogged: number) { 
     const transactions = await this.transactionsModel
     .getAllTransactionsReceivedAndSent(idUserLogged);
       

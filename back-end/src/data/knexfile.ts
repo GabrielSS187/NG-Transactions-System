@@ -5,7 +5,7 @@ const configKnexDatabase = {
   development: {
     client: "pg",
       connection: env.DATABASE_URL,
-    searchPath: ['knex', 'public'],
+    searchPath: ["knex", "public"],
       migrations: {
          tableName: "knex_migrations",
          directory: path.resolve("./migrations"),

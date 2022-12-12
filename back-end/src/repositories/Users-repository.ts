@@ -19,6 +19,7 @@ implements IUsersModel {
     });
   };
 
+  //* Criar um novo usuário.
   async create (data: TUsersData) {
     await this.createAccount(data.account_id);
     await Database.connection(this.#tableNames.user)

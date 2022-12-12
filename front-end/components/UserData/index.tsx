@@ -24,7 +24,7 @@ export function UserData () {
             <div className="flex gap-3 max-md:gap-1">
               <h3>
                 Saldo: 
-                {viewBalance && (<strong>  R$  {data?.balance}</strong>)}
+                {viewBalance && (<strong>  R$  {data?.balance.toFixed(2)}</strong>)}
               </h3>
               <button onClick={() => setViewBalance(!viewBalance)}>
                 {
