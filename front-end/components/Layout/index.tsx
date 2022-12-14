@@ -93,7 +93,7 @@ export default function Layout({ children }: IProps) {
         </header>
 
         <div className="w-full mt-14">
-          {notifyLocal !== {} && <ToastContainer />}
+          {notifyLocal !== undefined && <ToastContainer />}
           {children}
         </div>
       </div>
