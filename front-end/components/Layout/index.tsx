@@ -93,7 +93,7 @@ export default function Layout({ children }: IProps) {
         </header>
 
         <div className="w-full mt-14">
-          {Object.keys(notifyLocal).length > 1 && <ToastContainer />}
+          <ToastContainer />
           {children}
         </div>
       </div>
