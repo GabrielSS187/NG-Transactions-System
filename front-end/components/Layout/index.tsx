@@ -32,7 +32,7 @@ export default function Layout({ children }: IProps) {
     async () => await fetchAllTransactionsReceivedApi(),
     {
       refetchInterval: 10000,
-      // onSuccess: async (data) => notify(),
+      // onSuccess: async (data) => notifyReceiverMoney(),
     }
   );
 
@@ -93,7 +93,7 @@ export default function Layout({ children }: IProps) {
         </header>
 
         <div className="w-full mt-14">
-          {notifyLocal !== undefined && <ToastContainer />}
+          {notifyLocal !== {} && <ToastContainer />}
           {children}
         </div>
       </div>
