@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import  Image from "next/image";
@@ -12,6 +13,7 @@ export default function Info () {
 
   return (
     <Layout>
+      <SEO title="Informações" description="Informações do criado do projeto" />
      <main className="flex flex-col items-center gap-10 pb-20">
       <h1 className="text-3xl font-sans">Sobre a aplicação</h1>
       <section className="flex flex-col gap-2">

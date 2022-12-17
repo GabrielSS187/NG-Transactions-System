@@ -31,7 +31,7 @@ export function AuthProvider ({ children }: TChildrenProvider) {
     if ( token ) {
       findUserApi(token).then(({data}) => {
         setUser(data);
-      });
+      }).catch((err) => console.log(err));
     };
   }, []);
 

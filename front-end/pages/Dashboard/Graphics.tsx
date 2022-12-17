@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
@@ -32,6 +33,7 @@ export default function Graphics () {
 
   return (
     <Layout>
+      <SEO title="Gráficos" description="Seus gráficos" />
       <main className="w-full flex flex-col items-center">
         <h1 className="font-serif text-xl max-sm:text-base">
           <strong>Gráficos</strong>

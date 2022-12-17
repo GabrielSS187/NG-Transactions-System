@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
@@ -29,6 +30,7 @@ export default function Sent () {
 
   return (
     <Layout>
+      <SEO title="Enviados" description="Tabela de dinheiro enviado" />
       <div className="w-full h-screen">
         <h1 className="font-serif text-xl text-center max-sm:text-base">
           <strong>Lista das pessoas que você enviou dinheiro</strong>

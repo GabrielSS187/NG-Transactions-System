@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { queryClientObj } from "../../services/queryClient";
@@ -72,6 +73,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <SEO title="Dashboard" />
       <Modal />
       <Layout> 
       <main className="flex flex-col items-center h-full mb-2 lg:h-screen">

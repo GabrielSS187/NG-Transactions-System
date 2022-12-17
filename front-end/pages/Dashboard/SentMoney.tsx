@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { useState } from "react";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
@@ -93,6 +94,7 @@ export default function SentMoney() {
 
   return (
     <Layout>
+      <SEO title="Enviar" description="Envia dinheiro" />
       <div className="min-w-screen h-screen flex items-start justify-center px-5 pb-10 pt-16">
         <ToastContainer />
         <form

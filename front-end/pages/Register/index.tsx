@@ -1,3 +1,4 @@
+import { SEO } from "../../Seo";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import Router, { useRouter } from "next/router";
@@ -44,11 +45,14 @@ export default function Register () {
   };
 
   return (
-    <FormLoginAndRegister
-      type="register"
-      onSubmitData={registerSubmit}
-      errorApi={errorApi}
-      isLoad={isLoading}
-    />
+    <>
+      <SEO title="Criar conta" description="Crie uma conta na NG Transações" />
+      <FormLoginAndRegister
+        type="register"
+        onSubmitData={registerSubmit}
+        errorApi={errorApi}
+        isLoad={isLoading}
+      />
+    </>
   );
 };
