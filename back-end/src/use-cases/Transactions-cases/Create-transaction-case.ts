@@ -1,5 +1,8 @@
 import { ITransactionsModel } 
 from "../../models/Transactions-models/ITransactionsModel";
+import { IMailAdapter } from "../../adapters/INodemailer-adapter";
+import { sentTransactionEmailSuccess } from "../../emails/sentTransactionEmailSuccess";
+import { receiverTransactionEmailSuccess } from "../../emails/receiverTransactionEmailSuccess";
 
 import * as yup from "yup";
 
@@ -13,11 +16,13 @@ import {
   ErrorCannotSendMoneyToYourself,
   ErrorNotArrobaUserName,
   ErrorValueInvalid,
+  ErrorStandard
  } from "../../errors/TransactionsErrors";
 
 export class CreateTransactionCase {
   constructor (
     private readonly transactionsModel: ITransactionsModel,
+    private readonly mailAdapter: IMailAdapter,
   ){};
 
   async create (request: TTransactionsData) {
@@ -86,30 +91,48 @@ export class CreateTransactionCase {
     };
 
     value = Number(value.toFixed(2));
-    
-    await this.transactionsModel.create({
-      debited_account_id: userSend.account_id,
-      credited_account_id: userReceiver.account_id,
-      value,
-    });
 
-    await this.transactionsModel.updateBalance({
-      id_account: userSend.account_id,
-      value: accountSend.balance - value,
-    });
+    try {
+      //* Enviar email para o enviador.
+      await this.mailAdapter.sendMail({
+        email: `${userSend.user_email}`,
+        subject: "NG Transações",
+        body:  sentTransactionEmailSuccess(userSend.user_name, userReceiver.user_name, value.toFixed(2)),
+      });
 
-    await this.transactionsModel.updateBalance({
-      id_account: userReceiver.account_id,
-      value: accountReceiver.balance + value,
-    });
+      //* Enviar email para o recebedor.
+      await this.mailAdapter.sendMail({
+        email: `${userReceiver.user_email}`,
+        subject: "NG Transações",
+        body:  receiverTransactionEmailSuccess(userSend.user_name, userReceiver.user_name, value.toFixed(2)),
+      });
 
-    return {
-      message: {
-        userSend: userSend.user_name,
-        userReceiver: userReceiver.user_name,
-        sendValue: value,
-      },
-      statusCode: 201,
+      await this.transactionsModel.create({
+        debited_account_id: userSend.account_id,
+        credited_account_id: userReceiver.account_id,
+        value,
+      });
+  
+      await this.transactionsModel.updateBalance({
+        id_account: userSend.account_id,
+        value: accountSend.balance - value,
+      });
+  
+      await this.transactionsModel.updateBalance({
+        id_account: userReceiver.account_id,
+        value: accountReceiver.balance + value,
+      });
+      
+      return {
+        message: {
+          userSend: userSend.user_name,
+          userReceiver: userReceiver.user_name,
+          sendValue: value,
+        },
+        statusCode: 201,
+      };
+    } catch (error) {
+      throw new ErrorStandard();
     };
   };
 };

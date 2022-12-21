@@ -1,5 +1,7 @@
 import "../styles/globals.css";
-import "../styles/swiperStyles.css"
+import "../styles/swiperStyles.css";
+import "../styles/modalConfirmEmail.css"
+
 import React from "react";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider, Hydrate } from "react-query";

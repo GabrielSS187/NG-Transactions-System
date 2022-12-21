@@ -9,7 +9,8 @@ export function apiAuthClient (ctx?: GetServerSidePropsContext) {
   const { "ng.token": token } = parseCookies(ctx);
 
   const apiAuth = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL
+    baseURL: "http://localhost:8000"
+    // process.env.NEXT_PUBLIC_API_URL
     // "http://localhost:8000"
   });
 

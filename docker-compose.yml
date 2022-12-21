@@ -1,0 +1,54 @@
+version: '4'
+services:
+  # Create database container
+  db:
+    container_name: database-docker
+    image: postgres
+    environment:
+      - POSTGRES_USER=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_SCHEMA}
+    ports:
+      - "5432:5432"
+    restart: always
+
+  backend:
+    # Create backend container  
+    container_name: backend-docker
+    build: ./back-end
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    depends_on:
+      - db
+    links:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./back-end/src/data/data-docker:/var/lib/postgresql/data
+    restart: always
+    
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.simple-be.rule=Host(`api.simple.mydomain.com`)" # domain to expose on
+      - "traefik.http.routers.simple-be.entrypoints=websecure" # if you named your 443 entrypoint differently than webscure, substitute it here!
+      - "traefik.http.routers.simple-be.tls.certresolver=letsencrypt" # if you named your cert resolver differently than letsencrypt, substitute it here!
+
+  # Create frontend container
+  frontend: # Name of our service
+    container_name: frontend-docker
+    build: ./front-end # path to dockerfile
+    ports: # Port binding to host from docker container
+      - 3000:3000 # Bind port 3000 of host to 3000 of container
+    command: npm run dev
+    links:
+      - backend
+    depends_on:
+      - backend
+    restart: always # What to do if container crashes
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.simple-fe.rule=Host(`simple.mydomain.com`)" # domain to expose on
+      - "traefik.http.routers.simple-fe.entrypoints=websecure" # if you named your 443 entrypoint differently than webscure, substitute it here!
+      - "traefik.http.routers.simple-fe.tls.certresolver=letsencrypt" # if you named your cert resolver differently than letsencrypt, substitute it here

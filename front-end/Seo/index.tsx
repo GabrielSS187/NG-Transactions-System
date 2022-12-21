@@ -10,8 +10,6 @@ export function SEO ({ description, title }: IProps) {
   const defaultTitle = `NG Transações - ${title}` || "NG Transações";
   const IMG_URL = "";
 
-  
-
   return (
     <Head>
       <meta name="viewport" content="initial-scale=1.0, width=device-width"/>

@@ -6,7 +6,8 @@ import { parseCookies } from "nookies";
 const { "ng.token": token } = parseCookies();
 
 export const apiBase = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL
+  baseURL: "http://localhost:8000"
+  // process.env.NEXT_PUBLIC_API_URL
   // "http://localhost:8000"
 });
 

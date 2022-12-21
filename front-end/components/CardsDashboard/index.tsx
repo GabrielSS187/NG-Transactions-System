@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/AuthContext";
 import { Money, Wallet } from "phosphor-react";
 import { SwiperSlide } from "swiper/react";
 
 import { SliderComponent } from "../SliderComponent";
+import { Load } from "../Load";
 
 export type TUser = {
   id_user: number;
@@ -17,7 +16,7 @@ interface IProps {
   isLoading: boolean;
   valueReceivedTotal: string;
   valueSentTotal: string;
-}
+};
 
 export default function CardsDashboard({
   userLogged,
@@ -27,7 +26,7 @@ export default function CardsDashboard({
 }: IProps) {
 
   if ( isLoading ) {
-    return <h1>looo</h1>
+    return <Load />
   };
 
   return (

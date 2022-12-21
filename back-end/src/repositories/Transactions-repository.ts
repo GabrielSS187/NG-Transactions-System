@@ -26,14 +26,14 @@ implements ITransactionsModel {
   async findUser (idUser: number, userName?: string) {
     if ( userName ) {
       const [ foundUser ] = await Database.connection(this.#tableNames.user)
-      .select("id_user", "user_name", "account_id")
+      .select("id_user", "user_name", "user_email", "account_id")
       .where("user_name", userName);
 
       return foundUser;
     };
 
     const [ foundUser ] = await Database.connection(this.#tableNames.user)
-    .select("id_user", "user_name", "account_id")
+    .select("id_user", "user_name", "user_email", "account_id")
     .where("id_user", idUser);
 
     return foundUser;
@@ -83,11 +83,12 @@ implements ITransactionsModel {
  
     for( let i = 0; i < transactionsSent.length; i++ ) {
       const [ transaction ] = await Database.connection("Users")
-      .select("user_name")
+      .select("user_name", "photo_url")
       .where("account_id", transactionsSent[i].credited_account_id);
       
       const formattedTransactionObj = {
           id_transaction: transactionsSent[i].id_transaction,
+          photo_url: transaction.photo_url,
           user_name_credited: transaction.user_name,
           value_sent: transactionsSent[i].value.toFixed(2),
           created_at: formatDate(transactionsSent[i].created_at, "short"),
@@ -113,11 +114,12 @@ implements ITransactionsModel {
 
     for( let i = 0; i < transactionsReceived.length; i++ ){
       const [ transaction ] = await Database.connection("Users")
-      .select("user_name")
+      .select("user_name", "photo_url")
       .where("account_id", transactionsReceived[i].debited_account_id);
 
       const objFormatted = {
         id_transaction: transactionsReceived[i].id_transaction,
+        photo_url: transaction.photo_url,
         user_name_debited: transaction.user_name,
         value_received: transactionsReceived[i].value.toFixed(2),
         looked: transactionsReceived[i].looked,

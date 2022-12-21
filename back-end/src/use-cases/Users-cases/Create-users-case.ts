@@ -1,6 +1,11 @@
 import * as yup from "yup";
 
 import { IUsersModel } from "../../models/Users-models/IUsersModel";
+import { IMailAdapter } from "../../adapters/INodemailer-adapter";
+import { IBCryptAdapter } from "../../adapters/IBcrypt-adapter";
+
+import { validEmail } from "../../emails/validEmail";
+import { generateId } from "../../utils/generate-id";
 
 import { 
   bodyValidation, 
@@ -17,21 +22,20 @@ import {
   ErrorPasswordRegexInvalid,
   ErrorNotArrobaUserName,
   ErrorStringMustOnlyOneArroba,
+  ErrorExistUserEmail,
+  ErrorStandard
  } from "../../errors/UsersErrors";
 
-
-import { IBCryptAdapter } from "../../adapters/IBcrypt-adapter";
-
-import { generateId } from "../../utils/generate-id";
 
 export class CreateUsersCase {
   constructor(
     private readonly usersModel: IUsersModel,
     private readonly bcryptAdapter: IBCryptAdapter,
+    private readonly mailAdapter: IMailAdapter,
   ){};
 
   async create(request: TUsersData){
-    const { user_name, password } = request;
+    const { user_name ,password, user_email } = request;
     let validatedData: TUsersData | undefined = undefined;
 
     try {
@@ -80,7 +84,10 @@ export class CreateUsersCase {
     };
     
     const findUser = await this.usersModel.findUser(removeSpacesInString);
-    if ( !!findUser ) throw new ErrorExistUserName(removeSpacesInString);
+    if ( !!findUser ) throw new ErrorExistUserName();
+
+    const findUserEmail = await this.usersModel.findUserByEmail(user_email!);
+    if ( !!findUserEmail ) throw new ErrorExistUserEmail();
 
     //* generateId() ? gera uma string grande com vários 
     //* números, letras e caracteres especias.
@@ -101,15 +108,30 @@ export class CreateUsersCase {
      const hashPassword = await this.bcryptAdapter
      .hashEncrypt({password});
   
-    await this.usersModel.create({
-      user_name: removeSpacesInString,
-      password_hash: hashPassword,
-      account_id: accountNumber,
-    });
+    const codeGenerate = generateId();
 
-    return { 
-      message: `Usuário: ${removeSpacesInString} registrado com sucesso.`,
-      statusCode: 201,
+    
+    try {
+      await this.mailAdapter.sendMail({
+        email: `${user_email}`,
+        subject: "NG Transações",
+        body:  validEmail(user_name, user_email!, codeGenerate),
+      });
+      
+      await this.usersModel.create({
+        user_name: removeSpacesInString,
+        user_email: user_email!,
+        password_hash: hashPassword,
+        account_id: accountNumber,
+        code: codeGenerate,
+      });
+
+      return { 
+        message: `Usuário: ${removeSpacesInString} registrado com sucesso.`,
+        statusCode: 201,
+      };
+    } catch (error) {
+      throw new ErrorStandard();
     };
   };
 };

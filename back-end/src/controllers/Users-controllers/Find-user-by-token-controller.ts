@@ -8,7 +8,7 @@ import { CreateUsersRepository }
 
   export class FindUserByTokenController {
     async find (req: Request, res: Response) {
-      const userId = req.userId as number;
+      const userId = req?.userId as number;
 
       const createUsersRepository =
       new CreateUsersRepository();

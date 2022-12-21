@@ -1,15 +1,15 @@
 import { Router } from "express";
 
 import { CreateTransactionController } 
-from "../controllers/Transactions-controllers/Create-transactions-controller";
+  from "../controllers/Transactions-controllers/Create-transactions-controller";
 import { GetAllTransactionsSentController }
-from "../controllers/Transactions-controllers/Get-all-transactions-sent-controller";
-import { GetAllTransactionsReceivedController }
-from "../controllers/Transactions-controllers/Get-all-transactions-received-controller";
+  from "../controllers/Transactions-controllers/Get-all-transactions-sent-controller";
+  import { GetAllTransactionsReceivedController }
+  from "../controllers/Transactions-controllers/Get-all-transactions-received-controller";
 import { UpdateLookedController }
-from "../controllers/Transactions-controllers/Update-transaction-controller";
+  from "../controllers/Transactions-controllers/Update-transaction-controller";
 import { GetAllTransactionsReceivedAndSentController }
-from "../controllers/Transactions-controllers/Get-all-transactions-received-and-sent-controller";
+  from "../controllers/Transactions-controllers/Get-all-transactions-received-and-sent-controller";
 
 export const transactionsRoutes = Router();
 
@@ -25,12 +25,12 @@ const getAllTransactionsReceivedAndSentController =
 new GetAllTransactionsReceivedAndSentController();
 
 transactionsRoutes
-.get("/all", getAllTransactionsReceivedAndSentController.get);
+  .get("/all", getAllTransactionsReceivedAndSentController.get);
 transactionsRoutes
-.get("/transactions_sent", getAllTransactionsSentController.get);
+  .get("/transactions_sent", getAllTransactionsSentController.get);
 transactionsRoutes
-.get("/transactions_received", getAllTransactionsReceivedController.get);
+  .get("/transactions_received", getAllTransactionsReceivedController.get);
 
 transactionsRoutes.post("/create", createTransactionController.create);
 transactionsRoutes
-.put("/update_looked/:id_transaction", updateLookedController.update);
+  .put("/update_looked/:id_transaction", updateLookedController.update);

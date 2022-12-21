@@ -5,7 +5,7 @@ import { X } from "phosphor-react";
 
 import birthdayAnimation from "../../assets/animations/lottieJsonAnimations/birthdayAnimation.json";
 
-export default function Modal() {
+export default function ModalCongratulationsNewUser () {
   const { user } = useContext(AuthContext);
   const [openPopup, setPopup] = useState<boolean>(true);
   const [openAnimation, setOpenAnimation] = useState<boolean>(true);

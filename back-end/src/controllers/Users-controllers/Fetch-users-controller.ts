@@ -7,7 +7,7 @@ import { FetchUsersCase }
 
  export class FetchUsersController {
   async find (req: Request, res: Response) {
-    const user_id_logged = req.userId;
+    const user_id_logged = req?.userId;
     const { user_name } = req.params;
 
     const createUsersRepository =
@@ -18,7 +18,7 @@ import { FetchUsersCase }
 
     const result = await fetchUsersCase.find({
       user_id_logged: Number(user_id_logged),
-      user_name
+      user_name,
     });
 
     return res.status(result.statusCode).json(result.list);

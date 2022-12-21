@@ -4,6 +4,8 @@ import { CreateUsersRepository }
 from "../../repositories/Users-repository";
 import { CreateUsersCase }
  from "../../use-cases/Users-cases/Create-users-case";
+ import { NodemailerMailAdapter } 
+ from "../../adapters/Nodemailer-adapter/Nodemailer-adapter";
 
  import { BCryptAdapter } from "../../adapters/Bcrypt-adapter/Bcrypt-adapter";
 
@@ -11,17 +13,26 @@ import { CreateUsersCase }
   async create (req: Request, res: Response) {
     const { 
       user_name,
+      user_email,
       password,
      } = req.body;
 
      const createUsersRepository = new CreateUsersRepository();
      const bcryptAdapter = new BCryptAdapter();
 
+     const nodemailerMailAdapter = 
+     new NodemailerMailAdapter();
+
      const createUsersCase =
-     new CreateUsersCase(createUsersRepository, bcryptAdapter);
+     new CreateUsersCase(
+      createUsersRepository, 
+      bcryptAdapter,
+      nodemailerMailAdapter
+    );
 
      const dataBody = {
       user_name,
+      user_email,
       password
      };
 

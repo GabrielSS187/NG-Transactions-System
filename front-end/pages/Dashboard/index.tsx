@@ -29,8 +29,8 @@ const GraphicDashboard = dynamic(
   }
 );
 
-const Modal = dynamic(
-  () => import("../../components/Modal"),
+const ModalCongratulationsNewUser = dynamic(
+  () => import("../../components/Modals/ModalCongratulationsNewUser"),
   {
     ssr: false
   }
@@ -74,7 +74,7 @@ export default function Dashboard() {
   return (
     <>
       <SEO title="Dashboard" />
-      <Modal />
+      <ModalCongratulationsNewUser />
       <Layout> 
       <main className="flex flex-col items-center h-full mb-2 lg:h-screen">
         <CardsDashboard

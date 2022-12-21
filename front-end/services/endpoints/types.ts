@@ -1,6 +1,8 @@
 export type TLoginAndRegisterUser = {
-  user_name: string;
-  password: string;
+  user_name: string,
+  user_email?: string,
+  password: string,
+  verify?: boolean;
 };
 
 export type TSignInApiResponse = {
@@ -13,6 +15,8 @@ export type TFindUserResponse = {
   user_name: string,
   account_id: string,
   balance: number,
+  verify?: boolean;
+  code?: string;
 };
 
 export type TTransactionsSentData = {

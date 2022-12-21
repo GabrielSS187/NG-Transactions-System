@@ -50,3 +50,12 @@ export class ErrorNotArrobaUserName extends CustomError {
     );
   };
 };
+
+export class ErrorStandard extends CustomError {
+  constructor(){
+    super(
+      `Ops! algo deu errado. Por favor tente de novo mais tarde!.`,
+      500
+    );
+  };
+};

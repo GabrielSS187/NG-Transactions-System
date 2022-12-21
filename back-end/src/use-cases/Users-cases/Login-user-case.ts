@@ -10,6 +10,8 @@ import {
   ErrorUserNotFound,
   ErrorPasswordInvalid,
   ErrorNotArrobaUserName,
+  ErrorLogin,
+  ErrorConfirmEmail
  } from "../../errors/UsersErrors";
 
 export class LoginUserCase {
@@ -22,6 +24,10 @@ export class LoginUserCase {
   async login (request: TUsersData) {
     const { user_name, password } = request;     
 
+    if ( !user_name || !password ) {
+      throw new ErrorLogin();
+    };
+
      const checkFirstCharacterHasArroba = user_name
      .trim()[0].includes("@");
 
@@ -32,6 +38,10 @@ export class LoginUserCase {
      const findUser = await this.usersModel.findUser(user_name);
      
      if (!findUser) throw new ErrorUserNotFound(); 
+
+     if ( findUser.verify === false ) {
+      throw new ErrorConfirmEmail();
+     };
      
      const verifyPasswordHash = await this.bcryptAdapter
      .compareHash({ 

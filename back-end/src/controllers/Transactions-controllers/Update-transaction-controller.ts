@@ -8,7 +8,7 @@ import { TransactionsRepository }
 
   export class UpdateLookedController {
     async update (req: Request, res: Response) {
-      const { id_transaction } = req.params;
+      const { id_transaction } = req?.params;
       const { looked } = req.body;
 
       const transactionsRepository =

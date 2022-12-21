@@ -1,10 +1,28 @@
 import { CustomError } from "./CustomError";
 
 export class ErrorExistUserName extends CustomError {
-  constructor(userName: string){
+  constructor(){
     super(
-      `Já existe um usuário com esse nome: ${userName}.`, 
+      `Já existe um cadastro com esse nome!.`, 
       409
+    );
+  };
+};
+
+export class ErrorExistUserEmail extends CustomError {
+  constructor(){
+    super(
+      `Já existe um cadastro com esse email!.`, 
+      409
+    );
+  };
+};
+
+export class ErrorLogin extends CustomError {
+  constructor(){
+    super(
+      `Os campos de nome do usuário e senha são obrigatórios!.`, 
+      406
     );
   };
 };
@@ -59,6 +77,70 @@ export class ErrorStringMustOnlyOneArroba extends CustomError {
     super(
       `O nome deve ter apenas um @ que é no inicio.`,
       406
+    );
+  };
+};
+
+export class ErrorCodeInvalid extends CustomError {
+  constructor(){
+    super(
+      `Código invalido.`,
+      406
+    );
+  };
+};
+
+export class ErrorVerifyInvalid extends CustomError {
+  constructor(){
+    super(
+      `So e aceito valor booleano!.`,
+      406
+    );
+  };
+};
+
+export class ErrorInvalidEmail extends CustomError {
+  constructor(){
+    super(
+      `Esse email não é valido!.`,
+      406
+    );
+  };
+};
+
+export class ErrorEmailSameAsAlreadyBe extends CustomError {
+  constructor(){
+    super(
+      `Escolha um email diferente do que já esta!.`,
+      409
+    );
+  };
+};
+
+export class ErrorEmailRequired extends CustomError {
+  constructor(){
+    super(
+      `Email obrigatório!.`,
+      406
+    );
+  };
+};
+
+export class ErrorConfirmEmail extends CustomError {
+  constructor(){
+    super(
+      `Por favor confirme seu email!.`,
+      406
+    );
+  };
+};
+
+
+export class ErrorStandard extends CustomError {
+  constructor(){
+    super(
+      `Ops! algo deu errado. Por favor tente de novo mais tarde!.`,
+      500
     );
   };
 };

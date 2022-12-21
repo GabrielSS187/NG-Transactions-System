@@ -17,8 +17,8 @@ export interface ITransactionsModel {
   updateBalance: (data: TUpdateBalanceData) => Promise<void>;
   getAllTransactionsSent: (idUser: number) => Promise<TTransactionsSentData[]>;
   getAllTransactionsReceived: (idUser: number) => Promise<TTransactionsReceived[]>;
+  updateLooked: (data: TUpdateLooked) => Promise<void>;
   //* Teste
   getAllTransactionsReceivedAndSent: (idUser: number) => Promise<TTransactionsReceivedAndSent[]>;
   //* ============================================================================================
-  updateLooked: (data: TUpdateLooked) => Promise<void>;
 };

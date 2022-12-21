@@ -4,10 +4,12 @@ import { TransactionsRepository }
 from "../../repositories/Transactions-repository";
 import { CreateTransactionCase } 
 from "../../use-cases/Transactions-cases/Create-transaction-case";
+import { NodemailerMailAdapter } 
+from "../../adapters/Nodemailer-adapter/Nodemailer-adapter";
 
 export class CreateTransactionController {
   async create (req: Request, res: Response) {
-    const user_id_send = req.userId;
+    const user_id_send = req?.userId;
 
     const {
       user_name_receiver,
@@ -17,8 +19,14 @@ export class CreateTransactionController {
     const transactionsRepository =
     new TransactionsRepository();
 
+    const nodemailerMailAdapter =
+     new NodemailerMailAdapter();
+
     const createTransactionsCase = 
-    new CreateTransactionCase(transactionsRepository);
+    new CreateTransactionCase(
+      transactionsRepository,
+      nodemailerMailAdapter
+    );
 
     const result = await createTransactionsCase
     .create({
@@ -27,6 +35,6 @@ export class CreateTransactionController {
       value,
     });
 
-    return res.status(result.statusCode).json(result);
+    return res.status(result.statusCode).json(result.message);
   };
 };

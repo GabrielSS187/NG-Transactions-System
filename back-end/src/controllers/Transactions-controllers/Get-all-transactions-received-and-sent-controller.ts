@@ -8,7 +8,7 @@ from "../../use-cases/Transactions-cases/Get-all-transactions-received-and-sent-
 
  export class GetAllTransactionsReceivedAndSentController {
   async get (req: Request, res: Response) {
-    const idUserLogged = Number(req.userId);
+    const idUserLogged = Number(req?.userId);
 
     const transactionsRepository =
     new TransactionsRepository();
