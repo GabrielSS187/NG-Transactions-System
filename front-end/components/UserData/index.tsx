@@ -1,30 +1,37 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { Eye, EyeSlash } from "phosphor-react";
 
-import { findUserAuthApi } from "../../services/endpoints/users";
-import { queryClientObj } from "../../services/queryClient";
+interface IProps {
+  user_name: string;
+  account_id: string;
+  balance: number;
+  isLoad: boolean;
+};
 
-const { useQuery } = queryClientObj
+export function UserData ({
+  user_name,
+  balance,
+  account_id,
+  isLoad
+}: IProps) {
+  const { viewBalance, setViewBalance } = useContext(AuthContext);
 
-export function UserData () {
-  const [ viewBalance, setViewBalance ] = 
-  useState<boolean>(true);
-
-  const { data } = useQuery("find-user-logged",
-  async () => await findUserAuthApi(), {
-    refetchInterval: 10000 //* 10 seconds
-  })
+  
+if ( isLoad ) {
+  return <h1>aaaa</h1>
+};
 
   return (
     <>
       <div className="mt-2 flex flex-col items-center justify-center gap-1 max-md:p-2">
-          <h2><strong>{data?.user_name}</strong></h2>
-          <h3 className="text-sm max-md:text-center">Número da conta: <strong>{data?.account_id}</strong></h3>
+          <h2><strong>{user_name}</strong></h2>
+          <h3 className="text-sm max-md:text-center">Número da conta: <strong>{account_id}</strong></h3>
           <div>
             <div className="flex gap-3 max-md:gap-1">
               <h3>
                 Saldo: 
-                {viewBalance && (<strong>  R$  {data?.balance.toFixed(2)}</strong>)}
+                {viewBalance && (<strong>  R$  {balance.toFixed(2)}</strong>)}
               </h3>
               <button onClick={() => setViewBalance(!viewBalance)}>
                 {

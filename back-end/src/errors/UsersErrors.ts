@@ -18,6 +18,15 @@ export class ErrorExistUserEmail extends CustomError {
   };
 };
 
+export class ErrorUserEmailNotFound extends CustomError {
+  constructor(){
+    super(
+      `Email não encontrado!.`, 
+      404
+    );
+  };
+};
+
 export class ErrorLogin extends CustomError {
   constructor(){
     super(
@@ -135,6 +144,14 @@ export class ErrorConfirmEmail extends CustomError {
   };
 };
 
+export class ErrorNewPasswordRequired extends CustomError {
+  constructor(){
+    super(
+      `Nova senha é obrigatório!`,
+      406
+    );
+  };
+};
 
 export class ErrorStandard extends CustomError {
   constructor(){
@@ -144,3 +161,4 @@ export class ErrorStandard extends CustomError {
     );
   };
 };
+

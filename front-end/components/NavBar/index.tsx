@@ -7,11 +7,13 @@ import { destroyCookie } from "nookies";
 import { ItemsComponent } from "./ItemsComponent";
 
 import { UserData } from "../UserData";
-
 // import control from "../../assets/imgs/control.png";
 import logoUser from "../../assets/imgs/person-icon.png";
-
 import { SignOut } from "phosphor-react";
+import { queryClientObj } from "../../services/queryClient";
+import { findUserAuthApi } from "../../services/endpoints/users";
+
+const { useQuery } = queryClientObj
 
 export function NavBar () {
   const { setUser } = useContext(AuthContext);
@@ -19,6 +21,14 @@ export function NavBar () {
   const [ isOpenMiniNav, setIsOpenMiniNav ] = useState<boolean>(false);
 
   const router = useRouter();
+  const { data, isLoading } = useQuery("find-user-logged",
+  async () => await findUserAuthApi(), {
+    refetchInterval: 10000 //* 10 seconds
+  });
+
+  if ( isLoading ) {
+    return <></>
+  };
 
   function logout () {
     destroyCookie(undefined, "ng.token");
@@ -43,7 +53,7 @@ export function NavBar () {
           /> */}
           <div className="flex flex-col gap-x-4 items-center">
             <Image
-              src={logoUser}
+              src={`http://localhost:8000${data!.photo_url}`}
               alt="logo foto perfil"
               width={50}
               height={50}
@@ -55,7 +65,12 @@ export function NavBar () {
             <div
               className={`text-white origin-left font-medium`}
             >
-             <UserData />
+             <UserData 
+              user_name={data!.user_name}
+              balance={data!.balance}
+              account_id={data!.account_id}
+              isLoad={isLoading}
+             />
             </div>
           </div>
           <nav className="pt-6">
@@ -96,7 +111,12 @@ export function NavBar () {
                   </div>
             
                   <div className={`${isOpenMiniNav === false && "hidden"} absolute right-0 z-20 mt-2 w-64 origin-top-right rounded-md bg-white py-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button`} tabIndex={-1}>
-                    <UserData />
+                    <UserData 
+                      user_name={data!.user_name}
+                      balance={data!.balance}
+                      account_id={data!.account_id}
+                      isLoad={isLoading}
+                    />
                   </div>
                 </div>
               </div>

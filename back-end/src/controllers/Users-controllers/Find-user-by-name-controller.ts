@@ -3,20 +3,20 @@ import { Request, Response } from "express";
 import { CreateUsersRepository }
  from "../../repositories/Users-repository";
 
- import { FindUserByEmailCase }
-  from "../../use-cases/Users-cases/Find-user-by-email-case";
+ import { FindUserByNameCase }
+  from "../../use-cases/Users-cases/Find-user-by-name";
 
-  export class FindUserByEmailController {
+  export class FindUserByNameController {
     async find (req: Request, res: Response) {
-      const { email } = req.params;
+      const { name } = req.params;
 
       const createUsersRepository =
       new CreateUsersRepository();
 
-      const findUserByEmailCase =
-      new FindUserByEmailCase(createUsersRepository);
+      const findUserByNameCase =
+      new FindUserByNameCase(createUsersRepository);
 
-      const result = await findUserByEmailCase.find(email);
+      const result = await findUserByNameCase.find(name);
 
       return res.status(result.statusCode).json(result.user);
     };

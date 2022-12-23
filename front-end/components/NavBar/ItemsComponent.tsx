@@ -11,7 +11,8 @@ import {
   House,
   Money,
   Bell,
-  Info
+  Info,
+  UserGear
 } from "phosphor-react";
 
 type TListItems = {
@@ -42,9 +43,14 @@ export function ItemsComponent() {
       pathURL: `/Dashboard`,
     },
     {
+      title: "Editar informações",
+      icon: <UserGear size={25} color="#f1f0ef" />,
+      pathURL: `/Dashboard/Edit`,
+      gap: true,
+    },
+    {
       title: "Enviar dinheiro",
       icon: <Money size={25} color="#f1f0ef" />,
-      gap: true,
       pathURL: `/Dashboard/SentMoney`,
     },
     {

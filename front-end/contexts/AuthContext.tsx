@@ -20,6 +20,8 @@ export const AuthContext = createContext({} as TAuthContextType);
 
 export function AuthProvider ({ children }: TChildrenProvider) {
   const [ user, setUser ] = useState<TUser | null>(null);
+  const [ viewBalance, setViewBalance ] = 
+  useState<boolean>(true);
 
   const router = useRouter();
 
@@ -62,6 +64,8 @@ export function AuthProvider ({ children }: TChildrenProvider) {
     user,
     signIn,
     setUser,
+    viewBalance, 
+    setViewBalance
   };
   
   return (

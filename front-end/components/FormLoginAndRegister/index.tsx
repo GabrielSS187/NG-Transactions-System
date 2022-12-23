@@ -14,7 +14,9 @@ interface IProps {
   onSubmitData: SubmitHandler<FieldValues>;
   errorApi?: string;
   isLoad?: boolean;
-}
+  openPasswordChangeModal?: boolean;
+  setOpenPasswordChangeModal?: (input: boolean) => void;
+};
 
 type FormData = {
   user_name: string;
@@ -28,6 +30,8 @@ export function FormLoginAndRegister({
   type,
   errorApi,
   isLoad,
+  openPasswordChangeModal,
+  setOpenPasswordChangeModal
 }: IProps) {
   const [viewPassword, setViewPassword] = useState<boolean>(false);
   const [viewConfirmPassword, setViewConfirmPassword] =
@@ -132,20 +136,20 @@ export function FormLoginAndRegister({
 
                       <div className="h-2 text-red-500 mb-2 max-[450px]:text-sm">
                         <p>
-                          {errors.user_name?.type === "required"
-                            ? "Esse campo é obrigatório."
-                            : null}
+                          {errors.user_name?.type === "required" &&
+                            "Esse campo é obrigatório."
+                          }
                         </p>
                         <p>
-                          {errors.user_name?.type === "validate"
-                            ? "O @ é obrigatório antes do seu nome."
-                            : null}
+                          {errors.user_name?.type === "validate" &&
+                            "O @ é obrigatório antes do seu nome."
+                          }
                         </p>
                         {type === "register" && (
                           <p className="max-[450px]:text-xs">
-                            {errors.user_name?.type === "minLength"
-                              ? "Esse campo deve conter no máximo 5 caracteres."
-                              : null}
+                            {errors.user_name?.type === "minLength" &&
+                              "Esse campo deve conter no máximo 5 caracteres."
+                            }
                           </p>
                         )}
                       </div>
@@ -303,8 +307,26 @@ export function FormLoginAndRegister({
                   </div>
                 </div>
               )}
+
               <div className="flex -mx-3">
                 <div className="w-full px-3 mb-5">
+
+                  { type === "login" && (
+                      <div className="mb-2 text-center text-sm">
+                        <p>
+                          Esqueceu a senha? Solicite a alteração
+                          <button 
+                            type="button"
+                            onClick={() => setOpenPasswordChangeModal!(!openPasswordChangeModal)}
+                            className="text-blue-500 underline decoration-wavy ml-1"
+                          >
+                            aqui
+                          </button>
+                        </p>
+                      </div>
+                    ) 
+                  }
+
                   <button
                     type="submit"
                     disabled={isLoad}
@@ -356,4 +378,4 @@ export function FormLoginAndRegister({
       </div>
     </main>
   );
-}
+};

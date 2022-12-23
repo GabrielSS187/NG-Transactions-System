@@ -11,11 +11,13 @@ export type TSignInApiResponse = {
 };
 
 export type TFindUserResponse = {
+  photo_url: string;
   id_user: number,
   user_name: string,
+  user_email?: string
   account_id: string,
   balance: number,
-  verify?: boolean;
+  verify: boolean;
   code?: string;
 };
 
@@ -40,4 +42,9 @@ export type TTransactionsReceived = {
 export type TCreateTransaction = {
   user_name_receiver: string; 
   value: number;
+};
+
+export type TAlterPassword = {
+  newPassword: string;
+  codeUser: string;
 };

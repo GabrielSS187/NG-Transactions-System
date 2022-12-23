@@ -1,3 +1,4 @@
+import path from "path";
 import * as yup from "yup";
 
 import { IUsersModel } from "../../models/Users-models/IUsersModel";
@@ -108,22 +109,22 @@ export class CreateUsersCase {
      const hashPassword = await this.bcryptAdapter
      .hashEncrypt({password});
   
-    const codeGenerate = generateId();
-
+    const newCodeGenerate = generateId();
     
     try {
       await this.mailAdapter.sendMail({
         email: `${user_email}`,
         subject: "NG Transações",
-        body:  validEmail(user_name, user_email!, codeGenerate),
+        body:  validEmail(user_name, user_email!, newCodeGenerate),
       });
       
       await this.usersModel.create({
+        photo_url: "/files/person-icon.png",
         user_name: removeSpacesInString,
         user_email: user_email!,
         password_hash: hashPassword,
         account_id: accountNumber,
-        code: codeGenerate,
+        code: newCodeGenerate,
       });
 
       return { 

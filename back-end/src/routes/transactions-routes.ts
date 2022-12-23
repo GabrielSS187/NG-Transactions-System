@@ -32,5 +32,6 @@ transactionsRoutes
   .get("/transactions_received", getAllTransactionsReceivedController.get);
 
 transactionsRoutes.post("/create", createTransactionController.create);
+
 transactionsRoutes
   .put("/update_looked/:id_transaction", updateLookedController.update);

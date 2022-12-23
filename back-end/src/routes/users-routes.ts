@@ -18,6 +18,13 @@ import { ConfirmEmailController }
  from "../controllers/Users-controllers/Confirm-email-controller";
 import { AlterEmailController } 
   from "../controllers/Users-controllers/Alter-email-controller";
+  import { FindUserByNameController }
+   from "../controllers/Users-controllers/Find-user-by-name-controller";
+import { FindUserByCodeController } from "../controllers/Users-controllers/Find-user-by-code-controller";
+import { 
+  AlterPasswordController,
+  RequestPasswordChangeController
+ } from "../controllers/Users-controllers/Alter-password-controller";
 
 export const usersRoutes = Router();
 
@@ -26,17 +33,27 @@ const loginUserController = new LoginUserController();
 const fetchUsersController = new FetchUsersController();
 const findUserByTokenController = new FindUserByTokenController();
 const findUserByEmailController = new FindUserByEmailController();
+const findUserByCodeController = new FindUserByCodeController();
+const findUserByNameController = new FindUserByNameController();
 const editInfoUserController = new EditInfoUserController();
 const confirmEmailController = new ConfirmEmailController();
 const alterEmailController = new AlterEmailController();
-
+const alterPasswordController = new AlterPasswordController();
+const requestPasswordChangeController = new  RequestPasswordChangeController();
 
 usersRoutes.get("/find_user", authMiddleware, findUserByTokenController.find);
-usersRoutes.get("/:user_name", authMiddleware, fetchUsersController.find);
 usersRoutes.get("/find_user/:email", findUserByEmailController.find);
+usersRoutes.get("/find_user_code/:code", findUserByCodeController.find);
+usersRoutes.get("/find_user_name/:name", findUserByNameController.find);
 usersRoutes.get("/confirm_email/:verify/:codeUser", confirmEmailController.confirm);
+usersRoutes.get("/confirm_you/:email", requestPasswordChangeController.request);
+//* Achar e filtra por nome do usuário
+usersRoutes.get("/:user_name", authMiddleware, fetchUsersController.find);
+//* =========================================================================
 
 usersRoutes.post("/register", createUsersController.create);
 usersRoutes.post("/login", loginUserController.login);
-usersRoutes.post("/edit", authMiddleware, editInfoUserController.edit);
 usersRoutes.post("/alter_email/:codeUser", [] ,alterEmailController.alter);
+
+usersRoutes.put("/edit", authMiddleware, editInfoUserController.edit);
+usersRoutes.put("/alter_password/:codeUser", alterPasswordController.alter);

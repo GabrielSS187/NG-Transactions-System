@@ -6,7 +6,8 @@ import { apiAuthClient } from "../apiAuthClient";
 import {
    TLoginAndRegisterUser,
    TSignInApiResponse,
-   TFindUserResponse
+   TFindUserResponse,
+   TAlterPassword
   } from "./types";
 
 export async function registerUsersApi (data: TLoginAndRegisterUser) {
@@ -26,7 +27,7 @@ export async function findUserApi (token?: string) {
   const result = await apiBase
   .get<TFindUserResponse>("/users/find_user", 
   { headers: { Authorization: token } });
-
+  
   return result;
 };
 
@@ -38,9 +39,16 @@ export async function findUserAuthApi (ctx?: GetServerSidePropsContext) {
   return data;
 };
 
-export async function findUserByEmail (email: string) { 
+export async function findUserByEmailApi (email: string) { 
   const { data } = await apiBase
   .get<TFindUserResponse>(`/users/find_user/${email}`);
+
+  return data;
+};
+
+export async function findUserByNameApi (userName: string) { 
+  const { data } = await apiBase
+  .get<TFindUserResponse>(`/users/find_user_name/${userName}`);
 
   return data;
 };
@@ -57,6 +65,26 @@ export async function alterEmailApi (newEmail: string, codeUser: string) {
   const { data } = await apiBase.post(`/users/alter_email/${codeUser}`,
    { newEmail }
   );
+
+  return data;
+};
+
+export async function findUserByCodeApi (codeUser: string) {
+  const { data } = await apiBase.get(`/users/find_user_code/${codeUser}`);
+
+  return data;
+};
+
+export async function alterPasswordApi ({ newPassword, codeUser }: TAlterPassword) {
+  const { data } = await apiBase
+  .put(`/users/alter_password/${codeUser}`, { newPassword });
+
+  return data;
+};
+
+export async function sendConfirmationEmailApi (email: string) {
+  const { data } = await apiBase
+  .get(`/users/confirm_you/${email}`);
 
   return data;
 };

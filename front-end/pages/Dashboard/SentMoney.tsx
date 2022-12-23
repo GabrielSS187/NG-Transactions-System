@@ -47,9 +47,9 @@ export default function SentMoney() {
   };
 
   const { mutate, isLoading } = useMutation(createdTransactionApi, {
-    onSuccess: async (data) => {
+    onSuccess: async (data) => {      
       toast.success(
-        `Dinheiro enviado com sucesso para ${data.message?.userReceiver}.`
+        `Dinheiro enviado com sucesso para ${data.userReceiver}.`
       );
       queryClient.invalidateQueries("find-user-logged");
       reset();

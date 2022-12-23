@@ -22,4 +22,6 @@ export type TAuthContextType = {
   signIn: (dataBody: TLoginAndRegisterUser) 
   => Promise<void>;
   setUser: (user: TUser | any) => void;
+  viewBalance: boolean,
+   setViewBalance: (input: boolean) => void;
 };

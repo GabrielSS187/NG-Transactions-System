@@ -101,7 +101,8 @@ implements IUsersModel {
   async fetchUsers (user_name: string) {
     const users = await Database.connection(this.#tableNames.user)
     .select("id_user", "photo_url", "user_email", "user_name", "account_id")
-    .where("user_name", "like", `%${user_name}%`);
+    .where("user_name", "like", `%${user_name}%`)
+    .where("verify", true);  
 
     return users;
   };
