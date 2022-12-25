@@ -100,7 +100,7 @@ export class CreateTransactionCase {
         body:  sentTransactionEmailSuccess(userSend.user_name, userReceiver.user_name, value.toFixed(2)),
       });
 
-      //* Enviar email para o recebedor.
+      // //* Enviar email para o recebedor.
       await this.mailAdapter.sendMail({
         email: `${userReceiver.user_email}`,
         subject: "NG Transações",

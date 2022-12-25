@@ -3,7 +3,7 @@ export const formatDate = (
   style: Intl.DateTimeFormatOptions["dateStyle"]
   ) => {
   const date = data.toLocaleDateString(
-    "pt-BR", { dateStyle: style, timeZone: "UTC" }
+    "pt-BR", { dateStyle: style, timeZone: "UTC"}
   );
   
   return date;

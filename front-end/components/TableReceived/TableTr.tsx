@@ -1,9 +1,8 @@
 import Image from "next/image";
 
-import { TReceived } from ".";
-import logoUser from "../../assets/imgs/person-icon.png";
+import { TTransactionsReceived } from "../../services/endpoints/types";
 
-export function TableTr(listReceived: TReceived[]) {
+export function TableTr(listReceived: TTransactionsReceived[]) {
   return listReceived?.map((received) => {
     
     return (
@@ -13,7 +12,7 @@ export function TableTr(listReceived: TReceived[]) {
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
               <Image
                 className="rounded-full"
-                src={logoUser}
+                src={`http://localhost:8000${received.photo_url}`}
                 width="40"
                 height="40"
                 alt={received.user_name_debited}

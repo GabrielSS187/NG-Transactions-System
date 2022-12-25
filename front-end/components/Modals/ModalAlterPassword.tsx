@@ -4,6 +4,7 @@ import { CircleNotch, ArrowClockwise, Hand, X } from "phosphor-react";
 import Modal from "react-modal";
 
 import { sendConfirmationEmailApi } from "../../services/endpoints/users";
+import { regexEmail } from "../../utils/regexs";
 
 interface IProps {
   closeModal: (input: boolean) => void;
@@ -121,7 +122,7 @@ export function ModalAlterPassword ({
                             {...register("email", {
                               required: {value: true, message: "Email obrigatório!"},
                               pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                value: regexEmail,
                                 message: "Email invalido!"
                               }
                             })}
@@ -158,8 +159,8 @@ export function ModalAlterPassword ({
                       <button
                         type="submit"
                         disabled={isLoad}
-                        className={`block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold ${
-                          isLoad ? "disabled:opacity-80" : ""
+                        className={`block w-full max-w-xs mx-auto bg-indigo-500 text-white rounded-lg px-3 py-3 font-semibold ${
+                          isLoad ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
                         }`}
                       >
                         {isLoad ? (

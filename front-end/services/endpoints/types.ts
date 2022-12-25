@@ -21,8 +21,16 @@ export type TFindUserResponse = {
   code?: string;
 };
 
+export type TEditInfoUser = {
+  photo_url?: string;
+  user_name?: string,
+  user_email?: string
+  password?: string;
+};
+
 export type TTransactionsSentData = {
   id_transaction: string,
+  photo_url: string;
   user_name_credited: string,
   value_sent: string,
   created_at: string,
@@ -31,6 +39,7 @@ export type TTransactionsSentData = {
 
 export type TTransactionsReceived = {
   id_transaction: string;
+  photo_url: string;
   user_name_debited: string;
   value_received: string;
   looked: boolean;

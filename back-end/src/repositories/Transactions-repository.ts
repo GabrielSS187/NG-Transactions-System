@@ -26,14 +26,14 @@ implements ITransactionsModel {
   async findUser (idUser: number, userName?: string) {
     if ( userName ) {
       const [ foundUser ] = await Database.connection(this.#tableNames.user)
-      .select("id_user", "user_name", "user_email", "account_id")
+      .select("id_user", "photo_url", "user_name", "user_email", "account_id")
       .where("user_name", userName);
 
       return foundUser;
     };
 
     const [ foundUser ] = await Database.connection(this.#tableNames.user)
-    .select("id_user", "user_name", "user_email", "account_id")
+    .select("id_user", "photo_url", "user_name", "user_email", "account_id")
     .where("id_user", idUser);
 
     return foundUser;

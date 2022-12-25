@@ -1,18 +1,11 @@
 import { MagnifyingGlass } from "phosphor-react";
 import { Load } from "../Load";
 
+import { TTransactionsSentData } from "../../services/endpoints/types";
 import { TableTr } from "./TableTr";
 
-export type TSent = {
-  id_transaction: string;
-  user_name_credited: string;
-  value_sent: string;
-  created_at: string;
-  hour: string;
-};
-
 interface IProps {
-  listSent: TSent[];
+  listSent: TTransactionsSentData[];
   search: string;
   setSearch: (search: string) => void;
   date: string;

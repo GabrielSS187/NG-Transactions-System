@@ -37,7 +37,7 @@ export default function SearchUserSentMoney({
               >
                 <Image
                   className="rounded-full"
-                  src={logoUser}
+                  src={`http://localhost:8000${user!.photo_url}`}
                   width="25"
                   height="25"
                   alt={user.user_name}

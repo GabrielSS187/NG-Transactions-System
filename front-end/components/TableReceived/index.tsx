@@ -4,17 +4,10 @@ import { updateTransactionLookedApi } from "../../services/endpoints/transaction
 import { TableTr } from "./TableTr";
 import { Load } from "../Load";
 
-export type TReceived = {
-  id_transaction: string;
-  user_name_debited: string;
-  value_received: string;
-  looked: boolean;
-  created_at: string;
-  hour: string;
-};
+import { TTransactionsReceived } from "../../services/endpoints/types";
 
 interface IProps {
-  listReceived: TReceived[];
+  listReceived: TTransactionsReceived[];
   search: string;
   setSearch: (search: string) => void;
   date: string;

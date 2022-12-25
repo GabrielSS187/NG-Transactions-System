@@ -13,7 +13,7 @@ implements IUsersModel {
     account: "Accounts",
   };
 
-  //* Criar e editar usuário ================================================
+  //* Criar, editar, deletar usuário ================================================
 
   private async createAccount (accountId: string) {
     await Database.connection(this.#tableNames.account)
@@ -28,6 +28,14 @@ implements IUsersModel {
     await this.createAccount(data.account_id);
     await Database.connection(this.#tableNames.user)
     .insert({...data, verify: false});
+  };
+
+  async deleteAccount (idUser: number) {
+    const [ user ] = await Database.connection(this.#tableNames.user)
+    .where("id_user", idUser);
+
+    await Database.connection(this.#tableNames.account)
+    .delete().where("id_account", user.account_id);
   };
 
   async editInfoUser (data: TEditUserData, idUser: number) {
@@ -47,18 +55,16 @@ implements IUsersModel {
       .update("code", generateId()).where("code", codeUser);
     };
   };
-
   //* ===============================================
 
   //* Buscar ou achar usuários ======================
-
-  async findUser (userName: string, userId?: number) {      
+  async findUser (userName: string, userId?: number) {         
     if ( userId ) {
       const [ foundUser ] = await Database
       .connection(`${this.#tableNames.user} as U`)
       .select("U.id_user", "U.photo_url", "U.user_name", "U.user_email", "U.account_id", "U.password_hash", "U.verify", "A.balance")
       .innerJoin("Accounts as A", "U.account_id" ,"A.id_account")
-      .where("U.id_user", userId);
+      .where("U.id_user", userId);    
 
       const objFormatted = {
         id_user: foundUser.id_user,

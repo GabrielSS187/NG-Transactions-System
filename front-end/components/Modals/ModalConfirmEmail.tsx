@@ -5,6 +5,7 @@ import { CircleNotch, ArrowClockwise, Hand } from "phosphor-react";
 import Modal from "react-modal";
 
 import { alterEmailApi } from "../../services/endpoints/users";
+import { regexEmail } from "../../utils/regexs";
 
 interface IUserData {
   userName: string;
@@ -104,7 +105,7 @@ export function ModalConfirmEmail ({
                             {...register("newEmail", {
                               required: {value: true, message: "Email obrigatório!"},
                               pattern: {
-                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                value: regexEmail,
                                 message: "Email invalido!"
                               }
                             })}
@@ -155,8 +156,8 @@ export function ModalConfirmEmail ({
                           "Alterar"
                         }
                       </button>
-                      <button type="button" onClick={() => push("/Register")} className={`block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold ${
-                          isLoad ? "disabled:opacity-80" : ""
+                      <button type="button" onClick={() => push("/Register")} className={`block w-full max-w-xs mx-auto bg-indigo-500 text-white rounded-lg px-3 py-3 font-semibold ${
+                          isLoad ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
                         }`}>
                           Criar conta
                       </button>

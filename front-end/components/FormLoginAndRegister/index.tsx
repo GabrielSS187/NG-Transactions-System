@@ -6,6 +6,7 @@ import { CircleNotch, Eye, EyeSlash } from "phosphor-react";
 
 import LoginAndRegisterSvg from "../../assets/svgs/LoginAndRegisterSvg";
 import transactionsLogo3 from "../../assets/imgs/transactions-logo-3.png";
+import { regexValidatePassword, regexEmail } from "../../utils/regexs";
 
 type TFormType = "register" | "login";
 
@@ -61,9 +62,6 @@ export function FormLoginAndRegister({
   const errorConfirmPassword = `${
     errors?.confirme_password?.type ? "border-red-500" : "border-indigo-500"
   }`;
-
-  const regexValidatePassword =
-    /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/g;
 
   return (
     <main className="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
@@ -172,7 +170,7 @@ export function FormLoginAndRegister({
                       {...register("user_email", {
                         required: { value: true, message: "Esse campo é obrigatório.!" },
                         pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          value: regexEmail,
                           message: "Email invalido!",
                         },
                       })}
@@ -330,8 +328,8 @@ export function FormLoginAndRegister({
                   <button
                     type="submit"
                     disabled={isLoad}
-                    className={`block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold ${
-                      isLoad ? "disabled:opacity-80" : ""
+                    className={`block w-full max-w-xs mx-auto bg-indigo-500 text-white rounded-lg px-3 py-3 font-semibold ${
+                      isLoad ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
                     }`}
                   >
                     {isLoad ? (

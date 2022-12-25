@@ -14,7 +14,7 @@ import { fetchAllTransactionsReceivedApi } from "../../services/endpoints/transa
 
 interface IProps {
   children: ReactNode;
-}
+};
 
 const { useQuery } = queryClientObj;
 
@@ -22,8 +22,10 @@ export default function Layout({ children }: IProps) {
   const [notifyLocal, setNotifyLocal] = useLocalStorage<TTransactionsReceived | any>("notify", {});
 
   //* 25/12/2022
+  const currentDate = new Date()
   const dateJS = new Date();
-  const date = formatDate(new Date(), "short");
+  currentDate.setHours(currentDate.getHours() - 3)
+  const date = formatDate(currentDate, "short");
   dateJS.setSeconds(dateJS.getSeconds() - 10);
   const currentTimeMinus10Seconds = formatHours(dateJS);
 
@@ -45,7 +47,7 @@ export default function Layout({ children }: IProps) {
 
   //* Notificar quando alguém envia dinheiro.
   function notifyReceiverMoney() {
-    if (!transactionsReceived.isLoading && unviewedListReceiverMoney!.length >= 1) {
+    if (!transactionsReceived.isLoading && true) {
       const notifyReceiverMoney = unviewedListReceiverMoney
         ?.filter((item) => {
           return item.created_at === date;
@@ -54,7 +56,7 @@ export default function Layout({ children }: IProps) {
           if (!item.looked && item.hour >= currentTimeMinus10Seconds) {
             return item;
           }
-        });
+        });       
 
       if (
         notifyLocal.viewLocal &&

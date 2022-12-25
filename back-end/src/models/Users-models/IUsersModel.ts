@@ -8,4 +8,5 @@ export interface IUsersModel {
   fetchUsers: (userName: string) => Promise<TUsersData[]>;
   editInfoUser: (data: TEditUserData, idUser: number ) => Promise<void>;
   updateVerify: (Verify: boolean, codeUser: string) => Promise<void>;
+  deleteAccount: (idUser: number) => Promise<void>;
 };

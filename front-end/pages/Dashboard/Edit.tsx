@@ -1,18 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CircleNotch, Eye, EyeSlash, UserGear } from "phosphor-react";
+import { CircleNotch, Eye, EyeSlash, UserGear, Trash } from "phosphor-react";
 import { useForm } from "react-hook-form";
 
 import Layout from "../../components/Layout";
-import UploadImageSvg from "../../assets/svgs/UploadImageSvg";
+import { ModalConfirmDeleteAccount } from "../../components/Modals/ModalConfirmDeleteAccount";
 import { SEO } from "../../Seo";
 import { queryClientObj } from "../../services/queryClient";
-import { findUserAuthApi } from "../../services/endpoints/users";
+import { findUserAuthApi, editInfoUserApi } from "../../services/endpoints/users";
 import { TFindUserResponse } from "../../services/endpoints/types";
+import { regexValidatePassword } from "../../utils/regexs";
 
 type TFormData = {
   photo_url?: string;
@@ -21,15 +22,19 @@ type TFormData = {
   confirme_password?: string;
 };
 
+const { useMutation, queryClient, useQuery } = queryClientObj;
+
 export default function Edit(user: TFindUserResponse) {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [viewPassword, setViewPassword] = useState<boolean>(false);
   const [errorApi, setErrorApi] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
+  const [ inputsModify, setInputsModify ] = useState<boolean>(false);
+  const [ openModal, setOpenModal ] = useState<boolean>(false);
   const [viewConfirmPassword, setViewConfirmPassword] =
-    useState<boolean>(false);
-    // console.log(previewImage);
-    
+    useState<boolean>(false);   
+
+ const { data, refetch } = 
+ useQuery("find-user-logged", async () => findUserAuthApi());
 
   const {
     register,
@@ -40,45 +45,47 @@ export default function Edit(user: TFindUserResponse) {
   } = useForm<TFormData>({
     defaultValues: {
       photo_url: "",
-      user_name: user.user_name,
+      user_name: user?.user_name,
       password: "",
       confirme_password: "",
     },
   });
 
+  const watchUserName = watch("user_name");
   const watchPassword = watch("password");
 
+  useEffect(() => {
+    const verifyInputs = 
+    previewImage?.length
+    || watchPassword?.length 
+    || watchUserName !== user.user_name ;
+
+    if ( !verifyInputs ) {
+      setInputsModify(true)
+    } else {
+      setInputsModify(false)
+    };
+  }, [previewImage?.length, user.user_name, watchPassword, watchUserName]);
+  
   const errorUserName = `${
     errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
   }`;
 
-  const errorEmailInvalid = `${
-    errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
-  }`;
-
-  const errorPasswordInvalid = `${
-    errors?.password?.type ? "border-red-500" : "border-indigo-500"
-  }`;
-
-  const errorConfirmPassword = `${
-    errors?.confirme_password?.type ? "border-red-500" : "border-indigo-500"
-  }`;
-
-  const regexValidatePassword =
-    /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/g;
-  // const { mutate, isLoading } = useMutation(createdTransactionApi, {
-  //   onSuccess: async (data) => {
-  //     toast.success(
-  //       `Dinheiro enviado com sucesso para ${data.userReceiver}.`
-  //     );
-  //     queryClient.invalidateQueries("find-user-logged");
-  //     reset();
-  //   },
-  //   onError: (err: any) => {
-  //     setErrorApi(err.response?.data);
-  //     toast.error(err.response?.data);
-  //   },
-  // });
+  const { mutate, isLoading, } = useMutation(editInfoUserApi, {
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries("find-user-logged");
+      refetch();
+      toast.success(
+        `Informações editadas editadas com sucesso.`
+      );
+      setPreviewImage("");
+      setErrorApi("");
+    },
+    onError: (err: any) => {
+      setErrorApi(err.response?.data);
+      toast.error(err.response?.data);
+    },
+  });
 
   function convert2base64 (file: any | Blob) {
     const reader = new FileReader();
@@ -92,13 +99,42 @@ export default function Edit(user: TFindUserResponse) {
   };
 
   async function sentForm(data: TFormData) {
-    console.log(data);
-    // mutate(dataForm);
+    const formData = new FormData();
+    //* Converter foto em base 64 em formato de obj
+    const blob = await fetch(previewImage).then(res => res.blob());
+    
+    if ( data.user_name !==  user?.user_name) {
+      formData.append("user_name", data.user_name);
+    };
+    if ( blob ) {
+      formData.append("image", blob);
+    };
+    if ( data.password ) {
+      formData.append("password", data.password!);
+    };
+    
+    mutate(formData);
   };
+
+  const errorEmailInvalid = `${
+    errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
+  }`;
+
+  const errorPasswordInvalid = `${
+    errors?.password?.type ? "border-red-500" : "border-indigo-500"
+  }`;
+
+  const errorConfirmPassword = `${
+    errors?.confirme_password?.type && watchPassword ? "border-red-500" : "border-indigo-500"
+  }`;
 
   return (
     <Layout>
       <SEO title="Editar" description="Edite sua informações" />
+      <ModalConfirmDeleteAccount
+        openModal={openModal}
+        closeModal={setOpenModal}
+      />
       <main className="w-full flex flex-col items-center">
         <ToastContainer />
   
@@ -127,7 +163,7 @@ export default function Edit(user: TFindUserResponse) {
               <div
                 className="col-span-6 sm:col-span-4"
               >
-                <input type="file" accept="image/*" className="hidden" id="photo"
+                <input type="file" accept="image/png, image/jpeg, image/gif, image/jpg" className="hidden" id="photo"
                     {...register("photo_url", {
                       onChange: (e) => convert2base64(e.target.files[0])
                     })}
@@ -145,7 +181,7 @@ export default function Edit(user: TFindUserResponse) {
                       !previewImage &&
                       (
                         <Image
-                          src={`http://localhost:8000${user.photo_url}`} alt="foto do perfil preview"
+                          src={`http://localhost:8000${data?.photo_url ? data.photo_url : user?.photo_url}`} alt="foto do perfil preview"
                           width={150} height={100}
                           priority={true}
                           className={`${previewImage && "w-40 h-40 bg-cover bg-no-repeat bg-center"} m-auto rounded-full shadow`}
@@ -160,12 +196,17 @@ export default function Edit(user: TFindUserResponse) {
                       style={{backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center", backgroundImage: `url("${previewImage}")`}}
                     ></span>
                   </div>
-                  <label
-                    htmlFor="photo"
-                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3 cursor-pointer max-sm:text-[0.7rem]"
-                  >
-                    Selecione uma foto
-                  </label>
+                  <div className="flex justify-center gap-2">
+                    <label
+                      htmlFor="photo"
+                      className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2 ml-3 cursor-pointer max-sm:text-[0.7rem]"
+                    >
+                      Selecione uma foto
+                    </label>
+                    <button type="button" onClick={() => setPreviewImage("")} className="border rounded-md hover:bg-red-500 hover:text-white">
+                      <Trash width={25} height={25}/>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -224,7 +265,7 @@ export default function Edit(user: TFindUserResponse) {
                 Email
               </label>
               <input
-                value={user.user_email}
+                value={user?.user_email}
                 disabled={true}
                 type="text"
                 id="email"
@@ -259,7 +300,7 @@ export default function Edit(user: TFindUserResponse) {
                         type={viewPassword ? "text" : "password"}
                         id="password"
                         className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorPasswordInvalid} outline-none`}
-                        placeholder="Escolher uma nova senha"
+                        placeholder="Escolher nova senha"
                       />
                       <button
                         onClick={() => setViewPassword(!viewPassword)}
@@ -316,7 +357,7 @@ export default function Edit(user: TFindUserResponse) {
                         type={viewConfirmPassword ? "text" : "password"}
                         id="confirme_password"
                         className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorConfirmPassword} outline-none`}
-                        placeholder="************"
+                        placeholder="Confirma nova senha"
                       />
                       <button
                         onClick={() =>
@@ -333,27 +374,33 @@ export default function Edit(user: TFindUserResponse) {
                       </button>
                     </div>
                     <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
-                      <p>
-                        {errors?.confirme_password?.type === "required" &&
-                          "Esse campo é obrigatório."}
-                      </p>
-                      <p>
-                        {errors?.confirme_password?.type === "validate" &&
-                          "Senha incompatível."}
-                      </p>
+                      {
+                        watchPassword && (
+                          <>
+                            <p>
+                              {errors?.confirme_password?.type === "required" &&
+                                "Esse campo é obrigatório."}
+                            </p>
+                            <p>
+                              {errors?.confirme_password?.type === "validate" &&
+                                "Senha incompatível."}
+                            </p>
+                          </>
+                        )
+                      }
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div>
+            <div className="flex gap-2">
               <button
                 type="submit"
-                disabled={isLoading}
-                className={`block w-full max-w-xs mx-auto ${
-                  isLoading && "disabled:opacity-80"
-                } bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
+                disabled={isLoading || inputsModify}
+                className={`w-2/4 ${
+                  isLoading || inputsModify ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
+                } bg-indigo-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
               >
                 {isLoading ? (
                   <CircleNotch
@@ -365,13 +412,23 @@ export default function Edit(user: TFindUserResponse) {
                   <i className="mdi mdi-lock-outline mr-1">Salvar</i>
                 )}
               </button>
+              <button 
+                type="button"
+                disabled={isLoading}
+                onClick={() => setOpenModal(true)}
+                className={`w-2/4 ${
+                  isLoading ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-red-700 focus:bg-red-700"
+                } bg-red-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
+              >
+                Exlcuir conta
+              </button>
             </div>
           </form>
         </div>
       </main>
     </Layout>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
@@ -384,7 +441,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         },
       };
-    }
+    };
 
     const user = await findUserAuthApi(ctx);
 

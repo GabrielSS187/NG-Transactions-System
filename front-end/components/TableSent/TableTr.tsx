@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-import { TSent } from ".";
+import { TTransactionsSentData } from "../../services/endpoints/types";
 import logoUser from "../../assets/imgs/person-icon.png";
 
-export function TableTr (listSent: TSent[]) {
+export function TableTr (listSent: TTransactionsSentData[]) {
   return listSent?.map((sent) => {
     return (
       <tr key={sent.id_transaction}>
@@ -12,7 +12,7 @@ export function TableTr (listSent: TSent[]) {
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
               <Image
                 className="rounded-full"
-                src={logoUser}
+                src={`http://localhost:8000${sent.photo_url}`}
                 width="40"
                 height="40"
                 alt={sent.user_name_credited}

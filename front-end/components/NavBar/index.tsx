@@ -55,10 +55,10 @@ export function NavBar () {
             <Image
               src={`http://localhost:8000${data!.photo_url}`}
               alt="logo foto perfil"
-              width={50}
-              height={50}
+              width={80}
+              height={80}
               priority={true}
-              className={`cursor-pointer duration-500 ${
+              className={`h-[6rem] w-[6.5rem] rounded-full ${
                 open && "rotate-[360deg]"
               }`}
             />
@@ -88,14 +88,14 @@ export function NavBar () {
       </div>
 
       {/* Mobile */}
-      <nav className="bg-gray-900 md:hidden">
-          <div className={`mx-auto max-w-7xl px-2 md:px-6 lg:px-8`}>
+      <nav className="h-20 bg-gray-900 md:hidden">
+          <div className={`mt-2 mx-auto max-w-7xl px-2 md:px-6 lg:px-8`}>
             <div className={`relative flex h-16 items-center justify-between`} >
               <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
      
                 <button type="button" onClick={() => setOpen(!open)} className={`inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white`} aria-controls="mobile-menu" aria-expanded="false">
                   <span className="sr-only">Abrir menu</span>   
-                  <svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
+                  <svg className="block h-10 w-10" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                   </svg>
                 </button>
@@ -106,7 +106,7 @@ export function NavBar () {
                   <div>
                     <button type="button" onClick={() => setIsOpenMiniNav(!isOpenMiniNav)}className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <Image height={30} width={30} src={logoUser} priority={true} alt="" className="h-8 w-8 rounded-full" />
+                      <Image height={50} width={50} src={`http://localhost:8000${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
                     </button>
                   </div>
             

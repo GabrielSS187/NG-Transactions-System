@@ -7,7 +7,8 @@ import {
    TLoginAndRegisterUser,
    TSignInApiResponse,
    TFindUserResponse,
-   TAlterPassword
+   TAlterPassword,
+   TEditInfoUser
   } from "./types";
 
 export async function registerUsersApi (data: TLoginAndRegisterUser) {
@@ -19,6 +20,12 @@ export async function registerUsersApi (data: TLoginAndRegisterUser) {
 export async function signInApi (data: TLoginAndRegisterUser) {
   const result = await apiBase
   .post<TSignInApiResponse>("/users/login", data);
+  return result;
+};
+
+export async function deleteAccountApi () {
+  const result = await apiBase
+  .delete("/users/delete_account");
   return result;
 };
 
@@ -80,6 +87,17 @@ export async function alterPasswordApi ({ newPassword, codeUser }: TAlterPasswor
   .put(`/users/alter_password/${codeUser}`, { newPassword });
 
   return data;
+};
+
+export async function editInfoUserApi (data: FormData) {
+  const response = await apiBase
+  .put(`/users/edit`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+
+  return response.data;
 };
 
 export async function sendConfirmationEmailApi (email: string) {

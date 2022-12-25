@@ -35,6 +35,7 @@ export type TTransactionsReceived = {
   hour: string;
 };
 
+//* Test
 export type TTransactionsReceivedAndSent = {
   id_transaction: string;
   user_name_debited?: string;
@@ -45,6 +46,7 @@ export type TTransactionsReceivedAndSent = {
   created_at: string;
   hour: string;
 };
+//* ===========================================
 
 export type TUpdateLooked = {
   id_transaction: string;

@@ -9,13 +9,20 @@ import { BCryptAdapter } from "../../adapters/Bcrypt-adapter/Bcrypt-adapter";
  export class EditInfoUserController {
   async edit (req: Request, res: Response) {
     const idUser = req.userId as number;
+    let photo_url: string | undefined;
+
+    if ( req.file ) {
+      const requestImage = req.file as Express.Multer.File
+      const image = requestImage.filename;
+      photo_url = `/files/${image}`;
+    };
+    
     const { 
-      photo_url,
       user_name,
       user_email,
       password_hash,
       verify,
-     } = req.body
+     } = req.body;
 
      const createUsersRepository = new CreateUsersRepository();
      const bcryptAdapter = new BCryptAdapter();

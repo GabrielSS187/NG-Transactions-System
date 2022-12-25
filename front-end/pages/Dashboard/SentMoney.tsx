@@ -193,7 +193,7 @@ export default function SentMoney() {
             <button
               type="submit"
               disabled={isLoading}
-              className={`block w-full max-w-xs mx-auto ${isLoading && "disabled:opacity-80"} bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
+              className={`block w-full max-w-xs mx-auto ${isLoading ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"} bg-indigo-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
             >
               {isLoading ? (
                 <CircleNotch
@@ -210,7 +210,7 @@ export default function SentMoney() {
       </div>
     </Layout>
   );
-}
+};
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
