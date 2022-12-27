@@ -10,7 +10,6 @@ export function apiAuthClient (ctx?: GetServerSidePropsContext) {
 
   const apiAuth = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL
-    // "http://localhost:8000"
   });
 
   if ( token ) {

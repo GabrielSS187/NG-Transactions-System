@@ -181,7 +181,8 @@ export default function Edit(user: TFindUserResponse) {
                       !previewImage &&
                       (
                         <Image
-                          src={`http://localhost:8000${data?.photo_url ? data.photo_url : user?.photo_url}`} alt="foto do perfil preview"
+                          src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${data?.photo_url ? data.photo_url : user?.photo_url}`}
+                          alt="foto do perfil preview"
                           width={150} height={100}
                           priority={true}
                           className={`${previewImage && "w-40 h-40 bg-cover bg-no-repeat bg-center"} m-auto rounded-full shadow`}
