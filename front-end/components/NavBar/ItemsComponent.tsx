@@ -12,7 +12,8 @@ import {
   Money,
   Bell,
   Info,
-  UserGear
+  UserGear,
+  Cardholder
 } from "phosphor-react";
 
 type TListItems = {
@@ -52,6 +53,11 @@ export function ItemsComponent() {
       title: "Enviar dinheiro",
       icon: <Money size={25} color="#f1f0ef" />,
       pathURL: `/Dashboard/SentMoney`,
+    },
+    {
+      title: "Recarregar",
+      icon: <Cardholder size={25} color="#f1f0ef" />,
+      pathURL: `/Dashboard/Recharge`,
     },
     {
       title: "Gráficos",

@@ -398,7 +398,7 @@ export default function Edit(user: TFindUserResponse) {
               <button
                 type="submit"
                 disabled={isLoading || inputsModify}
-                className={`w-2/4 ${
+                className={`w-2/4 max-sm:text-sm ${
                   isLoading || inputsModify ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
                 } bg-indigo-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
               >
@@ -416,7 +416,7 @@ export default function Edit(user: TFindUserResponse) {
                 type="button"
                 disabled={isLoading}
                 onClick={() => setOpenModal(true)}
-                className={`w-2/4 ${
+                className={`w-2/4 max-sm:text-sm ${
                   isLoading ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-red-700 focus:bg-red-700"
                 } bg-red-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
               >

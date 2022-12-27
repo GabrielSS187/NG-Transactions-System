@@ -63,7 +63,6 @@ export default function  GraphicComponent ({
     curveType: "function",
     legend: { position: "bottom" },
     hAxis: { format: "currency" },
-    animation: {duration: 500, easing: "linear", startup: true},
   };
   
   const optionsSent = {

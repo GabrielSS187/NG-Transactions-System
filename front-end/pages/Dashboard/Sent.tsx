@@ -32,7 +32,7 @@ export default function Sent () {
     <Layout>
       <SEO title="Enviados" description="Tabela de dinheiro enviado" />
       <div className="w-full h-screen">
-        <h1 className="font-serif text-xl text-center max-sm:text-base">
+        <h1 className="px-1 font-serif text-xl text-center max-sm:text-base">
           <strong>Lista das pessoas que você enviou dinheiro</strong>
         </h1>
         <br />

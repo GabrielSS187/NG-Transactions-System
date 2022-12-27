@@ -50,10 +50,10 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       </button>
       <div className="text-center">
         <div>
-          <h1 className="text-3xl mb-3">
+          <h1 className="text-3xl mb-3 max-sm:text-2xl max-[420px]:text-xl">
             <strong>Você tem certeza que quer deletar sua conta?</strong>
           </h1>
-          <h2 className="text-lg">Sí sim clique no botão abaixo</h2>
+          <h2 className="text-lg max-sm:text-base">Sí sim clique no botão abaixo</h2>
           { errorApi && <h2>{ errorApi }</h2> }
         </div>
         <br />

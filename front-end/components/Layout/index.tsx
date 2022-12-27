@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from "react";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Fade } from "react-awesome-reveal";
 
 import { NavBar } from "../NavBar";
 
@@ -96,7 +97,13 @@ export default function Layout({ children }: IProps) {
 
         <div className="w-full mt-14">
           <ToastContainer />
-          {children}
+          <Fade
+            direction="right"
+            cascade={false}
+            triggerOnce={false}
+          >
+            {children}
+          </Fade>
         </div>
       </div>
     </main>

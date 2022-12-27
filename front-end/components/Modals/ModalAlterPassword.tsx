@@ -90,12 +90,12 @@ export function ModalAlterPassword ({
             </button>
             <div className="text-center">
               <div>
-                <h1 className="text-3xl mb-3"><strong>Solicitar alteração de senha</strong></h1>
-                <h2 className="">Olá você esta na sessão de solicitação de alteração de senha.</h2>
-                <h2>Coloque o email da sua conta <strong>NG</strong> abaixo para podemos verificar que é você.</h2>
+                <h1 className="text-3xl mb-3 max-[420px]:text-2xl max-[350px]:text-xl"><strong>Solicitar alteração de senha</strong></h1>
+                <h2 className="max-[450px]:text-sm">Olá você esta na sessão de solicitação de alteração de senha.</h2>
+                <h2 className="max-[450px]:text-sm">Coloque o email da sua conta <strong>NG</strong> abaixo para podemos verificar que é você.</h2>
               </div>
               <br/>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 max-[450px]:text-sm">
                 <h3>
                   Verificar si existe o seu email salvo: 
                   <span/>   

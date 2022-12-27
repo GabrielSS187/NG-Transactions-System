@@ -83,12 +83,12 @@ export function ModalConfirmEmail ({
           >
             <div className="text-center">
               <div>
-                <h2 className="text-2xl">Olá <strong>{userName}</strong></h2>
-                <h3>Por favor confirme seu email que você usou para si cadastrar para poder efetuar o login</h3>
-                <h3>Um email de confirmação foi enviado para <strong>{emailLocal !== null ? emailLocal : userEmail}</strong></h3>
+                <h2 className="text-2xl max-[420px]:text-xl">Olá <strong>{userName}</strong></h2>
+                <h3 className="max-[420px]:text-sm">Por favor confirme seu email que você usou para si cadastrar para poder efetuar o login</h3>
+                <h3 className="max-[420px]:text-sm">Um email de confirmação foi enviado para <strong>{emailLocal !== null ? emailLocal : userEmail}</strong></h3>
               </div>
               <br/>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 max-[420px]:text-sm">
                 <h3>Caso tenha colocado o email errado, altere colocando o novo email abaixo.</h3>
                 <form onSubmit={handleSubmit(alterEmail)} className="flex flex-col gap-2 justify-center items-center">
                   <div className="w-full">

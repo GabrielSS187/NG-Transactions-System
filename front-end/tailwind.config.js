@@ -15,6 +15,7 @@ module.exports = {
       screens: {
         "desk850": "400px",
         "desk460": "460px",
+        "desk600": "600px"
       }
     }
   },

@@ -3,6 +3,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
+import { Fade } from "react-awesome-reveal";
 
 import { ItemsComponent } from "./ItemsComponent";
 
@@ -17,7 +18,7 @@ const { useQuery } = queryClientObj
 
 export function NavBar () {
   const { setUser } = useContext(AuthContext);
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [ isOpenMiniNav, setIsOpenMiniNav ] = useState<boolean>(false);
 
   const router = useRouter();
@@ -110,7 +111,13 @@ export function NavBar () {
                     </button>
                   </div>
             
-                  <div className={`${isOpenMiniNav === false && "hidden"} absolute right-0 z-20 mt-2 w-64 origin-top-right rounded-md bg-white py-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button`} tabIndex={-1}>
+                    <Fade
+                      direction="down"
+                      triggerOnce={false}
+                      className={`absolute right-0 z-20 ${isOpenMiniNav === false && "hidden"}`}
+                    >
+                  <div className={`mt-2 w-64 origin-top-right rounded-md bg-white py-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button`} tabIndex={-1}>
+
                     <UserData 
                       user_name={data!.user_name}
                       balance={data!.balance}
@@ -118,22 +125,29 @@ export function NavBar () {
                       isLoad={isLoading}
                     />
                   </div>
+                    </Fade>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className={`md:hidden ${open === true && "hidden"} absolute w-full z-10 bg-gray-900`} id="mobile-menu">
-            <ul className="space-y-1 px-2 pt-2 pb-3 list-none">
-              <ItemsComponent />
-            <div onClick={logout} className={`flex text origin-left duration-200 rounded-md p-3 mt-5 cursor-pointer hover:bg-red-500 text-gray-300 text-base hover:text-white items-center gap-x-4`}>
-              <button>
-                <SignOut size={25} color="#f1f0ef" />
-              </button>
-              <span>Sair</span>
-            </div>
-            </ul>
-          </div>
+          <Fade
+            direction={"left"}
+            triggerOnce={false}
+            className={`absolute w-full z-10 ${!open && "hidden"}`}
+          >
+              <div className={`md:hidden w-full bg-gray-900 `} id="mobile-menu">
+                <ul className="space-y-1 px-2 pt-2 pb-3 list-none">
+                    <ItemsComponent />
+                <div onClick={logout} className={`flex text origin-left duration-200 rounded-md p-3 mt-5 cursor-pointer hover:bg-red-500 text-gray-300 text-base hover:text-white items-center gap-x-4`}>
+                  <button>
+                    <SignOut size={25} color="#f1f0ef" />
+                  </button>
+                  <span>Sair</span>
+                </div>
+                </ul>
+              </div>
+          </Fade>
       </nav>
     </div>
   );

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { CircleNotch, Eye, EyeSlash } from "phosphor-react";
+import { Fade } from "react-awesome-reveal";
 
 import LoginAndRegisterSvg from "../../assets/svgs/LoginAndRegisterSvg";
 import transactionsLogo3 from "../../assets/imgs/transactions-logo-3.png";
@@ -71,7 +72,12 @@ export function FormLoginAndRegister({
       >
         <div className="md:flex w-full">
           <div className="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
-            <LoginAndRegisterSvg />
+           <Fade 
+            direction="left"
+            className="h-full"
+           >
+             <LoginAndRegisterSvg />
+           </Fade>
           </div>
 
           <form
@@ -92,7 +98,7 @@ export function FormLoginAndRegister({
               <h1 className="font-bold text-3xl text-gray-900">
                 {type === "register" ? "Criar conta" : "Login"}
               </h1>
-              <p>
+              <p className="max-sm:text-sm">
                 {type === "register"
                   ? "Insira suas informações para si cadastra."
                   : "Entre com suas informações de cadastro"}
@@ -104,159 +110,99 @@ export function FormLoginAndRegister({
             </div>
 
             {/* Inputs */}
-            <div className="pt-2">
-              <div className="flex -mx-3">
-                <div className="w-full px-3 mb-3">
-                  <label
-                    htmlFor="user_name"
-                    className="text-xs font-semibold px-1"
-                  >
-                    Seu nome
-                  </label>
-                  <div className="flex">
-                    <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                      <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+            <Fade
+              cascade={false}
+              direction="right"
+            >
+              <div className="pt-2">
+                <div className="flex -mx-3">
+                  <div className="w-full px-3 mb-3">
+                    <label
+                      htmlFor="user_name"
+                      className="text-xs font-semibold px-1"
+                    >
+                      Seu nome
+                    </label>
+                    <div className="flex">
+                      <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                        <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                      </div>
+                      <div className="w-full -ml-10">
+                        <input
+                          {...register("user_name", {
+                            required: true,
+                            minLength: type === "register" ? 5 : undefined,
+                            validate: (event) => {
+                              return event[0] === "@";
+                            },
+                          })}
+                          type="text"
+                          id="user_name"
+                          className={`w-full  pl-5 pr-3 py-2 rounded-lg border-2 outline-none ${errorUserNameClass}`}
+                          placeholder="@Gabriel-Silva-123"
+                        />
+
+                        <div className="h-2 text-red-500 mb-2 max-[450px]:text-sm">
+                          <p>
+                            {errors.user_name?.type === "required" &&
+                              "Esse campo é obrigatório."
+                            }
+                          </p>
+                          <p>
+                            {errors.user_name?.type === "validate" &&
+                              "O @ é obrigatório antes do seu nome."
+                            }
+                          </p>
+                          {type === "register" && (
+                            <p className="max-[450px]:text-xs">
+                              {errors.user_name?.type === "minLength" &&
+                                "Esse campo deve conter no máximo 5 caracteres."
+                              }
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <div className="w-full -ml-10">
+                  </div>
+                </div>
+
+                {
+                  type === "register" &&
+                  (
+                    <div className="w-full mb-5">
+                      <label
+                          htmlFor="email"
+                          className="text-xs font-semibold px-1"
+                        >
+                          Email
+                      </label>
                       <input
-                        {...register("user_name", {
-                          required: true,
-                          minLength: type === "register" ? 5 : undefined,
-                          validate: (event) => {
-                            return event[0] === "@";
+                        {...register("user_email", {
+                          required: { value: true, message: "Esse campo é obrigatório.!" },
+                          pattern: {
+                            value: regexEmail,
+                            message: "Email invalido!",
                           },
                         })}
                         type="text"
-                        id="user_name"
-                        className={`w-full  pl-5 pr-3 py-2 rounded-lg border-2 outline-none ${errorUserNameClass}`}
-                        placeholder="@John-santos-123"
+                        id="email"
+                        className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 outline-none ${errorEmailInvalid}`}
+                        placeholder="@Gabriel-Silva-123"
                       />
-
-                      <div className="h-2 text-red-500 mb-2 max-[450px]:text-sm">
-                        <p>
-                          {errors.user_name?.type === "required" &&
-                            "Esse campo é obrigatório."
-                          }
-                        </p>
-                        <p>
-                          {errors.user_name?.type === "validate" &&
-                            "O @ é obrigatório antes do seu nome."
-                          }
-                        </p>
-                        {type === "register" && (
-                          <p className="max-[450px]:text-xs">
-                            {errors.user_name?.type === "minLength" &&
-                              "Esse campo deve conter no máximo 5 caracteres."
-                            }
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {
-                type === "register" &&
-                (
-                  <div className="w-full mb-5">
-                    <label
-                        htmlFor="email"
-                        className="text-xs font-semibold px-1"
-                      >
-                        Email
-                    </label>
-                    <input
-                      {...register("user_email", {
-                        required: { value: true, message: "Esse campo é obrigatório.!" },
-                        pattern: {
-                          value: regexEmail,
-                          message: "Email invalido!",
-                        },
-                      })}
-                      type="text"
-                      id="email"
-                      className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 outline-none ${errorEmailInvalid}`}
-                      placeholder="@John-santos-123"
-                    />
-                    <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
-                      <p>{errors.user_email && errors.user_email.message}</p>
-                    </div>
-                  </div>
-                )
-              }
-
-              <div className="flex -mx-3">
-                <div className="w-full px-3 mb-12">
-                  <label
-                    htmlFor="password"
-                    className="text-xs font-semibold px-1"
-                  >
-                    Senha
-                  </label>
-                  <div className="flex">
-                    <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                      <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
-                    </div>
-                    <div className="w-full -ml-10">
-                      <div className="flex gap-1">
-                        <input
-                          {...register("password", {
-                            required: true,
-                            minLength: type === "register" ? 8 : undefined,
-                            pattern:
-                              type === "register"
-                                ? regexValidatePassword
-                                : undefined,
-                          })}
-                          type={viewPassword ? "text" : "password"}
-                          id="password"
-                          className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorPasswordInvalid} outline-none`}
-                          placeholder="************"
-                        />
-                        <button
-                          onClick={() => setViewPassword(!viewPassword)}
-                          type="button"
-                          className="border-2 border-indigo-500 p-1 rounded-md"
-                        >
-                          {!viewPassword ? (
-                            <Eye width={20} height={20} />
-                          ) : (
-                            <EyeSlash width={20} height={20} />
-                          )}
-                        </button>
-                      </div>
                       <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
-                        <p>
-                          {errors?.password?.type === "required" &&
-                            "Esse campo é obrigatório."}
-                        </p>
-                        {type === "register" && (
-                          <p>
-                            {errors?.password?.type === "minLength" &&
-                              "Esse campo deve conter no máximo 8 caracteres."}
-                          </p>
-                        )}
-                        {type === "register" && (
-                          <p className="max-[450px]:text-xs">
-                            {errors?.password?.type === "pattern" &&
-                              "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços."}
-                          </p>
-                        )}
+                        <p>{errors.user_email && errors.user_email.message}</p>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  )
+                }
 
-              {type === "register" && (
                 <div className="flex -mx-3">
                   <div className="w-full px-3 mb-12">
                     <label
-                      htmlFor="confirme_password"
+                      htmlFor="password"
                       className="text-xs font-semibold px-1"
                     >
-                      Confirma senha
+                      Senha
                     </label>
                     <div className="flex">
                       <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
@@ -265,25 +211,25 @@ export function FormLoginAndRegister({
                       <div className="w-full -ml-10">
                         <div className="flex gap-1">
                           <input
-                            {...register("confirme_password", {
+                            {...register("password", {
                               required: true,
-                              validate: (value) => {
-                                return value === watchPassword;
-                              },
+                              minLength: type === "register" ? 8 : undefined,
+                              pattern:
+                                type === "register"
+                                  ? regexValidatePassword
+                                  : undefined,
                             })}
-                            type={viewConfirmPassword ? "text" : "password"}
-                            id="confirme_password"
-                            className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorConfirmPassword} outline-none`}
+                            type={viewPassword ? "text" : "password"}
+                            id="password"
+                            className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorPasswordInvalid} outline-none`}
                             placeholder="************"
                           />
                           <button
-                            onClick={() =>
-                              setViewConfirmPassword(!viewConfirmPassword)
-                            }
-                            className="border-2 border-indigo-500 p-1 rounded-md"
+                            onClick={() => setViewPassword(!viewPassword)}
                             type="button"
+                            className="border-2 border-indigo-500 p-1 rounded-md"
                           >
-                            {!viewConfirmPassword ? (
+                            {!viewPassword ? (
                               <Eye width={20} height={20} />
                             ) : (
                               <EyeSlash width={20} height={20} />
@@ -292,85 +238,150 @@ export function FormLoginAndRegister({
                         </div>
                         <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                           <p>
-                            {errors?.confirme_password?.type === "required" &&
+                            {errors?.password?.type === "required" &&
                               "Esse campo é obrigatório."}
                           </p>
-                          <p>
-                            {errors?.confirme_password?.type === "validate" &&
-                              "Senha incompatível."}
-                          </p>
+                          {type === "register" && (
+                            <p>
+                              {errors?.password?.type === "minLength" &&
+                                "Esse campo deve conter no máximo 8 caracteres."}
+                            </p>
+                          )}
+                          {type === "register" && (
+                            <p className="max-[450px]:text-xs">
+                              {errors?.password?.type === "pattern" &&
+                                "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços."}
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              )}
 
-              <div className="flex -mx-3">
-                <div className="w-full px-3 mb-5">
-
-                  { type === "login" && (
-                      <div className="mb-2 text-center text-sm">
-                        <p>
-                          Esqueceu a senha? Solicite a alteração
-                          <button 
-                            type="button"
-                            onClick={() => setOpenPasswordChangeModal!(!openPasswordChangeModal)}
-                            className="text-blue-500 underline decoration-wavy ml-1"
-                          >
-                            aqui
-                          </button>
-                        </p>
+                {type === "register" && (
+                  <div className="flex -mx-3">
+                    <div className="w-full px-3 mb-12">
+                      <label
+                        htmlFor="confirme_password"
+                        className="text-xs font-semibold px-1"
+                      >
+                        Confirma senha
+                      </label>
+                      <div className="flex">
+                        <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                          <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                        </div>
+                        <div className="w-full -ml-10">
+                          <div className="flex gap-1">
+                            <input
+                              {...register("confirme_password", {
+                                required: true,
+                                validate: (value) => {
+                                  return value === watchPassword;
+                                },
+                              })}
+                              type={viewConfirmPassword ? "text" : "password"}
+                              id="confirme_password"
+                              className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 ${errorConfirmPassword} outline-none`}
+                              placeholder="************"
+                            />
+                            <button
+                              onClick={() =>
+                                setViewConfirmPassword(!viewConfirmPassword)
+                              }
+                              className="border-2 border-indigo-500 p-1 rounded-md"
+                              type="button"
+                            >
+                              {!viewConfirmPassword ? (
+                                <Eye width={20} height={20} />
+                              ) : (
+                                <EyeSlash width={20} height={20} />
+                              )}
+                            </button>
+                          </div>
+                          <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
+                            <p>
+                              {errors?.confirme_password?.type === "required" &&
+                                "Esse campo é obrigatório."}
+                            </p>
+                            <p>
+                              {errors?.confirme_password?.type === "validate" &&
+                                "Senha incompatível."}
+                            </p>
+                          </div>
+                        </div>
                       </div>
-                    ) 
-                  }
+                    </div>
+                  </div>
+                )}
 
-                  <button
-                    type="submit"
-                    disabled={isLoad}
-                    className={`block w-full max-w-xs mx-auto bg-indigo-500 text-white rounded-lg px-3 py-3 font-semibold ${
-                      isLoad ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
-                    }`}
-                  >
-                    {isLoad ? (
-                      <CircleNotch
-                        size={24}
-                        color="#f1f0ef"
-                        className="animate-spin flex justify-center w-full"
-                      />
-                    ) : type === "register" ? (
-                      "Cadastrar"
-                    ) : (
-                      "Entrar"
-                    )}
-                  </button>
+                <div className="flex -mx-3">
+                  <div className="w-full px-3 mb-5">
+
+                    { type === "login" && (
+                        <div className="mb-2 text-center text-sm">
+                          <p>
+                            Esqueceu a senha? Solicite a alteração
+                            <button 
+                              type="button"
+                              onClick={() => setOpenPasswordChangeModal!(!openPasswordChangeModal)}
+                              className="text-blue-500 underline decoration-wavy ml-1"
+                            >
+                              aqui
+                            </button>
+                          </p>
+                        </div>
+                      ) 
+                    }
+
+                    <button
+                      type="submit"
+                      disabled={isLoad}
+                      className={`block w-full max-w-xs mx-auto bg-indigo-500 text-white rounded-lg px-3 py-3 font-semibold ${
+                        isLoad ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-indigo-700 focus:bg-indigo-700"
+                      }`}
+                    >
+                      {isLoad ? (
+                        <CircleNotch
+                          size={24}
+                          color="#f1f0ef"
+                          className="animate-spin flex justify-center w-full"
+                        />
+                      ) : type === "register" ? (
+                        "Cadastrar"
+                      ) : (
+                        "Entrar"
+                      )}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="text-center">
-              {type === "register" ? (
-                <p>
-                  Já possui uma conta? efetue o:
-                  <Link
-                    href="/Login"
-                    className="text-blue-500 underline decoration-wavy ml-1"
-                  >
-                    login
-                  </Link>
-                </p>
-              ) : (
-                <p>
-                  Ainda não possui uma conta? crie uma:
-                  <Link
-                    href="/Register"
-                    className="text-blue-500 underline decoration-wavy ml-1"
-                  >
-                    criar
-                  </Link>
-                </p>
-              )}
-            </div>
+              <div className="text-center">
+                {type === "register" ? (
+                  <p>
+                    Já possui uma conta? efetue o:
+                    <Link
+                      href="/Login"
+                      className="text-blue-500 underline decoration-wavy ml-1"
+                    >
+                      login
+                    </Link>
+                  </p>
+                ) : (
+                  <p>
+                    Ainda não possui uma conta? crie uma:
+                    <Link
+                      href="/Register"
+                      className="text-blue-500 underline decoration-wavy ml-1"
+                    >
+                      criar
+                    </Link>
+                  </p>
+                )}
+              </div>
+            </Fade>
           </form>
         </div>
       </div>
