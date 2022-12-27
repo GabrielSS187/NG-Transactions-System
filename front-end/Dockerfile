@@ -9,6 +9,12 @@ WORKDIR /usr/src/app/frontend
 # Copy package json and install dependencies
 COPY package*.json ./
 RUN npm install
+
+ARG NEXT_PUBLIC_API_URL
+ARG NEXTAUTH_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+
 # Copy our app
 COPY . .
 # Expose port to access server

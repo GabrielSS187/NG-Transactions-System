@@ -95,7 +95,7 @@ export default function Dashboard() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const { ["ng.token"]: token } = parseCookies(ctx);
+    const { ["ng.token"]: token } = parseCookies(ctx);    
 
     if (!token) {
       return {
@@ -104,7 +104,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         },
       };
-    }
+    };
 
     await queryClient.fetchQuery(
       "find-user-logged",

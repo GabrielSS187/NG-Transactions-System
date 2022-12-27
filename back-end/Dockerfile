@@ -11,6 +11,6 @@ RUN npm install
 # Copy our app
 COPY . .
 # Expose port to access server
-EXPOSE 3333
+EXPOSE 8000
 # Command to run our app
-CMD [ "npm", "run", "dev" ]
+CMD npm run migrate:latest && npm run dev

@@ -31,6 +31,9 @@ export default function Recharge() {
     <Layout>
       <SEO title="Recarga" description="Faça uma recarga" />
       <main className="w-full h-full pb-8">
+        <h1 className="text-center text-2xl px-2 text-red-500 max-sm:text-xl">
+          Serviço indisponível no momento
+        </h1>
         <form id="payment-form" onSubmit={() => {}} className="pb-8">
           <div className="min-w-screen flex items-start justify-center px-5 pb-10 pt-16">
             <div
