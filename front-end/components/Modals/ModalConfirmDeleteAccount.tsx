@@ -15,7 +15,7 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
   const [ isLoad, setIsLoad ] = useState<boolean>();
   const [ errorApi, setErrorApi ] = useState<string>("");
 
-  const { push } = useRouter();
+  const { push, reload } = useRouter();
 
   async function deleteAccount() {
     try {
@@ -25,7 +25,8 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       localStorage.removeItem("notify");
       destroyCookie(undefined, "ng.token");
       setIsLoad(false);
-      push("/");
+      // push("/");
+      reload();
     } catch (error: any) {
       setErrorApi(error?.response?.data)
     } finally {

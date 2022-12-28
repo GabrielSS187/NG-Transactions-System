@@ -37,7 +37,7 @@ export default function SearchUserSentMoney({
               >
                 <Image
                   className="rounded-full"
-                  src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${user!.photo_url}`}
+                  src={`${user!.photo_url}`}
                   width="25"
                   height="25"
                   alt={user.user_name}

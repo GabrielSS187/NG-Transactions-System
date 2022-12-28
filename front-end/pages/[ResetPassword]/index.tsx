@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { GetServerSideProps } from "next";
 import Router, { useRouter } from "next/router";
 import { toast, ToastContainer } from "react-toastify";
@@ -37,6 +37,8 @@ export default function ResetPassword(user: TUser) {
   const [alterLogoForm, setAlterLogoForm] = useState<boolean>(false);
   const [errorsApi, setErrorsApi] = useState<string>("");
 
+  const toastId = useId();
+
   const { query } = useRouter()
   const { ResetPassword: codeUser } = query;
 
@@ -49,11 +51,11 @@ export default function ResetPassword(user: TUser) {
 
   const watchPassword = watch("password");
 
-  const { mutate, isLoading } = useMutation(alterPasswordApi, {
+  const { mutate, isLoading, isSuccess, isError } = useMutation(alterPasswordApi, {
     onSuccess: async (data) => {
       console.log(data);
       setAlterLogoForm(true);
-      toast.success("Senha alterada com sucesso.");
+      toast.success("Senha alterada com sucesso.", { toastId });
       setTimeout(() => {
         Router.push("/");
       }, 5000);
@@ -88,7 +90,7 @@ export default function ResetPassword(user: TUser) {
     <>
       <SEO title="ALterar senha" description="Alterar senha" />
       <main className="py-10 flex flex-col items-center">
-        <ToastContainer />
+        {/* { isSuccess === true || isError === true ? <ToastContainer /> : null } */}
         <div className="flex flex-col items-center text-center px-2">
           <h1 className="text-3xl">
             Olá <strong>{user.user_name}</strong>

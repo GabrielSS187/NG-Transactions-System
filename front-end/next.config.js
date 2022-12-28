@@ -3,12 +3,12 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000",
-    NEXT_PUBLIC_ABC: process.env.NEXT_PUBLIC_HOST_NAME_API || "http://localhost:8000",
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL || "http://localhost:3000",
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ,
+    NEXT_PUBLIC_HOST_NAME_API: process.env.NEXT_PUBLIC_HOST_NAME_API,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   },
   images: {
-    domains: ["localhost", `${process.env.NEXT_PUBLIC_HOST_NAME_API}`],
+    domains: ["localhost", `${process.env.NEXT_PUBLIC_API_URL}`.replace("https://", "")],
   },
   compiler: {
     styledComponents: {

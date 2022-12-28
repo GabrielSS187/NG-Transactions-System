@@ -12,7 +12,7 @@ export function TableTr (listSent: TTransactionsSentData[]) {
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
               <Image
                 className="rounded-full"
-                src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${sent!.photo_url}`}
+                src={`${sent!.photo_url}`}
                 width="40"
                 height="40"
                 alt={sent.user_name_credited}

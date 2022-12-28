@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useEffect, useId } from "react";
 import Image from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,16 +17,52 @@ interface IProps {
   children: ReactNode;
 };
 
+interface IPropsToast {
+  photoSent: string, 
+  nameSent: string,
+  valueReceived: string;
+};
+
 const { useQuery } = queryClientObj;
+
+function ToastMsgNotify ({ photoSent, nameSent, valueReceived }: IPropsToast) {
+  return (
+    <>
+      <div className="flex flex-col items-center">
+        <div className="flex items-center gap-1">
+          <Image src={`${photoSent}`} alt={nameSent} height={30} width={30} />
+          <h3><strong>{nameSent}</strong>,</h3>
+        </div>
+        <div>
+          <p>acabou de te enviar R$  
+            <strong className="text-green-500">
+              <span>   {valueReceived}</span>
+            </strong>
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
 
 export default function Layout({ children }: IProps) {
   const [notifyLocal, setNotifyLocal] = useLocalStorage<TTransactionsReceived | any>("notify", {});
+  const toastId = useId();
 
-  //* 25/12/2022
+  useEffect(() => {
+    if ( localStorage.getItem("notify") === "false" ) {
+      setNotifyLocal({
+        empty: true,
+      });
+    };
+  }, [setNotifyLocal]);
+
   const currentDate = new Date()
   const dateJS = new Date();
   currentDate.setHours(currentDate.getHours() - 3)
+  //* 25/12/2022
   const date = formatDate(currentDate, "short");
+  //* =============================================
   dateJS.setSeconds(dateJS.getSeconds() - 10);
   const currentTimeMinus10Seconds = formatHours(dateJS);
 
@@ -34,21 +70,21 @@ export default function Layout({ children }: IProps) {
     "transactions-received",
     async () => await fetchAllTransactionsReceivedApi(),
     {
-      refetchInterval: 10000,
-      // onSuccess: async (data) => notifyReceiverMoney(),
+      refetchInterval: 10000,  //* 10 seconds
     }
   );
 
   useEffect(() => {
-    notifyReceiverMoney();
+    if ( transactionsReceived.status === "success"){
+      notifyReceiverMoney();
+    };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notifyLocal, transactionsReceived.data]);
+  }, [transactionsReceived.data, notifyLocal, transactionsReceived.status]);
 
   const unviewedListReceiverMoney = transactionsReceived.data?.filter((item) => !item.looked);
 
   //* Notificar quando alguém envia dinheiro.
   function notifyReceiverMoney() {
-    if (!transactionsReceived.isLoading && true) {
       const notifyReceiverMoney = unviewedListReceiverMoney
         ?.filter((item) => {
           return item.created_at === date;
@@ -57,10 +93,11 @@ export default function Layout({ children }: IProps) {
           if (!item.looked && item.hour >= currentTimeMinus10Seconds) {
             return item;
           }
-        });       
+        });     
 
       if (
-        notifyLocal.viewLocal &&
+        notifyLocal &&
+        notifyLocal?.viewLocal &&
         notifyLocal?.id_transaction === notifyReceiverMoney?.id_transaction
       ) {
         return;
@@ -71,13 +108,22 @@ export default function Layout({ children }: IProps) {
         setNotifyLocal(newObj);
       };
 
-      if (notifyLocal && !notifyLocal.viewLocal) {
+      if (notifyLocal && !notifyLocal?.viewLocal && !notifyLocal?.empty) {
         toast.success(
-          `${notifyReceiverMoney?.user_name_debited} acabou de te enviar  R$ ${notifyReceiverMoney?.value_received} reais.`
+            <ToastMsgNotify 
+              nameSent={notifyLocal.user_name_debited} 
+              photoSent={notifyLocal.photo_url}
+              valueReceived={notifyLocal.value_received}
+            />
+          , {
+            pauseOnFocusLoss: false,
+            toastId,
+          }
         );
         setNotifyLocal({ ...notifyLocal, viewLocal: true });
+        return
       };
-    };
+      return
   };
 
   return (
@@ -108,4 +154,4 @@ export default function Layout({ children }: IProps) {
       </div>
     </main>
   );
-}
+};

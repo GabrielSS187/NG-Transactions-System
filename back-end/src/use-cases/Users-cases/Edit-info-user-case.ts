@@ -104,7 +104,7 @@ export class EditInfoUserCase {
     };
 
     await this.usersModel.editInfoUser({
-      ...(photo_url && { photo_url }),
+      ...(photo_url && { photo_url: `${process.env.API_URL}${photo_url}` }),
       user_name: user_name ?? userData.user_name,
       user_email: user_email ?? userData.user_email,
       password_hash: newPasswordHash ?? userData.password_hash,

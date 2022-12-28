@@ -93,7 +93,7 @@ export class CreateTransactionCase {
     value = Number(value.toFixed(2));
 
     try {
-      //* Enviar email para o enviador.
+      // //* Enviar email para o enviador.
       await this.mailAdapter.sendMail({
         email: `${userSend.user_email}`,
         subject: "NG Transações",

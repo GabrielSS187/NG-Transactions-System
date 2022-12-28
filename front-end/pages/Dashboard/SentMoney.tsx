@@ -1,5 +1,5 @@
+import { useState, useId } from "react";
 import { SEO } from "../../Seo";
-import { useState } from "react";
 import { GetServerSideProps } from "next";
 import dynamic from "next/dynamic";
 import { parseCookies } from "nookies";
@@ -28,6 +28,8 @@ export default function SentMoney() {
   const [isOpenSearchUser, setIsOpenSearchUser] = useState<boolean>(false);
   const [errorApi, setErrorApi] = useState<string>("");
 
+  const toastId = useId();
+
   const queryClient = useQueryClient();
 
   const {
@@ -46,12 +48,17 @@ export default function SentMoney() {
     setIsOpenSearchUser(false);
   };
 
-  const { mutate, isLoading } = useMutation(createdTransactionApi, {
+  const { mutate, isLoading, isSuccess, isError } = useMutation(createdTransactionApi, {
     onSuccess: async (data) => {      
       toast.success(
         `Dinheiro enviado com sucesso para ${data.userReceiver}.`
+        , {
+          pauseOnFocusLoss: false,
+          toastId: toastId
+        }
       );
       queryClient.invalidateQueries("find-user-logged");
+      queryClient.invalidateQueries("transactions-received");
       reset();
     },
     onError: (err: any) => {
@@ -96,7 +103,7 @@ export default function SentMoney() {
     <Layout>
       <SEO title="Enviar" description="Envia dinheiro" />
       <div className="min-w-screen h-screen flex items-start justify-center px-5 pb-10 pt-16">
-        <ToastContainer />
+        {/* { isSuccess === true || isError === true ? <ToastContainer /> : null } */}
         <form
           onSubmit={handleSubmit(sentForm)}
           className="w-full mx-auto rounded-lg bg-white shadow-lg border-2 px-10 pb-12 pt-5 text-gray-700"

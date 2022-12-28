@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useId } from "react";
 import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
@@ -32,6 +32,8 @@ export default function Edit(user: TFindUserResponse) {
   const [ openModal, setOpenModal ] = useState<boolean>(false);
   const [viewConfirmPassword, setViewConfirmPassword] =
     useState<boolean>(false);   
+  
+ const toastId = useId();
 
  const { data, refetch } = 
  useQuery("find-user-logged", async () => findUserAuthApi());
@@ -71,12 +73,13 @@ export default function Edit(user: TFindUserResponse) {
     errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
   }`;
 
-  const { mutate, isLoading, } = useMutation(editInfoUserApi, {
+  const { mutate, isLoading, isSuccess, isError} = useMutation(editInfoUserApi, {
     onSuccess: async (data) => {
       queryClient.invalidateQueries("find-user-logged");
       refetch();
       toast.success(
-        `Informações editadas editadas com sucesso.`
+        `Informações editadas editadas com sucesso.`,
+        { toastId }
       );
       setPreviewImage("");
       setErrorApi("");
@@ -136,7 +139,7 @@ export default function Edit(user: TFindUserResponse) {
         closeModal={setOpenModal}
       />
       <main className="w-full flex flex-col items-center">
-        <ToastContainer />
+         {/* { isSuccess === true || isError === true ? <ToastContainer /> : null } */}
   
         <div className="w-11/12 max-md:w-full flex items-start justify-center px-5 pb-10 pt-16">
           <form
@@ -181,8 +184,7 @@ export default function Edit(user: TFindUserResponse) {
                       !previewImage &&
                       (
                         <Image
-                          src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${data?.photo_url ? data.photo_url : user?.photo_url}`}
-                          alt="foto do perfil preview"
+                          src={`${data?.photo_url ? data.photo_url : user?.photo_url}`} alt="foto do perfil preview"
                           width={150} height={100}
                           priority={true}
                           className={`${previewImage && "w-40 h-40 bg-cover bg-no-repeat bg-center"} m-auto rounded-full shadow`}

@@ -54,7 +54,7 @@ export function NavBar () {
           /> */}
           <div className="flex flex-col gap-x-4 items-center">
             <Image
-              src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${data!.photo_url}`}
+              src={`${data!.photo_url}`}
               alt="logo foto perfil"
               width={80}
               height={80}
@@ -107,7 +107,7 @@ export function NavBar () {
                   <div>
                     <button type="button" onClick={() => setIsOpenMiniNav(!isOpenMiniNav)}className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <Image height={50} width={50} src={`https://${process.env.NEXT_PUBLIC_HOST_NAME_API}${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
+                      <Image height={50} width={50} src={`${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
                     </button>
                   </div>
             
