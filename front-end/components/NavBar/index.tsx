@@ -13,6 +13,7 @@ import logoUser from "../../assets/imgs/person-icon.png";
 import { SignOut } from "phosphor-react";
 import { queryClientObj } from "../../services/queryClient";
 import { findUserAuthApi } from "../../services/endpoints/users";
+import { Load } from "../Load";
 
 const { useQuery } = queryClientObj
 

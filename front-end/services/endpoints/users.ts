@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import axios from "axios";
 
 import { apiBase } from "../apiBase";
 import { apiAuthClient } from "../apiAuthClient";

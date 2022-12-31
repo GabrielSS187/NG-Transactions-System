@@ -77,11 +77,11 @@ export default function SentMoney() {
     mutate(dataForm);
   };
 
-  const { data, refetch } = useQuery(
+  const { data, refetch, isLoading: load } = useQuery(
     "users-search",
     async () => await fetchAllUsersApi("", watchUserNameReceiver.trim()),
     {
-      enabled: watchUserNameReceiver.trim().length >= 1,
+      enabled: watchUserNameReceiver.trim().length > 0,
     }
   );
 
@@ -154,6 +154,7 @@ export default function SentMoney() {
                 getUserOnClick={getUserOnClick}
                 inputHandle={watchUserNameReceiver}
                 refetch={refetch}
+                load={load}
               />
             )}
 

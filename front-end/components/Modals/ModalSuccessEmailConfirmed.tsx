@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLottieCustom } from "../../hooks/useLottieCustom";
 import { X } from "phosphor-react";
 import Modal from "react-modal";
+import { Zoom } from "react-awesome-reveal";
 
 import birthdayAnimation from "../../assets/animations/lottieJsonAnimations/birthdayAnimation.json";
 
@@ -47,11 +48,13 @@ export function ModalSuccessEmailConfirmed () {
             <button onClick={() => setIsOpen(false)} className="self-end">
               <X width={30} height={30} className=" hover:border hover:rounded-full hover:border-green-500 hover:p-1"/>
             </button>
-            <div className="text-center">
-              <div className="h-20">
-                <h2 className="text-2xl text-green-500"><strong>Email confirmado com sucesso.</strong></h2>
+            <Zoom>
+              <div className="text-center">
+                <div className="h-20">
+                  <h2 className="text-2xl text-green-500"><strong>Email confirmado com sucesso.</strong></h2>
+                </div>
               </div>
-            </div>
+            </Zoom>
           </Modal>
         </div>
     </>

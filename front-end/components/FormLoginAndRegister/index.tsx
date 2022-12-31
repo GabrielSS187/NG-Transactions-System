@@ -187,7 +187,7 @@ export function FormLoginAndRegister({
                         type="text"
                         id="email"
                         className={`w-full pl-5 pr-3 py-2 rounded-lg border-2 outline-none ${errorEmailInvalid}`}
-                        placeholder="@Gabriel-Silva-123"
+                        placeholder="exemplo@gmail.com"
                       />
                       <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                         <p>{errors.user_email && errors.user_email.message}</p>

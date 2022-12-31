@@ -42,7 +42,7 @@ export default function TableReceived({
               onSubmit={(e) => e.preventDefault()}
               className="flex items-center gap-1 max-desk460:flex-col"
             >
-              <label htmlFor="search" className="sr-only">
+              <label htmlFor="Procura..." className="sr-only">
                 Procura
               </label>
               <div className="relative w-full">

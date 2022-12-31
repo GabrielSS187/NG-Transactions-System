@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, use } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { FieldValues } from "react-hook-form";
 
@@ -30,7 +30,7 @@ export default function Login () {
      setOpenPasswordChangeModal 
   ] = useState<boolean>(false);
    const [ errorApi, setErrorApi ] = useState<string>("");
-   const [ errorApiEmail, setErrorApiEmail ] = useState<string>("");
+   const [ errorApiEmail, setErrorApiEmail ] = useState<string>("");   
    
    const router = useRouter();
 
@@ -53,6 +53,11 @@ export default function Login () {
 
    useEffect(() => {
     const getEmailLocal = localStorage.getItem("email-local");
+
+    window.addEventListener("blur" , () => {
+      router.reload();
+    });
+
     if ( getEmailLocal !== null ) {
       findUser(getEmailLocal);
 
@@ -60,7 +65,7 @@ export default function Login () {
         findUser(getEmailLocal);
       });
     };
-    
+   // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    if ( errorApi ) {

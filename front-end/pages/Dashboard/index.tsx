@@ -95,7 +95,7 @@ export default function Dashboard() {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   try {
-    const { ["ng.token"]: token } = parseCookies(ctx);    
+    const { ["ng.token"]: token } = parseCookies(ctx); 
 
     if (!token) {
       return {

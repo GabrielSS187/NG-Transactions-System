@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 
 import { TFindUserResponse } from "../../services/endpoints/types";
+import { Load } from "../Load";
 import logoUser from "../../assets/imgs/person-icon.png";
 
 interface IProps {
@@ -9,6 +10,7 @@ interface IProps {
   data: TFindUserResponse[] | [];
   getUserOnClick: (userName: string) => void;
   refetch: () => void;
+  load: boolean
 };
 
 export default function SearchUserSentMoney({
@@ -16,10 +18,11 @@ export default function SearchUserSentMoney({
   getUserOnClick,
   inputHandle,
   refetch,
+  load
 }: IProps) {
   
   useEffect(() => {
-    if (inputHandle?.trim()?.length >= 1) refetch();
+    if (inputHandle?.trim()?.length > 0) refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputHandle]);
 
@@ -27,7 +30,15 @@ export default function SearchUserSentMoney({
     <div className="w-3/12 max-md:w-7/12 bg-indigo-500 absolute z-10 rounded-md">
       <ul className="cursor-pointer">
         {
-          inputHandle?.length >= 1 &&
+          load && (
+            <div className="w-full p-2 rounded-md hover:bg-indigo-700">
+              <Load />
+            </div>
+          )
+        }
+
+        {
+          inputHandle?.length > 0 &&
           data?.map((user) => {
             return (
               <li
@@ -49,7 +60,7 @@ export default function SearchUserSentMoney({
             );
           })}
 
-        {data?.length! <= 0 && inputHandle?.length > 0 && (
+        {data?.length! <= 0 && inputHandle?.length > 0 && !load && (
           <h1 className="text-white p-1">Ninguém encontrado!</h1>
         )}
       </ul>
