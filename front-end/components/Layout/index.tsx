@@ -142,7 +142,9 @@ export default function Layout({ children }: IProps) {
         </header>
 
         <div className="w-full mt-14">
-          <ToastContainer />
+          { notifyLocal && notifyLocal !== "false" && (
+            <ToastContainer />
+          ) }
           <Fade
             direction="right"
             cascade={false}

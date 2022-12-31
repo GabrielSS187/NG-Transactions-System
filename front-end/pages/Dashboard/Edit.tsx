@@ -78,7 +78,7 @@ export default function Edit(user: TFindUserResponse) {
       queryClient.invalidateQueries("find-user-logged");
       refetch();
       toast.success(
-        `Informações editadas editadas com sucesso.`,
+        `Informações editadas com sucesso.`,
         { toastId }
       );
       setPreviewImage("");
