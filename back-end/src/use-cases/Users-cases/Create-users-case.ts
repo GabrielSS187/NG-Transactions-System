@@ -118,8 +118,10 @@ export class CreateUsersCase {
         body:  validEmail(user_name, user_email!, newCodeGenerate),
       });
       
+      const api_url = process.env.API_URL === "http://localhost:8000"
+      ? process.env.API_URL : process.env.DOCKER_API_URL;
       await this.usersModel.create({
-        photo_url: `${process.env.API_URL}/files/person-icon.png`,
+        photo_url: `${api_url}/files/person-icon.png`,
         user_name: removeSpacesInString,
         user_email: user_email!,
         password_hash: hashPassword,

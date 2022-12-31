@@ -29,7 +29,9 @@ export class GetAllTransactionsSentCase {
       const transactionsSentFilterName = transactionsSent
       .filter((transaction) => {
         return transaction.user_name_credited
-        .includes(user_name_filter.trim());
+        .toLocaleLowerCase()
+        .includes(user_name_filter
+          .trim().toLocaleLowerCase());
       }).filter((transaction) => {
         if ( date_filter ) {
           return transaction.created_at === date_filter.trim();

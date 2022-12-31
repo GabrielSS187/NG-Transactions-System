@@ -21,7 +21,8 @@ export class FetchUsersCase {
       throw new ErrorNotArrobaUserName();
      };
 ;
-    const usersList = await this.usersModel.fetchUsers(user_name.trim());
+    const usersList = await this.usersModel
+    .fetchUsers(user_name.trim().toLocaleLowerCase());
 
     const removeUserLoggedInListView = usersList.filter((user) => {
       if ( user.id_user !== user_id_logged ) return user;

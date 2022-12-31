@@ -18,10 +18,13 @@ app.use(cors());
 const HOST = "0.0.0.0";
 const PORT = 8000;
 
+const api_url = process.env.API_URL === "http://localhost:8000"
+? process.env.API_URL : process.env.DOCKER_API_URL;
+
 const server = app.listen(process.env.PORT || PORT, () => {
    if (server) {
       const address = server.address() as AddressInfo;
-      console.log(`Server is running in http://localhost:${address.port}`);
+      console.log(`Server is running in ${api_url}`);
    } else {
       console.error(`Failure upon starting server.`);
    };
