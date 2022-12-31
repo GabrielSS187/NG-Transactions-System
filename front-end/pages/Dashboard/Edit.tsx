@@ -85,6 +85,8 @@ export default function Edit(user: TFindUserResponse) {
       setErrorApi("");
     },
     onError: (err: any) => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      navigator.vibrate(200);
       setErrorApi(err.response?.data);
       toast.error(err.response?.data);
     },

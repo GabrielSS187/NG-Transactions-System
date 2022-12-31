@@ -26,8 +26,8 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       localStorage.removeItem("notify");
       destroyCookie({}, "ng.token");
       setIsLoad(false);
-      // push("/");
       reload();
+      push("/");
     } catch (error: any) {
       setErrorApi(error?.response?.data);
     } finally {
