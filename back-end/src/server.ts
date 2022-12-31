@@ -18,8 +18,8 @@ app.use(cors());
 const HOST = "0.0.0.0";
 const PORT = 8000;
 
-const api_url = process.env.API_URL === "http://localhost:8000"
-? process.env.API_URL : process.env.DOCKER_API_URL;
+const api_url = process.env.API_URL === "http://host.docker.internal:8000"
+? process.env.DOCKER_API_URL : process.env.API_URL;
 
 const server = app.listen(process.env.PORT || PORT, () => {
    if (server) {

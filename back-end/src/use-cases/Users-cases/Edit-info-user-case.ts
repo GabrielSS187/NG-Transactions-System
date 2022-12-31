@@ -103,8 +103,8 @@ export class EditInfoUserCase {
       newPasswordHash = newHashPassword;
     };
 
-    const api_url = process.env.API_URL === "http://localhost:8000"
-    ? process.env.API_URL : process.env.DOCKER_API_URL;
+    const api_url = process.env.API_URL === "http://host.docker.internal:8000"
+    ? process.env.DOCKER_API_URL : process.env.API_URL;
     await this.usersModel.editInfoUser({
       ...(photo_url && { photo_url: `${api_url}${photo_url}` }),
       user_name: user_name ?? userData.user_name,
