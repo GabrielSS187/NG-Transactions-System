@@ -53,12 +53,9 @@ export default function ResetPassword(user: TUser) {
 
   const { mutate, isLoading, isSuccess, isError } = useMutation(alterPasswordApi, {
     onSuccess: async (data) => {
-      console.log(data);
       setAlterLogoForm(true);
       toast.success("Senha alterada com sucesso.", { toastId });
-      setTimeout(() => {
-        Router.push("/");
-      }, 5000);
+      Router.push("/");
     },
     onError: (err: any) => {
       setErrorsApi(err.response?.data);

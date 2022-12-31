@@ -20,7 +20,14 @@ const { useQuery, useMutation, useQueryClient } = queryClientObj;
 const SearchUserSentMoney = dynamic(
   () => import("../../components/SearchUserSentMoney"),
   {
-    loading: () => <Load />,
+    loading: () => {
+      return (
+        //! Um pequeno vacilo
+        <div className="w-full p-2 rounded-md hover:bg-indigo-700">
+          <Load />
+        </div>
+      )
+    },
   }
 );
 

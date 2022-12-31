@@ -4,6 +4,7 @@ import { FieldValues } from "react-hook-form";
 
 import { AuthContext } from "../../contexts/AuthContext";
 
+import { SEO } from "../../Seo";
 import { FormLoginAndRegister } from "../../components/FormLoginAndRegister";
 import { ModalConfirmEmail } from "../../components/Modals/ModalConfirmEmail";
 import { ModalSuccessEmailConfirmed } from "../../components/Modals/ModalSuccessEmailConfirmed";
@@ -106,6 +107,7 @@ export default function Login () {
   
   return (
     <>
+      <SEO title="Fazer login" description="Faça o login uma conta na NG Transações" />
       { user?.verify === false && (<ModalConfirmEmail 
           userName={user.user_name} 
           userEmail={user.user_email} 

@@ -32,8 +32,8 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       setErrorApi(error?.response?.data);
     } finally {
       setIsLoad(false);
-    }
-  }
+    };
+  };
 
   return (
     <Modal
