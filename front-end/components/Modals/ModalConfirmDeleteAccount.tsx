@@ -24,7 +24,7 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       await deleteAccountApi();
       localStorage.removeItem("email-confirmed");
       localStorage.removeItem("notify");
-      destroyCookie(undefined, "ng.token");
+      destroyCookie({}, "ng.token");
       setIsLoad(false);
       // push("/");
       reload();

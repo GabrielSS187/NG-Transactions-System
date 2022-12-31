@@ -44,6 +44,8 @@ export default function Register () {
       localStorage.setItem("email-local", JSON.parse(data.config.data).user_email);
     },
     onError: (err: any) => {
+      window.scrollTo({ top:0, behavior: "smooth" })
+      navigator.vibrate(200);
       setErrorApi(err.response?.data);
     },
   });

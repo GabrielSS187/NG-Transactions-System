@@ -77,6 +77,8 @@ export default function Login () {
    const { mutate, isLoading } = useMutation(signIn, {
     onSuccess: async (data) => null,
     onError: (err: any) => {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      navigator.vibrate(200);
       setErrorApi(err.response?.data); 
     },
    });
