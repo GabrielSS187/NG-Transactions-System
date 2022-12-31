@@ -1,4 +1,4 @@
-import path from "path";
+import { apiUrl } from "../../apiUrl";
 import * as yup from "yup";
 
 import { IUsersModel } from "../../models/Users-models/IUsersModel";
@@ -26,7 +26,6 @@ import {
   ErrorExistUserEmail,
   ErrorStandard
  } from "../../errors/UsersErrors";
-
 
 export class CreateUsersCase {
   constructor(
@@ -117,11 +116,9 @@ export class CreateUsersCase {
         subject: "NG Transações",
         body:  validEmail(user_name, user_email!, newCodeGenerate),
       });
-      
-      const api_url = process.env.API_URL === "http://host.docker.internal:8000"
-      ? process.env.DOCKER_API_URL : process.env.API_URL;
+   
       await this.usersModel.create({
-        photo_url: `${api_url}/files/person-icon.png`,
+        photo_url: `${apiUrl}/files/person-icon.png`,
         user_name: removeSpacesInString,
         user_email: user_email!,
         password_hash: hashPassword,

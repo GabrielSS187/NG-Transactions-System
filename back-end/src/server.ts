@@ -6,9 +6,10 @@ import path from "path";
 
 import "./services/translationsYup";
 
+dotenv.config();
 export const app: Express = express();
 
-dotenv.config();
+import { apiUrl } from "./apiUrl";
 
 app.use("/files", express.static(path.resolve("src/uploads/imgs")));
 
@@ -18,13 +19,10 @@ app.use(cors());
 const HOST = "0.0.0.0";
 const PORT = 8000;
 
-const api_url = process.env.API_URL === "http://host.docker.internal:8000"
-? process.env.DOCKER_API_URL : process.env.API_URL;
-
 const server = app.listen(process.env.PORT || PORT, () => {
    if (server) {
       const address = server.address() as AddressInfo;
-      console.log(`Server is running in ${api_url}`);
+      console.log(`Server is running in ${apiUrl}`);
    } else {
       console.error(`Failure upon starting server.`);
    };
