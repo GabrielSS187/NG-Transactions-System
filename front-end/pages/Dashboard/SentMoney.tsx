@@ -109,7 +109,7 @@ export default function SentMoney() {
   return (
     <Layout>
       <SEO title="Enviar" description="Envia dinheiro" />
-      <div className="min-w-screen h-screen flex items-start justify-center px-5 py-16">
+      <div className="min-w-screen h-screen flex items-start justify-center px-5 pt-14 mb-14">
         {/* { isSuccess === true || isError === true ? <ToastContainer /> : null } */}
         <form
           onSubmit={handleSubmit(sentForm)}

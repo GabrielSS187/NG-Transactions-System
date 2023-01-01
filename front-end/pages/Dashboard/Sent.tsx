@@ -31,7 +31,7 @@ export default function Sent () {
   return (
     <Layout>
       <SEO title="Enviados" description="Tabela de dinheiro enviado" />
-      <div className="w-full h-screen">
+      <div className="w-full h-screen mb-14">
         <h1 className="px-1 font-serif text-xl text-center max-sm:text-base">
           <strong>Lista das pessoas que você enviou dinheiro</strong>
         </h1>

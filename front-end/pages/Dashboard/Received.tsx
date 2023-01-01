@@ -35,7 +35,7 @@ export default function Received () {
   return (
    <Layout>
      <SEO title="Recebidos" description="Tabela de dinheiro recebido" />
-     <div className="w-full h-screen flex flex-col">
+     <div className="w-full h-screen flex flex-col mb-14">
         <h1 className="px-1 font-serif text-xl text-center max-sm:text-base">
           <strong>Lista das pessoas que te enviaram dinheiro</strong>
         </h1>
