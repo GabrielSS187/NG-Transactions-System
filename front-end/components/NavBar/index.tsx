@@ -35,7 +35,7 @@ export function NavBar () {
   function logout () {
     destroyCookie({}, "ng.token");
     // setUser(null); 
-    router.reload();
+    // router.reload();
     router.push("/");
   };
 

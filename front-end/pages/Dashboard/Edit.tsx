@@ -105,6 +105,7 @@ export default function Edit(user: TFindUserResponse) {
 
   async function sentForm(data: TFormData) {
     const formData = new FormData();
+    
     //* Converter foto em base 64 em formato de obj
     const blob = await fetch(previewImage).then(res => res.blob());
     
@@ -115,7 +116,7 @@ export default function Edit(user: TFindUserResponse) {
       formData.append("image", blob);
     };
     if ( data.password ) {
-      formData.append("password", data.password!);
+      formData.append("password_hash", data.password!);
     };
     
     mutate(formData);

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useId } from "react";
 import { useRouter } from "next/router";
 import { destroyCookie } from "nookies";
 import { CircleNotch, X } from "phosphor-react";
 import Modal from "react-modal";
 import { Zoom } from "react-awesome-reveal";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { deleteAccountApi } from "../../services/endpoints/users";
 
@@ -16,6 +18,8 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
   const [isLoad, setIsLoad] = useState<boolean>();
   const [errorApi, setErrorApi] = useState<string>("");
 
+  const toastId = useId();
+
   const { push, reload } = useRouter();
 
   async function deleteAccount() {
@@ -26,8 +30,14 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
       localStorage.removeItem("notify");
       destroyCookie({}, "ng.token");
       setIsLoad(false);
-      reload();
+      // reload();
       push("/");
+      toast.info(
+        `Conta deletada com sucesso.`
+        , {
+          pauseOnFocusLoss: false,
+          toastId: toastId
+        })
     } catch (error: any) {
       setErrorApi(error?.response?.data);
     } finally {

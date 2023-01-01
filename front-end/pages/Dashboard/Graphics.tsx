@@ -34,7 +34,7 @@ export default function Graphics () {
   return (
     <Layout>
       <SEO title="Gráficos" description="Seus gráficos" />
-      <main className="w-full flex flex-col items-center pb-10">
+      <main className="w-full flex flex-col items-center pb-16">
         <h1 className="font-serif text-xl max-sm:text-base">
           <strong>Gráficos</strong>
         </h1>
