@@ -1,6 +1,7 @@
-import { useState, useId } from "react";
+import { useState, useId, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useRouter } from "next/router";
-import { destroyCookie } from "nookies";
+import nookies, { destroyCookie,  } from "nookies";
 import { CircleNotch, X } from "phosphor-react";
 import Modal from "react-modal";
 import { Zoom } from "react-awesome-reveal";
@@ -12,9 +13,10 @@ import { deleteAccountApi } from "../../services/endpoints/users";
 interface IProps {
   openModal: boolean;
   closeModal: (input: boolean) => void;
-}
+};
 
 export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
+  const { setUser } = useContext(AuthContext);
   const [isLoad, setIsLoad] = useState<boolean>();
   const [errorApi, setErrorApi] = useState<string>("");
 
@@ -24,20 +26,23 @@ export function ModalConfirmDeleteAccount({ openModal, closeModal }: IProps) {
 
   async function deleteAccount() {
     try {
+      nookies.destroy(null, "ng.token");
       setIsLoad(true);
       await deleteAccountApi();
       localStorage.removeItem("email-confirmed");
       localStorage.removeItem("notify");
-      destroyCookie({}, "ng.token");
-      setIsLoad(false);
+      setUser(null); 
       // reload();
-      push("/");
       toast.info(
         `Conta deletada com sucesso.`
         , {
           pauseOnFocusLoss: false,
           toastId: toastId
-        })
+        });
+      setTimeout(() => {
+        push("/");
+        setIsLoad(false);
+      }, 3000);
     } catch (error: any) {
       setErrorApi(error?.response?.data);
     } finally {

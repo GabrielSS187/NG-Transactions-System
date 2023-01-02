@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { destroyCookie } from "nookies";
+import nookies, { destroyCookie } from "nookies";
 import { Fade } from "react-awesome-reveal";
 
 import { ItemsComponent } from "./ItemsComponent";
@@ -33,8 +33,8 @@ export function NavBar () {
   };
 
   function logout () {
-    destroyCookie({}, "ng.token");
-    // setUser(null); 
+    nookies.destroy(null, "ng.token");
+    setUser(null); 
     // router.reload();
     router.push("/");
   };

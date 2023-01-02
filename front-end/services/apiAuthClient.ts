@@ -1,4 +1,3 @@
-import { apiUrl } from "../apiUrl";
 import { GetServerSidePropsContext } from "next";
 
 import axios from "axios";
@@ -10,7 +9,7 @@ export function apiAuthClient (ctx?: GetServerSidePropsContext) {
   const { "ng.token": token } = parseCookies(ctx);
 
   const apiAuth = axios.create({
-    baseURL: apiUrl
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
   });
 
   if ( token ) {

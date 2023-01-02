@@ -8,6 +8,9 @@ WORKDIR /usr/src/app/backend
 COPY package*.json ./
 RUN npm install
 
+ARG API_URL
+ENV API_URL=$API_URL
+
 COPY . .
 
 EXPOSE 8000

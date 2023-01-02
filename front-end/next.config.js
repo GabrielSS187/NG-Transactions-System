@@ -4,11 +4,17 @@ const url = process.env.NEXT_PUBLIC_API_URL === "http://localhost:8000"
 :  `${process.env.NEXT_PUBLIC_API_URL}`.replace("https://", "");
 
 const nextConfig = {
+  webpackDevMiddleware: config => {
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300,
+    }
+    return config
+  },
   reactStrictMode: true,
   swcMinify: true,
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    NEXT_PUBLIC_DOCKER_API_URL: process.env.NEXT_PUBLIC_DOCKER_API_URL,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || "http://localhost:3000",
   },
   images: {
@@ -22,6 +28,9 @@ const nextConfig = {
       ssr: true,
       cssProp: true
     },
+  },
+  experimental: {
+    appDir: true,
   },
 }
 

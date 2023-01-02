@@ -1,4 +1,3 @@
-import { apiUrl } from "../../apiUrl";
 import * as yup from "yup";
 
 import { IUsersModel } from "../../models/Users-models/IUsersModel";
@@ -118,7 +117,7 @@ export class CreateUsersCase {
       });
    
       await this.usersModel.create({
-        photo_url: `${apiUrl}/files/person-icon.png`,
+        photo_url: `${process.env.API_URL}/files/person-icon.png`,
         user_name: removeSpacesInString,
         user_email: user_email!,
         password_hash: hashPassword,

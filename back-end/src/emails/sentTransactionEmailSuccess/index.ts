@@ -1,6 +1,4 @@
-import { apiUrl } from "../../apiUrl";
-
-const frontUrl = apiUrl?.replace("8000", "3000");
+const frontUrl = process.env.API_URL?.replace("8000", "3000");
 
 export const sentTransactionEmailSuccess = (
   nameUserSent: string,

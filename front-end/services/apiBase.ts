@@ -1,4 +1,3 @@
-import { apiUrl } from "../apiUrl";
 import axios from "axios";
 import { parseCookies } from "nookies";
 
@@ -7,7 +6,7 @@ import { parseCookies } from "nookies";
 const { "ng.token": token } = parseCookies();
 
 export const apiBase = axios.create({
-  baseURL: apiUrl
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 if ( token ) {
