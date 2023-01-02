@@ -53,7 +53,9 @@ export function AuthProvider({ children }: TChildrenProvider) {
     findUserApi(data.token).then(({ data }) => {
       setUser(data);
     });
-    router.push("/Dashboard");
+    router.push("/Dashboard").then(() => {
+      router.reload();
+    }).catch((err) => console.log(err));
   };
 
   const store: TAuthContextType = {
