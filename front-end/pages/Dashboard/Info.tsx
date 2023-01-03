@@ -78,9 +78,9 @@ export default function Info () {
         <h3>de uma forma simples, fácil é rápida. Com atualizações dos dados em tempo real dos gráficos de suas movimentações.</h3>
         <h3>Notificações das pessoas que te enviaram dinheiro em tempo real para que você fique sempre atualizado.</h3>
         <h3>Além disso possui tabelas das pessoas que te enviaram dinheiro é para quem você enviou dinheiro onde você poderá</h3>
-        <h3>filtrar por nome e data da transação tendo assim um controle maior de sua movimentações.</h3>
+        <h3>filtrar por nome e data da transação tendo assim um controle maior de suas movimentações.</h3>
         <br/>
-        <h3>O Projeto ai esta em desenvolvimento e novas <strong>features</strong> ainda serão adicionadas</h3>
+        <h3>O Projeto ainda esta em desenvolvimento e novas <strong>features</strong> ainda serão adicionadas</h3>
         <h3>Espero que você goste do meu projeto bom uso e obrigado.</h3>
       </div>
      </main>

@@ -248,17 +248,17 @@ export default function Edit(user: TFindUserResponse) {
                     <div className="h-2 text-red-500 mb-2 max-[450px]:text-sm">
                       <p>
                         {errors.user_name?.type === "required"
-                          ? "Esse campo é obrigatório."
+                          ? "Esse campo é obrigatório!"
                           : null}
                       </p>
                       <p>
                         {errors.user_name?.type === "validate" &&
-                          "O @ é obrigatório antes do seu nome."}
+                          "O @ é obrigatório antes do seu nome!"}
                       </p>
 
                       <p className="max-[450px]:text-xs">
                         {errors.user_name?.type === "minLength" &&
-                          "Esse campo deve conter no máximo 5 caracteres."}
+                          "Esse campo deve conter no máximo 5 caracteres!"}
                       </p>
                     </div>
                   </div>
@@ -323,15 +323,15 @@ export default function Edit(user: TFindUserResponse) {
                     <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                       <p>
                         {errors?.password?.type === "required" &&
-                          "Esse campo é obrigatório."}
+                          "Esse campo é obrigatório!"}
                       </p>
                       <p>
                         {errors?.password?.type === "minLength" &&
-                          "Esse campo deve conter no máximo 8 caracteres."}
+                          "Esse campo deve conter no máximo 8 caracteres!"}
                       </p>
                       <p className="max-[450px]:text-xs">
                         {errors?.password?.type === "pattern" &&
-                          "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços."}
+                          "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços!"}
                       </p>
                     </div>
                   </div>
@@ -385,11 +385,11 @@ export default function Edit(user: TFindUserResponse) {
                           <>
                             <p>
                               {errors?.confirme_password?.type === "required" &&
-                                "Esse campo é obrigatório."}
+                                "Esse campo é obrigatório!"}
                             </p>
                             <p>
                               {errors?.confirme_password?.type === "validate" &&
-                                "Senha incompatível."}
+                                "Senha incompatível!"}
                             </p>
                           </>
                         )
@@ -426,7 +426,7 @@ export default function Edit(user: TFindUserResponse) {
                   isLoading ? "disabled:opacity-90 cursor-not-allowed" : "hover:bg-red-700 focus:bg-red-700"
                 } bg-red-500 text-white rounded-lg px-3 py-3 mt-2 font-semibold`}
               >
-                Exlcuir conta
+                Excluir conta
               </button>
             </div>
           </form>

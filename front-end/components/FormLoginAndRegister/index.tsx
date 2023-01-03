@@ -145,18 +145,18 @@ export function FormLoginAndRegister({
                         <div className="h-2 text-red-500 mb-2 max-[450px]:text-sm">
                           <p>
                             {errors.user_name?.type === "required" &&
-                              "Esse campo é obrigatório."
+                              "Esse campo é obrigatório!"
                             }
                           </p>
                           <p>
                             {errors.user_name?.type === "validate" &&
-                              "O @ é obrigatório antes do seu nome."
+                              "O @ é obrigatório antes do seu nome!"
                             }
                           </p>
                           {type === "register" && (
                             <p className="max-[450px]:text-xs">
                               {errors.user_name?.type === "minLength" &&
-                                "Esse campo deve conter no máximo 5 caracteres."
+                                "Esse campo deve conter no máximo 5 caracteres!"
                               }
                             </p>
                           )}
@@ -239,18 +239,18 @@ export function FormLoginAndRegister({
                         <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                           <p>
                             {errors?.password?.type === "required" &&
-                              "Esse campo é obrigatório."}
+                              "Esse campo é obrigatório!"}
                           </p>
                           {type === "register" && (
                             <p>
                               {errors?.password?.type === "minLength" &&
-                                "Esse campo deve conter no máximo 8 caracteres."}
+                                "Esse campo deve conter no máximo 8 caracteres!"}
                             </p>
                           )}
                           {type === "register" && (
                             <p className="max-[450px]:text-xs">
                               {errors?.password?.type === "pattern" &&
-                                "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços."}
+                                "Deve ter 1 letra maiúscula e minuscula, números, é caracteres especiais e sem espaços!"}
                             </p>
                           )}
                         </div>
@@ -303,11 +303,11 @@ export function FormLoginAndRegister({
                           <div className="h-2 text-red-500 mb-3 max-[450px]:text-sm">
                             <p>
                               {errors?.confirme_password?.type === "required" &&
-                                "Esse campo é obrigatório."}
+                                "Esse campo é obrigatório!"}
                             </p>
                             <p>
                               {errors?.confirme_password?.type === "validate" &&
-                                "Senha incompatível."}
+                                "Senha incompatível!"}
                             </p>
                           </div>
                         </div>

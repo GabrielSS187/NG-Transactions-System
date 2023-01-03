@@ -147,7 +147,7 @@ export default function SentMoney() {
                   required: true,
                 })}
                 onKeyDown={(e) =>
-                  e.currentTarget.value.trim().length >= 1 &&
+                  e.currentTarget.value.trim().length > 0 &&
                   setIsOpenSearchUser(true)
                 }
                 className={`w-full px-3 py-2 mb-1 border-2 ${errorUserNameClass} rounded-md focus:outline-none transition-colors`}
@@ -168,7 +168,7 @@ export default function SentMoney() {
             <div className="h-2 text-red-500 mb-2 max-[451px]:text-sm max-[317px]:text-xs">
               <p>
                 {errors.user_name_receiver?.type === "required" &&
-                  "Esse campo é obrigatório."}
+                  "Esse campo é obrigatório!"}
               </p>
             </div>
           </div>
