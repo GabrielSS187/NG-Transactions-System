@@ -5,7 +5,7 @@
 
 # Sobre o projeto
 
-### Link: [NG Transactions System](https://landing-page-animated-gss.vercel.app/)
+### Link: [NG Transactions System](https://ng-transactions-system.vercel.app/)
 
 ``NG-Transactions-System`` É um aplicativo full stack web moderno e responsivo para todas os tamanhos de tela.
 
