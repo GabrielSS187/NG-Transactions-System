@@ -79,24 +79,58 @@ https://user-images.githubusercontent.com/86306877/210931205-5b5df8d6-dc79-46cc-
 - Bcryptjs
 
 
-# Como executar o projeto
+# Como executar o projeto na sua maquina
 
-## Front end web
-Pré-requisitos: npm / yarn
-
+### 1 - Container com ( Docker )
+#### Pré-requisitos: Docker instalado na sua maquina
 ```bash
-# clonar repositório
+# 1 - clonar repositório
 https://github.com/GabrielSS187/NG-Transactions-System.git
 
-# entrar na pasta do projeto front end web
+# 2 - entrar na pasta
 cd NG-Transactions-System
 
-# instalar dependências
+# 3 - rodar o docker
+docker-compose up --build
+```
+### Caso tudo de certo o projeto deverá esta rodando no endereço: http://localhost:3000
+
+### 2 - Localmente
+#### Pré-requisitos: npm / yarn, postgresSql
+#### É preencher as variáveis de ambiente das pastas back-end é front-end
+
+```bash
+# 1 - clonar repositório
+https://github.com/GabrielSS187/NG-Transactions-System.git
+
+# 2 - Back-end ============================================================================================================
+# 1 - entrar na pasta NG-Transactions-System e depois back-end
+cd NG-Transactions-System/back-end
+
+# 2 - instalar as dependências
 npm install
 
-# executar o projeto
+# 3 - Gerar as migrações para o banco de dados
+npm run migrate:latest
+
+# 4 - executar o projeto e depois espere o servidor aparecer a messagem: "Server is running in http://localhost:8000"
+npm run dev
+# ===========================================================================================================================
+
+# 5 - voltar para a pasta pai que é NG-Transactions-System
+cd ..
+
+# 6 - Front-end ============================================================================================================
+# 1 -Entrar na pasta front-end
+cd front-end
+
+# 2 - instalar as dependências
+npm install
+
+# 3 - executar o projeto
 npm run dev
 ```
+### Caso tudo de certo o projeto deverá esta rodando no endereço: http://localhost:3000
 
 # Autor
 
