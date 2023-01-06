@@ -7,7 +7,7 @@
 
 ### Link: [NG Transactions System](https://ng-transactions-system.vercel.app/)
 
-``NG-Transactions-System`` É um aplicativo full stack web moderno e responsivo para todas os tamanhos de tela.
+``NG-Transactions-System`` É um aplicativo full stack web, moderno e responsivo para todas os tamanhos de tela.
 
 A aplicação ``NG Transações`` consiste em ser uma carteira digital.
 Onde você pode enviar e receber dinheiro entre usuários que possuam uma conta ``NG``.
