@@ -129,6 +129,7 @@ npm install
 
 # 3 - executar o projeto
 npm run dev
+# ===========================================================================================================================
 ```
 ### Caso tudo de certo o projeto deverá esta rodando no endereço: http://localhost:3000
 
