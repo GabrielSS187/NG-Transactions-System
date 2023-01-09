@@ -82,7 +82,7 @@ https://user-images.githubusercontent.com/86306877/210931205-5b5df8d6-dc79-46cc-
 # Como executar o projeto na sua maquina
 
 ### 1 - Container com ( Docker )
-#### Pré-requisitos: Docker instalado na sua maquina
+#### Pré-requisitos: Docker instalado na sua máquina
 ```bash
 # 1 - clonar repositório
 https://github.com/GabrielSS187/NG-Transactions-System.git
