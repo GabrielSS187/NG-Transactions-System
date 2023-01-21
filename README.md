@@ -85,7 +85,7 @@ https://user-images.githubusercontent.com/86306877/210931205-5b5df8d6-dc79-46cc-
 #### Pré-requisitos: Docker instalado na sua máquina
 ```bash
 # 1 - clonar repositório
-https://github.com/GabrielSS187/NG-Transactions-System.git
+git clone https://github.com/GabrielSS187/NG-Transactions-System.git
 
 # 2 - entrar na pasta
 cd NG-Transactions-System
@@ -101,7 +101,7 @@ docker-compose up --build
 
 ```bash
 # 1 - clonar repositório
-https://github.com/GabrielSS187/NG-Transactions-System.git
+git clone https://github.com/GabrielSS187/NG-Transactions-System.git
 
 # 2 - Back-end ============================================================================================================
 # 1 - entrar na pasta NG-Transactions-System e depois back-end
@@ -138,5 +138,3 @@ npm run dev
 Gabriel Silva Souza
 
 https://www.linkedin.com/in/gabriel-silva-souza-developer
-
-
