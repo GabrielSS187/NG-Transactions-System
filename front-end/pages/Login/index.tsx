@@ -55,9 +55,9 @@ export default function Login () {
    useEffect(() => {
     const getEmailLocal = localStorage.getItem("email-local");
 
-    window.addEventListener("blur" , () => {
-      router.reload();
-    });
+    // window.addEventListener("blur" , () => {
+    //   router.reload();
+    // });
 
     if ( getEmailLocal !== null ) {
       findUser(getEmailLocal);
