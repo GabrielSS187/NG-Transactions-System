@@ -1,5 +1,5 @@
-import { ReactNode, useEffect, useId } from "react";
-import Image from "next/image";
+import { ReactNode, useEffect, useId, useState } from "react";
+import ImgNext from "next/image";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Fade } from "react-awesome-reveal";
@@ -12,6 +12,7 @@ import { TTransactionsReceived } from "../../services/endpoints/types";
 import { formatDate, formatHours } from "../../utils/formatData";
 import { queryClientObj } from "../../services/queryClient";
 import { fetchAllTransactionsReceivedApi } from "../../services/endpoints/transactions";
+import logoUser from "../../assets/imgs/person-icon.png";
 
 interface IProps {
   children: ReactNode;
@@ -26,11 +27,22 @@ interface IPropsToast {
 const { useQuery } = queryClientObj;
 
 function ToastMsgNotify ({ photoSent, nameSent, valueReceived }: IPropsToast) {
+  const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
+
+  const image = new Image();
+    image.src = photoSent;
+    image.onload = () => {
+      setVerifyImg(true);
+    };
+    image.onerror = () => {
+      setVerifyImg(false);
+    };
+
   return (
     <>
       <div className="flex flex-col items-center">
         <div className="flex items-center gap-1">
-          <Image src={`${photoSent}`} alt={nameSent} height={30} width={30} />
+          <ImgNext src={verifyImg ? photoSent : logoUser} alt={nameSent} height={30} width={30} />
           <h3><strong>{nameSent}</strong>,</h3>
         </div>
         <div>
@@ -131,7 +143,7 @@ export default function Layout({ children }: IProps) {
       <NavBar />
       <div className="w-full flex flex-col items-center mt-4">
         <header className="w-52 h-16">
-          <Image
+          <ImgNext
             src={transactionsLogo3}
             width={undefined}
             height={undefined}

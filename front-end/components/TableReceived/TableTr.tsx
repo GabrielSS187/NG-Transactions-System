@@ -1,18 +1,29 @@
-import Image from "next/image";
+import { useState } from "react";
+import ImgNext from "next/image";
 
 import { TTransactionsReceived } from "../../services/endpoints/types";
+import logoUser from "../../assets/imgs/person-icon.png";
 
 export function TableTr(listReceived: TTransactionsReceived[]) {
+  const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
+  const image = new Image();
+
   return listReceived?.map((received) => {
-    
+    image.src = received.photo_url;
+    image.onload = () => {
+      setVerifyImg(true);
+    };
+    image.onerror = () => {
+      setVerifyImg(false);
+    };
     return (
       <tr key={received.id_transaction}>
         <td className="p-2 whitespace-nowrap">
           <div className="flex items-center">
             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-              <Image
+              <ImgNext
                 className="rounded-full"
-                src={`${received!.photo_url}`}
+                src={verifyImg ? received.photo_url : logoUser}
                 width="40"
                 height="40"
                 alt={received.user_name_debited}

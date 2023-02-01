@@ -1,5 +1,5 @@
 import { useEffect, useState, useId } from "react";
-import Image from "next/image";
+import ImgNext from "next/image";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { toast, ToastContainer } from "react-toastify";
@@ -14,6 +14,7 @@ import { queryClientObj } from "../../services/queryClient";
 import { findUserAuthApi, editInfoUserApi } from "../../services/endpoints/users";
 import { TFindUserResponse } from "../../services/endpoints/types";
 import { regexValidatePassword } from "../../utils/regexs";
+import logoUser from "../../assets/imgs/person-icon.png";
 
 type TFormData = {
   photo_url?: string;
@@ -30,13 +31,26 @@ export default function Edit(user: TFindUserResponse) {
   const [previewImage, setPreviewImage] = useState<string>("");
   const [ inputsModify, setInputsModify ] = useState<boolean>(false);
   const [ openModal, setOpenModal ] = useState<boolean>(false);
+  const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
   const [viewConfirmPassword, setViewConfirmPassword] =
     useState<boolean>(false);   
   
  const toastId = useId();
 
- const { data, refetch } = 
+ const userLogged = 
  useQuery("find-user-logged", async () => findUserAuthApi());
+
+ if ( !userLogged.isLoading ) {
+   const image = new Image();
+    image.src = userLogged.data!.photo_url;
+    image.onload = () => {
+      setVerifyImg(true);
+    };
+    image.onerror = () => {
+      setVerifyImg(false);
+    };
+ };
+
 
   const {
     register,
@@ -68,15 +82,11 @@ export default function Edit(user: TFindUserResponse) {
       setInputsModify(false)
     };
   }, [previewImage?.length, user.user_name, watchPassword, watchUserName]);
-  
-  const errorUserName = `${
-    errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
-  }`;
 
   const { mutate, isLoading, isSuccess, isError} = useMutation(editInfoUserApi, {
     onSuccess: async (data) => {
       queryClient.invalidateQueries("find-user-logged");
-      refetch();
+      userLogged.refetch();
       toast.success(
         `Informações editadas com sucesso.`,
         { toastId }
@@ -121,6 +131,10 @@ export default function Edit(user: TFindUserResponse) {
     
     mutate(formData);
   };
+
+  const errorUserName = `${
+    errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
+  }`;
 
   const errorEmailInvalid = `${
     errors?.user_name?.type ? "border-red-500" : "border-indigo-500"
@@ -186,8 +200,8 @@ export default function Edit(user: TFindUserResponse) {
                     {
                       !previewImage &&
                       (
-                        <Image
-                          src={`${data?.photo_url ? data.photo_url : user?.photo_url}`} alt="foto do perfil preview"
+                        <ImgNext
+                          src={verifyImg ? `${userLogged.data?.photo_url ? userLogged.data.photo_url : user?.photo_url}` : logoUser} alt="foto do perfil preview"
                           width={150} height={100}
                           priority={true}
                           className={`${previewImage && "w-40 h-40 bg-cover bg-no-repeat bg-center"} m-auto rounded-full shadow`}

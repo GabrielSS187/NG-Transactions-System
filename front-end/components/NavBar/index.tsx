@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import Image from "next/image";
+import ImgNext, { StaticImageData } from "next/image";
 import { useRouter } from "next/router";
 import nookies, { destroyCookie } from "nookies";
 import { Fade } from "react-awesome-reveal";
@@ -21,6 +21,7 @@ export function NavBar () {
   const { setUser } = useContext(AuthContext);
   const [open, setOpen] = useState(false);
   const [ isOpenMiniNav, setIsOpenMiniNav ] = useState<boolean>(false);
+  const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
 
   const router = useRouter();
   const { data, isLoading } = useQuery("find-user-logged",
@@ -32,10 +33,18 @@ export function NavBar () {
     return <></>
   };
 
+  const image = new Image();
+  image.src = data!.photo_url;
+  image.onload = () => {
+    setVerifyImg(true);
+  };
+  image.onerror = () => {
+    setVerifyImg(false);
+  };
+  
   function logout () {
     nookies.destroy(null, "ng.token");
     setUser(null); 
-    // router.reload();
     router.push("/");
   };
 
@@ -55,8 +64,8 @@ export function NavBar () {
             onClick={() => setOpen(!open)}
           /> */}
           <div className="flex flex-col gap-x-4 items-center">
-            <Image
-              src={`${data!.photo_url}`}
+            <ImgNext
+              src={verifyImg ? data!.photo_url : logoUser}
               alt="logo foto perfil"
               width={80}
               height={80}
@@ -109,7 +118,7 @@ export function NavBar () {
                   <div>
                     <button type="button" onClick={() => setIsOpenMiniNav(!isOpenMiniNav)}className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <Image height={50} width={50} src={`${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
+                      <ImgNext height={50} width={50} src={`${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
                     </button>
                   </div>
             

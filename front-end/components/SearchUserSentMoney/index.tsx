@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import Image from "next/image";
+import { useEffect, useState } from "react";
+import ImgNext from "next/image";
 
 import { TFindUserResponse } from "../../services/endpoints/types";
 import { Load } from "../Load";
@@ -20,11 +20,15 @@ export default function SearchUserSentMoney({
   refetch,
   load
 }: IProps) {
+  const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
   
   useEffect(() => {
     if (inputHandle?.trim()?.length > 0) refetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputHandle]);
+
+
+  const image = new Image();
 
   return (
     <div className="w-3/12 max-md:w-7/12 bg-indigo-500 absolute z-10 rounded-md">
@@ -40,15 +44,22 @@ export default function SearchUserSentMoney({
         {
           inputHandle?.length > 0 &&
           data?.map((user) => {
+              image.src = user.photo_url;
+              image.onload = () => {
+                setVerifyImg(true);
+              };
+              image.onerror = () => {
+                setVerifyImg(false);
+              };
             return (
               <li
                 key={user.id_user}
                 className={`w-full ${data.length >= 10 && "h-12"} rounded-md pl-1 py-1 flex items-center gap-1 text-white hover:bg-indigo-700`}
                 onClick={() => getUserOnClick(user.user_name)}
               >
-                <Image
+                <ImgNext
                   className="rounded-full"
-                  src={`${user!.photo_url}`}
+                  src={verifyImg ? `${user.photo_url}` : logoUser}
                   width="25"
                   height="25"
                   alt={user.user_name}
