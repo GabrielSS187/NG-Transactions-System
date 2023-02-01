@@ -124,7 +124,7 @@ export function NavBar () {
                   <div>
                     <button type="button" onClick={() => setIsOpenMiniNav(!isOpenMiniNav)}className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                       <span className="sr-only">Open user menu</span>
-                      <ImgNext height={50} width={50} src={`${data!.photo_url}`} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
+                      <ImgNext height={50} width={50} src={verifyImg ? `${data!.photo_url}` : logoUser} priority={true} alt="foto do usuário" className="h-[3.5rem] w-[3.5rem] rounded-full" />
                     </button>
                   </div>
             
