@@ -6,6 +6,9 @@ import logoUser from "../../assets/imgs/person-icon.png";
 
 export function TableTr(listReceived: TTransactionsReceived[]) {
   const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
+  // useEffect(() => {
+
+  // }, []);
   const image = new Image();
 
   return listReceived?.map((received) => {

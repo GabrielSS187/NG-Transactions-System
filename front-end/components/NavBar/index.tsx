@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import ImgNext, { StaticImageData } from "next/image";
+import ImgNext from "next/image";
 import { useRouter } from "next/router";
 import nookies, { destroyCookie } from "nookies";
 import { Fade } from "react-awesome-reveal";
@@ -23,23 +23,29 @@ export function NavBar () {
   const [ isOpenMiniNav, setIsOpenMiniNav ] = useState<boolean>(false);
   const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
 
+  
   const router = useRouter();
   const { data, isLoading } = useQuery("find-user-logged",
   async () => await findUserAuthApi(), {
     refetchInterval: 10000 //* 10 seconds
   });
-
+  
+  useEffect(() => {
+    const image = new Image();
+    
+    if ( !isLoading ) {
+      image.src = data!.photo_url;
+      image.onload = () => {
+        setVerifyImg(true);
+      };
+      image.onerror = () => {
+        setVerifyImg(false);
+      };
+    }
+  }, [data, isLoading]);
+  
   if ( isLoading ) {
     return <></>
-  };
-
-  const image = new Image();
-  image.src = data!.photo_url;
-  image.onload = () => {
-    setVerifyImg(true);
-  };
-  image.onerror = () => {
-    setVerifyImg(false);
   };
   
   function logout () {

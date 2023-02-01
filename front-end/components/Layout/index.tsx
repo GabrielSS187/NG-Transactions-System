@@ -28,15 +28,18 @@ const { useQuery } = queryClientObj;
 
 function ToastMsgNotify ({ photoSent, nameSent, valueReceived }: IPropsToast) {
   const [ verifyImg, setVerifyImg  ] = useState<boolean>(false);
-
-  const image = new Image();
-    image.src = photoSent;
-    image.onload = () => {
-      setVerifyImg(true);
-    };
-    image.onerror = () => {
-      setVerifyImg(false);
-    };
+  
+  useEffect(() => {
+    const image = new Image();
+      image.src = photoSent;
+      image.onload = () => {
+        setVerifyImg(true);
+      };
+      image.onerror = () => {
+        setVerifyImg(false);
+      };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

@@ -40,16 +40,20 @@ export default function Edit(user: TFindUserResponse) {
  const userLogged = 
  useQuery("find-user-logged", async () => findUserAuthApi());
 
- if ( !userLogged.isLoading ) {
+ useEffect(() => {
    const image = new Image();
-    image.src = userLogged.data!.photo_url;
-    image.onload = () => {
-      setVerifyImg(true);
+
+   if ( !userLogged.isLoading ) {
+     image.src = userLogged.data!.photo_url;
+     image.onload = () => {
+       setVerifyImg(true);
+     };
+     image.onerror = () => {
+       setVerifyImg(false);
+     };
     };
-    image.onerror = () => {
-      setVerifyImg(false);
-    };
- };
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [userLogged?.isLoading]);
 
 
   const {
