@@ -24,6 +24,7 @@
   ],
   "files": [
     "dist/**/*",
-    "var/task/src/**/*"
+    "src/**/*"
   ]
 }
+
