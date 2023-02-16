@@ -133,7 +133,7 @@ var authMiddleware = (req, res, next) => {
 // src/data/Database.ts
 var import_knex = __toESM(require("knex"));
 
-// knexfile.ts
+// src/config/knexfile.ts
 var import_process2 = require("process");
 var configKnexDatabase = {
   development: {

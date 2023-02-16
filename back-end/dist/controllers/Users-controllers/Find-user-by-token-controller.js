@@ -42,7 +42,7 @@ module.exports = __toCommonJS(Find_user_by_token_controller_exports);
 // src/data/Database.ts
 var import_knex = __toESM(require("knex"));
 
-// knexfile.ts
+// src/config/knexfile.ts
 var import_process = require("process");
 var configKnexDatabase = {
   development: {
