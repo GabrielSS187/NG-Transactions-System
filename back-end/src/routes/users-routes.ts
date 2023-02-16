@@ -30,7 +30,7 @@ import {
  } from "../controllers/Users-controllers/Alter-password-controller";
 
 export const usersRoutes = Router();
-// const upload = multer(uploadsConfig);
+const upload = multer(uploadsConfig);
 
 const createUsersController = new CreateUsersController();
 const loginUserController = new LoginUserController();

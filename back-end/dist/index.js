@@ -27,11 +27,13 @@ var __publicField = (obj, key, value) => {
   return value;
 };
 
+// src/index.ts
+var import_express4 = __toESM(require("express"));
+
 // src/server.ts
 var import_express = __toESM(require("express"));
 var import_cors = __toESM(require("cors"));
 var import_dotenv = __toESM(require("dotenv"));
-var import_path = __toESM(require("path"));
 
 // src/services/translationsYup.ts
 var import_yup = require("yup");
@@ -81,7 +83,6 @@ var import_yup = require("yup");
 // src/server.ts
 import_dotenv.default.config();
 var app = (0, import_express.default)();
-app.use("/files", import_express.default.static(import_path.default.resolve("src/uploads/imgs")));
 app.use(import_express.default.json());
 app.use((0, import_cors.default)());
 var PORT = 8e3;
@@ -97,9 +98,35 @@ var server = app.listen(process.env.PORT || PORT, () => {
 
 // src/index.ts
 var import_express_async_errors = require("express-async-errors");
+var import_path2 = __toESM(require("path"));
 
 // src/routes/users-routes.ts
 var import_express2 = require("express");
+var import_multer2 = __toESM(require("multer"));
+
+// src/config/multer.ts
+var import_multer = __toESM(require("multer"));
+var import_path = __toESM(require("path"));
+var multer_default = {
+  storage: import_multer.default.diskStorage({
+    destination: import_path.default.resolve("src/uploads/imgs"),
+    filename(req, file, callback) {
+      callback(null, `${Date.now()}-${file.originalname}`);
+    }
+  }),
+  limits: {
+    fileSize: 8 * 1024 * 1024
+    //* 8MB
+  },
+  fileFilter: (req, file, callback) => {
+    const mimeType = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
+    if (!mimeType.includes(file.mimetype)) {
+      return callback(null, false);
+    }
+    ;
+    callback(null, true);
+  }
+};
 
 // src/adapters/Jwt-adapter/Jwt-adapter.ts
 var import_process = require("process");
@@ -1879,6 +1906,7 @@ var RequestPasswordChangeController = class {
 
 // src/routes/users-routes.ts
 var usersRoutes = (0, import_express2.Router)();
+var upload = (0, import_multer2.default)(multer_default);
 var createUsersController = new CreateUsersController();
 var loginUserController = new LoginUserController();
 var fetchUsersController = new FetchUsersController();
@@ -3255,6 +3283,7 @@ transactionsRoutes.post("/create", createTransactionController.create);
 transactionsRoutes.put("/update_looked/:id_transaction", updateLookedController.update);
 
 // src/index.ts
+app.use("/files", import_express4.default.static(import_path2.default.resolve("src/uploads/imgs")));
 app.use("/users", usersRoutes);
 app.use("/transactions", authMiddleware, transactionsRoutes);
 app.use((error, req, res, next) => {

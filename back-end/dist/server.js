@@ -36,7 +36,6 @@ module.exports = __toCommonJS(server_exports);
 var import_express = __toESM(require("express"));
 var import_cors = __toESM(require("cors"));
 var import_dotenv = __toESM(require("dotenv"));
-var import_path = __toESM(require("path"));
 
 // src/services/translationsYup.ts
 var import_yup = require("yup");
@@ -86,7 +85,6 @@ var import_yup = require("yup");
 // src/server.ts
 import_dotenv.default.config();
 var app = (0, import_express.default)();
-app.use("/files", import_express.default.static(import_path.default.resolve("src/uploads/imgs")));
 app.use(import_express.default.json());
 app.use((0, import_cors.default)());
 var PORT = 8e3;

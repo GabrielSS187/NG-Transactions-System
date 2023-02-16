@@ -39,6 +39,31 @@ __export(users_routes_exports, {
 });
 module.exports = __toCommonJS(users_routes_exports);
 var import_express = require("express");
+var import_multer2 = __toESM(require("multer"));
+
+// src/config/multer.ts
+var import_multer = __toESM(require("multer"));
+var import_path = __toESM(require("path"));
+var multer_default = {
+  storage: import_multer.default.diskStorage({
+    destination: import_path.default.resolve("src/uploads/imgs"),
+    filename(req, file, callback) {
+      callback(null, `${Date.now()}-${file.originalname}`);
+    }
+  }),
+  limits: {
+    fileSize: 8 * 1024 * 1024
+    //* 8MB
+  },
+  fileFilter: (req, file, callback) => {
+    const mimeType = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
+    if (!mimeType.includes(file.mimetype)) {
+      return callback(null, false);
+    }
+    ;
+    callback(null, true);
+  }
+};
 
 // src/adapters/Jwt-adapter/Jwt-adapter.ts
 var import_process = require("process");
@@ -1818,6 +1843,7 @@ var RequestPasswordChangeController = class {
 
 // src/routes/users-routes.ts
 var usersRoutes = (0, import_express.Router)();
+var upload = (0, import_multer2.default)(multer_default);
 var createUsersController = new CreateUsersController();
 var loginUserController = new LoginUserController();
 var fetchUsersController = new FetchUsersController();
