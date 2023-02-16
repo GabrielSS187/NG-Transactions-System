@@ -12,12 +12,6 @@
       "maxDuration": 30
     }
   },
-  "builds": [
-    {
-      "src": "dist/index.js",
-      "use": "@vercel/node"
-    }
-  ],
   "routes": [
     {
       "src": "/robots.txt",
