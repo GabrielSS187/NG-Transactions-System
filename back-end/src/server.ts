@@ -1,33 +1,26 @@
-import multer, { Options } from "multer";
+import express, { Express } from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import { AddressInfo } from "net";
 import path from "path";
 
-export default {
-  storage: multer.diskStorage({
-   destination: function (req, file, cb) {
-      const fieldName = file.fieldname;
-      let uploadPath;
-      if (fieldName === "tempFile") {
-        uploadPath = path.resolve("src/uploads/tmp");
-      } else if (fieldName === "image") {
-        uploadPath = path.resolve("src/uploads/imgs");
-      } else {
-        return;
-      }
-      cb(null, uploadPath);
-    }
-  }),
-  limits: {
-    fileSize: 8 * 1024 * 1024 //* 8MB
-  },
-  fileFilter: (req, file, callback) => {
-    const mimeType = ["image/png", "image/jpeg", "image/gif", "image/jpg"]
+import "./services/translationsYup";
+import multer from "multer";
 
-    if ( !mimeType.includes(file.mimetype) ) {
-      return callback(null, false)
-    };
+dotenv.config();
+multer({dest:"./tmp/"}).single("uploads");
+export const app: Express = express();
 
-    callback(null, true);
-  },
-  // adicionando a propriedade tmpdir para a pasta temporária
-  tmpdir: path.resolve("tmp")
-} as Options;
+app.use("/files", express.static(path.resolve("src/uploads/imgs")));
+app.use(express.json());
+app.use(cors());
+
+const PORT = 8000;
+const server = app.listen(process.env.PORT || PORT, () => {
+   if (server) {
+      const address = server.address() as AddressInfo;
+      console.log(`Server is running in ${process.env.API_URL}`);
+   } else {
+      console.error(`Failure upon starting server.`);
+   };
+});
