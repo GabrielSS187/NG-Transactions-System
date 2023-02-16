@@ -5,10 +5,8 @@ import { AddressInfo } from "net";
 import path from "path";
 
 import "./services/translationsYup";
-import multer from "multer";
 
 dotenv.config();
-var mt = multer({dest:"./tmp/"}).single("uploads");
 export const app: Express = express();
 
 app.use("/files", express.static(path.resolve("src/uploads/imgs")));

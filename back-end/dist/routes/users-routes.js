@@ -39,41 +39,6 @@ __export(users_routes_exports, {
 });
 module.exports = __toCommonJS(users_routes_exports);
 var import_express = require("express");
-var import_multer2 = __toESM(require("multer"));
-
-// src/config/multer.ts
-var import_multer = __toESM(require("multer"));
-var import_path = __toESM(require("path"));
-var multer_default = {
-  storage: import_multer.default.diskStorage({
-    destination: function(req, file, cb) {
-      const fieldName = file.fieldname;
-      let uploadPath;
-      if (fieldName === "tempFile") {
-        uploadPath = import_path.default.resolve("src/uploads/tmp");
-      } else if (fieldName === "image") {
-        uploadPath = import_path.default.resolve("src/uploads/imgs");
-      } else {
-        return;
-      }
-      cb(null, uploadPath);
-    }
-  }),
-  limits: {
-    fileSize: 8 * 1024 * 1024
-    //* 8MB
-  },
-  fileFilter: (req, file, callback) => {
-    const mimeType = ["image/png", "image/jpeg", "image/gif", "image/jpg"];
-    if (!mimeType.includes(file.mimetype)) {
-      return callback(null, false);
-    }
-    ;
-    callback(null, true);
-  },
-  // adicionando a propriedade tmpdir para a pasta temporária
-  tmpdir: import_path.default.resolve("tmp")
-};
 
 // src/adapters/Jwt-adapter/Jwt-adapter.ts
 var import_process = require("process");
@@ -1853,7 +1818,6 @@ var RequestPasswordChangeController = class {
 
 // src/routes/users-routes.ts
 var usersRoutes = (0, import_express.Router)();
-var upload = (0, import_multer2.default)(multer_default);
 var createUsersController = new CreateUsersController();
 var loginUserController = new LoginUserController();
 var fetchUsersController = new FetchUsersController();
@@ -1877,7 +1841,6 @@ usersRoutes.get("/:user_name", authMiddleware, fetchUsersController.find);
 usersRoutes.post("/register", createUsersController.create);
 usersRoutes.post("/login", loginUserController.login);
 usersRoutes.post("/alter_email/:codeUser", [], alterEmailController.alter);
-usersRoutes.put("/edit", authMiddleware, upload.single("image"), editInfoUserController.edit);
 usersRoutes.put("/alter_password/:codeUser", alterPasswordController.alter);
 usersRoutes.delete("/delete_account", authMiddleware, deleteAccountController.delete);
 // Annotate the CommonJS export names for ESM import in node:

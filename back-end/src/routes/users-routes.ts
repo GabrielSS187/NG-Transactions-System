@@ -30,7 +30,7 @@ import {
  } from "../controllers/Users-controllers/Alter-password-controller";
 
 export const usersRoutes = Router();
-const upload = multer(uploadsConfig);
+// const upload = multer(uploadsConfig);
 
 const createUsersController = new CreateUsersController();
 const loginUserController = new LoginUserController();
@@ -61,7 +61,7 @@ usersRoutes.post("/register", createUsersController.create);
 usersRoutes.post("/login", loginUserController.login);
 usersRoutes.post("/alter_email/:codeUser", [] ,alterEmailController.alter);
 
-usersRoutes.put("/edit", authMiddleware, upload.single("image"), editInfoUserController.edit);
+// usersRoutes.put("/edit", authMiddleware, upload.single("image"), editInfoUserController.edit);
 usersRoutes.put("/alter_password/:codeUser", alterPasswordController.alter);
 
 usersRoutes.delete("/delete_account", authMiddleware, deleteAccountController.delete);
