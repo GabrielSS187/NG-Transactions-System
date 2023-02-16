@@ -1,7 +1,17 @@
 {
-  "name": "api-js-188",
+  "name": "api-js",
   "version": 2,
   "public": true,
+  "functions": {
+    "dist/index.js": {
+      "memory": 3008,
+      "maxDuration": 30
+    },
+    "dist/*.js": {
+      "memory": 3008,
+      "maxDuration": 30
+    }
+  },
   "builds": [
     {
       "src": "dist/index.js",
@@ -21,10 +31,5 @@
       "src": "/(.*)",
       "dest": "/dist/index.js"
     }
-  ],
-  "files": [
-    "dist/**/*",
-    "src/**/*"
   ]
 }
-
