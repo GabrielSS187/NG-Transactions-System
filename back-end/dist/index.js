@@ -79,7 +79,9 @@ var import_yup = require("yup");
 });
 
 // src/server.ts
+var import_multer = __toESM(require("multer"));
 import_dotenv.default.config();
+(0, import_multer.default)({ dest: "./tmp/" }).single("uploads");
 var app = (0, import_express.default)();
 app.use("/files", import_express.default.static(import_path.default.resolve("src/uploads/imgs")));
 app.use(import_express.default.json());
@@ -100,16 +102,24 @@ var import_express_async_errors = require("express-async-errors");
 
 // src/routes/users-routes.ts
 var import_express2 = require("express");
-var import_multer2 = __toESM(require("multer"));
+var import_multer3 = __toESM(require("multer"));
 
 // src/config/multer.ts
-var import_multer = __toESM(require("multer"));
+var import_multer2 = __toESM(require("multer"));
 var import_path2 = __toESM(require("path"));
 var multer_default = {
-  storage: import_multer.default.diskStorage({
-    destination: import_path2.default.resolve("src/uploads/imgs"),
-    filename(req, file, callback) {
-      callback(null, `${Date.now()}-${file.originalname}`);
+  storage: import_multer2.default.diskStorage({
+    destination: function(req, file, cb) {
+      const fieldName = file.fieldname;
+      let uploadPath;
+      if (fieldName === "tempFile") {
+        uploadPath = import_path2.default.resolve("src/uploads/tmp");
+      } else if (fieldName === "image") {
+        uploadPath = import_path2.default.resolve("src/uploads/imgs");
+      } else {
+        return;
+      }
+      cb(null, uploadPath);
     }
   }),
   limits: {
@@ -123,7 +133,9 @@ var multer_default = {
     }
     ;
     callback(null, true);
-  }
+  },
+  // adicionando a propriedade tmpdir para a pasta temporária
+  tmpdir: import_path2.default.resolve("tmp")
 };
 
 // src/adapters/Jwt-adapter/Jwt-adapter.ts
@@ -1904,7 +1916,7 @@ var RequestPasswordChangeController = class {
 
 // src/routes/users-routes.ts
 var usersRoutes = (0, import_express2.Router)();
-var upload = (0, import_multer2.default)(multer_default);
+var upload = (0, import_multer3.default)(multer_default);
 var createUsersController = new CreateUsersController();
 var loginUserController = new LoginUserController();
 var fetchUsersController = new FetchUsersController();

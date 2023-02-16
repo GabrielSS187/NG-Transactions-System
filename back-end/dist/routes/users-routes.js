@@ -46,9 +46,17 @@ var import_multer = __toESM(require("multer"));
 var import_path = __toESM(require("path"));
 var multer_default = {
   storage: import_multer.default.diskStorage({
-    destination: import_path.default.resolve("src/uploads/imgs"),
-    filename(req, file, callback) {
-      callback(null, `${Date.now()}-${file.originalname}`);
+    destination: function(req, file, cb) {
+      const fieldName = file.fieldname;
+      let uploadPath;
+      if (fieldName === "tempFile") {
+        uploadPath = import_path.default.resolve("src/uploads/tmp");
+      } else if (fieldName === "image") {
+        uploadPath = import_path.default.resolve("src/uploads/imgs");
+      } else {
+        return;
+      }
+      cb(null, uploadPath);
     }
   }),
   limits: {
@@ -62,7 +70,9 @@ var multer_default = {
     }
     ;
     callback(null, true);
-  }
+  },
+  // adicionando a propriedade tmpdir para a pasta temporária
+  tmpdir: import_path.default.resolve("tmp")
 };
 
 // src/adapters/Jwt-adapter/Jwt-adapter.ts

@@ -84,7 +84,9 @@ var import_yup = require("yup");
 });
 
 // src/server.ts
+var import_multer = __toESM(require("multer"));
 import_dotenv.default.config();
+(0, import_multer.default)({ dest: "./tmp/" }).single("uploads");
 var app = (0, import_express.default)();
 app.use("/files", import_express.default.static(import_path.default.resolve("src/uploads/imgs")));
 app.use(import_express.default.json());
