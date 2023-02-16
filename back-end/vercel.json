@@ -5,8 +5,7 @@
   "builds": [
     {
       "src": "dist/index.js",
-      "use": "@vercel/node",
-      "includeFiles": ["fs:/var/task/src/**/*"]
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -22,5 +21,9 @@
       "src": "/(.*)",
       "dest": "/dist/index.js"
     }
+  ],
+  "files": [
+    "dist/**/*",
+    "var/task/src/**/*"
   ]
 }
