@@ -14,9 +14,7 @@ app.use("/files", express.static(path.resolve("src/uploads/imgs")));
 app.use(express.json());
 app.use(cors());
 
-const HOST = "0.0.0.0";
 const PORT = 8000;
-
 const server = app.listen(process.env.PORT || PORT, () => {
    if (server) {
       const address = server.address() as AddressInfo;
