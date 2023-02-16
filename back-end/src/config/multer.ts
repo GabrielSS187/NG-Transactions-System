@@ -1,9 +1,17 @@
 import multer, { Options } from "multer";
 import path from "path";
 
+const pathImg = () => {
+  if ( process.env.NODE_ENV && process.env.NODE_ENV === "production" ) {
+    return path.resolve("/tmp/uploads/imgs")
+  } else {
+    return path.resolve("src/uploads/imgs")
+  }
+};
+
 export default {
   storage: multer.diskStorage({
-    destination: path.resolve("src/uploads/imgs"),
+    destination: pathImg(),
     filename(req, file, callback) {
       callback(null, `${Date.now()}-${file.originalname}`)
     }
