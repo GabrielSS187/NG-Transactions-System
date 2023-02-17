@@ -3,9 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "tsup": {
+    "entry": ["src/index.ts"],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  },
   "scripts": {
     "start": "node ./dist/index.js",
-    "build": "tsup src",
+    "build": "tsup",
     "dev": "tsx watch src/index.ts",
     "test": "jest",
     "migrate:latest": "ts-node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile ./src/config/knexfile.ts migrate:latest --migrations-directory ../data/migrations",
