@@ -14,7 +14,6 @@ app.use(cors());
 const PORT = 8000;
 const server = app.listen(process.env.PORT || PORT, () => {
    if (server) {
-      const address = server.address() as AddressInfo;
       console.log(`Server is running in ${process.env.API_URL}`);
    } else {
       console.error(`Failure upon starting server.`);
