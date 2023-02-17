@@ -8,7 +8,7 @@ import { transactionsRoutes } from "./routes/transactions-routes";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { CustomError } from "./errors/CustomError";
 
-// app.use("/files", express.static(path.resolve("src/uploads/imgs")));
+app.use("/files", express.static(path.resolve("src/uploads/imgs")));
 app.use("/users", usersRoutes);
 app.use("/transactions", authMiddleware, transactionsRoutes);
 
