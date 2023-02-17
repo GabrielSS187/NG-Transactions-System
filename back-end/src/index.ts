@@ -11,6 +11,9 @@ import { CustomError } from "./errors/CustomError";
 app.use("/files", express.static(path.resolve("src/uploads/imgs")));
 app.use("/users", usersRoutes);
 app.use("/transactions", authMiddleware, transactionsRoutes);
+app.get("/", async (req: Request, res: Response) => {
+  return res.status(200).send("Testeeee!!!");
+})
 
 //* ============================================================
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
