@@ -19,8 +19,7 @@
     "seed:run": "ts-node -r dotenv/config ./node_modules/knex/bin/cli.js --knexfile ./src/config/knexfile.ts seed:run --migrations-directory ../data/seeds"
   },
   "engines": {
-    "node": ">=18.x",
-    "npm": ">=8.x"
+    "node": "18.x"
   },
   "keywords": [],
   "author": "",
