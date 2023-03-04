@@ -21,6 +21,7 @@ const nextConfig = {
     domains: [
       url,
       "host.docker.internal",
+      process.env.NEXT_PUBLIC_AWS_URL
     ]
   },
   compiler: {
