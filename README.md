@@ -73,6 +73,8 @@ https://user-images.githubusercontent.com/86306877/210931205-5b5df8d6-dc79-46cc-
 - Express Js
 - Knex Js
 - Multer
+- Multer-S3
+- Aws-sdk
 - Jsonwebtoken
 - Nodemailer
 - Yup
