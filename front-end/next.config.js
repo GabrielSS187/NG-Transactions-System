@@ -1,9 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 const rawUrl = process.env.NEXT_PUBLIC_API_URL || "";
-const url = rawUrl === "http://localhost:8000"
-  ? "localhost"
-  : rawUrl.replace(/^https?:\/\//, "");
+const url =
+  rawUrl === "http://localhost:8000"
+    ? "localhost"
+    : rawUrl.replace(/^https?:\/\//, "");
 
 const nextConfig = {
   webpackDevMiddleware: config => {
@@ -22,18 +23,28 @@ const nextConfig = {
   images: {
     domains: [
       url,
+      "localhost",          // 👈 novo
+      "backend",            // 👈 novo
       "host.docker.internal",
-      process.env.NEXT_PUBLIC_AWS_URL
-    ].filter(Boolean)
+      process.env.NEXT_PUBLIC_AWS_URL,
+    ].filter(Boolean),
   },
   compiler: {
     styledComponents: {
       ssr: true,
-      cssProp: true
+      cssProp: true,
     },
   },
   experimental: {
     appDir: true,
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+      },
+    ];
   },
 };
 

@@ -38,8 +38,10 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_API_URL: http://backend:8000
       NEXTAUTH_URL: http://localhost:3000
+    env_file:
+      - ./front-end/.env.local
     volumes:
       - ./front-end:/app
     working_dir: /app
