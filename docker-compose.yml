@@ -1,49 +1,51 @@
-version: "4"
+version: "3.9"
+
 services:
-  # Create database container
   db:
-    container_name: database-docker
-    image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=postgres
+    image: postgres:15
+    container_name: postgres-db
     restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
   backend:
-    # Create backend container  
-    container_name: backend-docker
-    build: ./back-end
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    container_name: backend
     depends_on:
       - db
-    links:
-      - db
-    environment:
-      - TZ=America/Sao_Paulo
-      - DATABASE_URL=postgres://postgres:root@db/postgres
-      - API_URL=http://host.docker.internal:8000
+    env_file:
+      - ./back-end/.env
     volumes:
-      - ./back-end/src/data/data-docker:/var/lib/postgresql/data
-    restart: always
+      - ./back-end:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run build && npm run migrate:latest && npm start"
     ports:
       - "8000:8000"
 
-  # Create frontend container
   frontend:
-    container_name: frontend-docker
-    build: ./front-end
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    container_name: frontend
     depends_on:
       - backend
-    links:
-      - backend
     environment:
-      - NEXT_PUBLIC_API_URL=http://host.docker.internal:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXTAUTH_URL: http://localhost:3000
     volumes:
-      - ./front-end:/usr/src/app/frontend
-      - /usr/src/app/frontend/node_modules
-      - /usr/src/app/frontend/.next
-    restart: always
+      - ./front-end:/app
+    working_dir: /app
+    command: sh -c "npm install && npm run dev"
     ports:
-      - 3000:3000 
+      - "3000:3000"
+
+volumes:
+  db_data:

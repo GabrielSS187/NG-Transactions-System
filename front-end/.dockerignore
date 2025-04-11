@@ -1,3 +1,6 @@
-.DS_Store
-.next
 node_modules
+.next
+dist
+.env
+Dockerfile
+docker-compose.yml
