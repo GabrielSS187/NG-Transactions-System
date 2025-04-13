@@ -117,7 +117,7 @@ export class CreateUsersCase {
       });
    
       await this.usersModel.create({
-        photo_url: `${process.env.API_URL}/files/person-icon.png`,
+        photo_url: `${process.env.API_URL}/api/V1/files/person-icon.png`,
         user_name: removeSpacesInString,
         user_email: user_email!,
         password_hash: hashPassword,

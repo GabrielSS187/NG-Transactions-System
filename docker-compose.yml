@@ -21,12 +21,14 @@ services:
     container_name: backend
     depends_on:
       - db
-    env_file:
-      - ./back-end/.env
     volumes:
       - ./back-end:/app
+      - /app/node_modules
+    environment:
+      DATABASE_URL: postgres://postgres:root@db:5432/postgres
+      API_URL: http://localhost:8000
     working_dir: /app
-    command: sh -c "npm install && npm run build && npm run migrate:latest && npm start"
+    command: sh -c "npm run migrate:latest && npm run dev"
     ports:
       - "8000:8000"
 
@@ -38,10 +40,10 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_API_URL: http://localhost:8000/api
+      INTERNAL_API_URL: http://backend:8000/api
       NEXTAUTH_URL: http://localhost:3000
-    env_file:
-      - ./front-end/.env.local
+      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./front-end:/app
     working_dir: /app

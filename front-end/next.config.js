@@ -7,24 +7,18 @@ const url =
     : rawUrl.replace(/^https?:\/\//, "");
 
 const nextConfig = {
-  webpackDevMiddleware: config => {
-    config.watchOptions = {
-      poll: 1000,
-      aggregateTimeout: 300,
-    };
-    return config;
-  },
   reactStrictMode: true,
   swcMinify: true,
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL || "http://localhost:3000",
+    API_URL: process.env.API_URL,
   },
   images: {
     domains: [
       url,
-      "localhost",          // 👈 novo
-      "backend",            // 👈 novo
+      "localhost",
+      "backend",
       "host.docker.internal",
       process.env.NEXT_PUBLIC_AWS_URL,
     ].filter(Boolean),
@@ -35,14 +29,20 @@ const nextConfig = {
       cssProp: true,
     },
   },
-  experimental: {
-    appDir: true,
+  webpack(config, { dev }) {
+    if (dev) {
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+    }
+    return config;
   },
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
       },
     ];
   },

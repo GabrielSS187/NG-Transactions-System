@@ -34,7 +34,7 @@ export function NavBar () {
     const image = new Image();
     
     if ( !isLoading ) {
-      image.src = data!.photo_url;
+      image.src = data?.photo_url ?? String(logoUser);
       image.onload = () => {
         setVerifyImg(true);
       };
@@ -84,9 +84,9 @@ export function NavBar () {
               className={`text-white origin-left font-medium`}
             >
              <UserData 
-              user_name={data!.user_name}
-              balance={data!.balance}
-              account_id={data!.account_id}
+              user_name={data?.user_name ?? 'Carregando...'}
+              balance={data?.balance ?? 0}
+              account_id={data?.account_id ?? ''}
               isLoad={isLoading}
              />
             </div>
@@ -136,9 +136,9 @@ export function NavBar () {
                   <div className={`mt-2 w-64 origin-top-right rounded-md bg-white py-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button`} tabIndex={-1}>
 
                     <UserData 
-                      user_name={data!.user_name}
-                      balance={data!.balance}
-                      account_id={data!.account_id}
+                      user_name={data?.user_name ?? 'Carregando...'}
+                      balance={data?.balance ?? 0}
+                      account_id={data?.account_id ?? ''}
                       isLoad={isLoading}
                     />
                   </div>

@@ -14,26 +14,26 @@ import {
 
 export async function registerUsersApi (data: TLoginAndRegisterUser) {
   const result = await apiBase
-  .post<TSignInApiResponse>("/users/register", data);
+  .post<TSignInApiResponse>("/V1/users/register", data);
   return result;
 };
 
 export async function signInApi (data: TLoginAndRegisterUser) {
   const result = await apiBase
-  .post<TSignInApiResponse>("/users/login", data);
+  .post<TSignInApiResponse>("/V1/users/login", data);
   return result;
 };
 
 export async function deleteAccountApi () {
   const result = await apiBase
-  .delete("/users/delete_account");
+  .delete("/V1/users/delete_account");
   return result;
 };
 
 //* Procurar usuário pelo token normal
 export async function findUserApi (token?: string) { 
   const result = await apiBase
-  .get<TFindUserResponse>("/users/find_user", 
+  .get<TFindUserResponse>("/V1/users/find_user", 
   { headers: { Authorization: token } });
   
   return result;
@@ -42,21 +42,21 @@ export async function findUserApi (token?: string) {
 //* Procurar usuário pelo token no servidor node js do next
 export async function findUserAuthApi (ctx?: GetServerSidePropsContext) { 
   const { data } = await apiAuthClient(ctx)
-  .get<TFindUserResponse>("users/find_user");
+  .get<TFindUserResponse>("/V1/users/find_user");
 
   return data;
 };
 
 export async function findUserByEmailApi (email: string) { 
   const { data } = await apiBase
-  .get<TFindUserResponse>(`/users/find_user/${email}`);
+  .get<TFindUserResponse>(`/V1/users/find_user/${email}`);
 
   return data;
 };
 
 export async function findUserByNameApi (userName: string) { 
   const { data } = await apiBase
-  .get<TFindUserResponse>(`/users/find_user_name/${userName}`);
+  .get<TFindUserResponse>(`/V1/users/find_user_name/${userName}`);
 
   return data;
 };
@@ -64,13 +64,13 @@ export async function findUserByNameApi (userName: string) {
 
 export async function fetchAllUsersApi (ctx?: GetServerSidePropsContext | any, userFilterName?: string) {
   const { data } = await apiAuthClient(ctx)
-  .get<TFindUserResponse[]>(`/users/@${userFilterName?.trim()}`);
+  .get<TFindUserResponse[]>(`/V1/users/@${userFilterName?.trim()}`);
 
   return data;
 };
 
 export async function alterEmailApi (newEmail: string, codeUser: string) {
-  const { data } = await apiBase.post(`/users/alter_email/${codeUser}`,
+  const { data } = await apiBase.post(`/V1/users/alter_email/${codeUser}`,
    { newEmail }
   );
 
@@ -78,21 +78,21 @@ export async function alterEmailApi (newEmail: string, codeUser: string) {
 };
 
 export async function findUserByCodeApi (codeUser: string) {
-  const { data } = await apiBase.get(`/users/find_user_code/${codeUser}`);
+  const { data } = await apiBase.get(`/V1/users/find_user_code/${codeUser}`);
 
   return data;
 };
 
 export async function alterPasswordApi ({ newPassword, codeUser }: TAlterPassword) {
   const { data } = await apiBase
-  .put(`/users/alter_password/${codeUser}`, { newPassword });
+  .put(`/V1/users/alter_password/${codeUser}`, { newPassword });
 
   return data;
 };
 
 export async function editInfoUserApi (data: FormData) {
   const response = await apiBase
-  .put(`/users/edit`, data, {
+  .put(`/V1/users/edit`, data, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -103,7 +103,7 @@ export async function editInfoUserApi (data: FormData) {
 
 export async function sendConfirmationEmailApi (email: string) {
   const { data } = await apiBase
-  .get(`/users/confirm_you/${email}`);
+  .get(`/V1/users/confirm_you/${email}`);
 
   return data;
 };

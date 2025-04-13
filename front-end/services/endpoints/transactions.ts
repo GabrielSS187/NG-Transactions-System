@@ -14,7 +14,7 @@ export async function fetchAllTransactionsReceivedApi(
   ctx?: GetServerSidePropsContext,
 ) {
   const { data } = await apiAuthClient(ctx).get<TTransactionsReceived[]>(
-    `/transactions/transactions_received`
+    `/V1/transactions/transactions_received`
   );
 
   return data;
@@ -30,7 +30,7 @@ export async function fetchAllTransactionsReceivedFilterApi (
     dateValid = formatDate(new Date(date!), "short");
   };
   const { data } = await apiAuthClient(ctx).get<TTransactionsReceived[]>(
-    `/transactions/transactions_received?user_name_filter=@${userName}&date_filter=${dateValid}`
+    `/V1/transactions/transactions_received?user_name_filter=@${userName}&date_filter=${dateValid}`
   );
 
   return data;
@@ -40,7 +40,7 @@ export async function fetchAllTransactionsSentApi(
   ctx?: GetServerSidePropsContext
 ) {
   const { data } = await apiAuthClient(ctx).get<TTransactionsSentData[]>(
-    "/transactions/transactions_sent"
+    "/V1/transactions/transactions_sent"
   );
 
   return data;
@@ -56,18 +56,18 @@ export async function fetchAllTransactionsSentFilterApi (
     dateValid = formatDate(new Date(date!), "short");
   };
   const { data } = await apiAuthClient(ctx).get<TTransactionsSentData[]>(
-    `/transactions/transactions_sent?user_name_filter=@${userName}&date_filter=${dateValid}`
+    `/V1/transactions/transactions_sent?user_name_filter=@${userName}&date_filter=${dateValid}`
   );
 
   return data;
 };
 
 export async function createdTransactionApi (input: TCreateTransaction) {
-  const { data } = await apiBase.post("/transactions/create", input);
+  const { data } = await apiBase.post("/V1/transactions/create", input);
   return data;
 };
 
 export async function updateTransactionLookedApi (idTransaction: string, looked: boolean) {
-  const { data } = await apiBase.put(`/transactions/update_looked/${idTransaction}`, {looked});
+  const { data } = await apiBase.put(`/V1/transactions/update_looked/${idTransaction}`, {looked});
   return data;
 };

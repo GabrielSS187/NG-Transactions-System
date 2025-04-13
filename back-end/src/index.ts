@@ -8,9 +8,9 @@ import { transactionsRoutes } from "./routes/transactions-routes";
 import { authMiddleware } from "./middlewares/auth-middleware";
 import { CustomError } from "./errors/CustomError";
 
-app.use("/files", express.static(path.resolve("src/uploads/imgs")));
-app.use("/users", usersRoutes);
-app.use("/transactions", authMiddleware, transactionsRoutes);
+app.use("/api/V1/files", express.static(path.resolve("src/uploads/imgs")));
+app.use("/api/V1/users", usersRoutes);
+app.use("/api/V1/transactions", authMiddleware, transactionsRoutes);
 
 //* ============================================================
 app.use((error: any, req: Request, res: Response, next: NextFunction) => {
